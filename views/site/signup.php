@@ -10,7 +10,7 @@ use app\widgets\BootstrapSelect;
 use app\widgets\DatePicker;
 use app\widgets\Dropzone;
 
-$this->title = 'Sign Up Form';
+$this->title = 'Create an Account';
 ?>
 
 <div class="d-flex justify-content-between">
@@ -118,7 +118,9 @@ $this->title = 'Sign Up Form';
 
 
     <div class="form-group mt-10">
-        <?= ActiveForm::buttons() ?>
+        <?= Html::submitButton('Register', [
+            'class' => 'btn btn-success btn-lg font-weight-bold'
+        ]) ?>
     </div>
 <?php ActiveForm::end(); ?>
 

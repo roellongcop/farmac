@@ -212,7 +212,7 @@ class AccessComponent extends \yii\base\Component
 
 		$moduleAccess = App::ifElse(App::identity(), fn($identity) => $identity->moduleAccess, []);
 
-		$module_access = App::ifElse($user, fn($user) => $user->identity->moduleAccess, $moduleAccess);
+		$module_access = App::ifElse($user, fn($user) => App::ifElse($user->identity, fn($identity) => $identity->moduleAccess, []), $moduleAccess);
 
 
 		if (isset($module_access[$controllerID])) {
