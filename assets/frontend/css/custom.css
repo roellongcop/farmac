@@ -8,7 +8,7 @@
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 2px;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
@@ -18,4 +18,26 @@
     border-color: #80bdff;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+}
+
+.btn {
+	border-radius: 2px;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #5cb85c !important;
+    border-color: #4cae4c;
+}
+
+.has-success .form-control {
+    border-color: #14a085;
+}
+
+.has-success .help-block, .has-success .control-label, .has-success .radio, .has-success .checkbox, .has-success .radio-inline, .has-success .checkbox-inline {
+    color: #14a085;
+}
+
+.text-uppercase {
+	text-transform: uppercase;
 }

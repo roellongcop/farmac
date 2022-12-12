@@ -21,7 +21,8 @@ class SignupForm extends \yii\base\Model
     {
         return [
             [['first_name', 'last_name', 'age', 'birthdate', 'sex', 'address', 'email', 'documents', 'password', 'password_repeat'], 'required'],
-            [['first_name', 'last_name', 'age', 'birthdate', 'sex', 'contact_no', 'email', 'password', 'password_repeat'], 'string', 'max' => 225],
+            [['first_name', 'last_name', 'birthdate', 'sex', 'contact_no', 'email', 'password', 'password_repeat'], 'string', 'max' => 225],
+            [['age'], 'integer'],
             [['email'], 'email'],
             [['email'], 'trim'],
             [['password', 'password_repeat'], 'string', 'min' => 6],

@@ -1,11 +1,20 @@
 <?php
+/* @var $this \yii\web\View */
+/* @var $content string */
 
-use app\assets\frontend\AppAsset;
 use app\helpers\App;
 use app\helpers\Html;
 use app\helpers\Url;
+use app\widgets\Alert;
+use app\widgets\AnchorBack;
+use app\widgets\Breadcrumbs;
+use app\widgets\ExportButton;
+
+use app\themes\keen\assets\KeenAsset;
+use app\themes\keen\sub\demo3\fixed\assets\AppAsset;
 
 AppAsset::register($this);
+KeenAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -19,27 +28,64 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?> 
 </head>
-<body >
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
 <?php $this->beginBody() ?>
-	<div id="wrapper">
-	    <?= $this->render('frontend/header') ?>
-	    	<section id="inner-headline">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-12">
-							<h2 class="pageTitle"><?= $this->title ?></h2>
+	<div class="d-flex flex-column flex-root">
+		<div class="d-flex flex-row flex-column-fluid page">
+			<div class="d-flex flex-column flex-row-fluid wrapper pt-0" id="kt_wrapper">
+				<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+					<div class="gutter-b" id="kt_breadcrumbs">
+						<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+							<div class="d-flex align-items-center flex-wrap mr-1">
+								<div class="d-flex flex-column mr-5">
+									<?= AnchorBack::widget([
+						                'title' => '<i class="fa fa-angle-left"></i>',
+						                'tooltip' => 'Go Back',
+						                'options' => [
+						                    'class' => 'btn btn-secondary tbn-sm',
+						                    'data-original-title' => 'Go back',
+						                    'data-toggle' => "tooltip",
+						                    'data-theme' => "dark",
+						                ]
+						            ]) ?>
+								</div>
+								<div class="d-flex align-items-baseline flex-wrap mr-5">
+									
+									<?= Breadcrumbs::widget([
+					                    'homeLink' => [
+					                        'label' => 'Dashboard',
+					                        'url' => ['dashboard/index']
+					                    ],
+					                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+					                    'options' => [
+					                        'class' => 'breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm',
+					                    ],
+					                    'itemTemplate' => "<li class='breadcrumb-item'>{link}</li>\n",
+					                    'activeItemTemplate' => "<li class=\"breadcrumb-item\">{link}</li>\n",
+					                    'anchorClass' => 'text-dark-50'
+					                ]); ?>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="d-flex flex-column-fluid">
+						<div class="container">
+							<?= Alert::widget() ?>
+							<?= Html::content($content, $this->params) ?>
 						</div>
 					</div>
 				</div>
-			</section>
-			<section id="content">
-			
-				<div class="container">
-	    			<?= $content ?>
-	    		</div>
-	    	</section>
-	    <?= $this->render('frontend/footer') ?>
+				<?= $this->render('_footer') ?>
+			</div>
+		</div>
 	</div>
+	<?php # $this->render('_chat_panel') ?>
+	<?= $this->render('_scroll_top') ?>
+	<?php # $this->render('_sticky_toolbar') ?>
+	<?php # $this->render('_demo_panel') ?>
+	<script>var HOST_URL = "https://preview.keenthemes.com/keen/theme/tools/preview";</script>
+	<!--begin::Global Config(global config for global JS scripts)-->
+	<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#8950FC", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#E1E9FF", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };</script>
 <?php $this->endBody() ?>
 </body>
 </html>

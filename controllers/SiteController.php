@@ -72,7 +72,10 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        $model = new SignupForm();
+        $model = new SignupForm([
+            'sex' => 'Male',
+            'age' => 0
+        ]);
 
         return $this->render('signup', [
             'model' => $model
