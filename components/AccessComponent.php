@@ -210,7 +210,10 @@ class AccessComponent extends \yii\base\Component
  	{
 		$controllerID = $controllerID ?: App::controllerID();
 
-		$module_access = ($user)? $user->identity->moduleAccess: App::identity('moduleAccess');
+		$moduleAccess = App::ifElse(App::identity(), fn($identity) => $identity->moduleAccess, []);
+
+		$module_access = App::ifElse($user->identity, fn($identity) => $identity->moduleAccess, $moduleAccess);
+
 
 		if (isset($module_access[$controllerID])) {
 			return in_array($action, $module_access[$controllerID]) ? true: false;

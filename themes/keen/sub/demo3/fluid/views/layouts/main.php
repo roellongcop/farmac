@@ -130,7 +130,7 @@ KeenAsset::register($this);
 	<?= $this->render('_scroll_top') ?>
 	<!--end::Scrolltop-->
 	<!--begin::Sticky Toolbar-->
-	<?= $this->render('_sticky_toolbar') ?>
+	<?php # $this->render('_sticky_toolbar') ?>
 	<!--end::Sticky Toolbar-->
 	<!--begin::Demo Panel-->
 	<?php # $this->render('_demo_panel') ?>

@@ -9,12 +9,19 @@ use app\models\form\PasswordResetForm;
 
 class SiteController extends Controller
 {
+    const PUBLIC_ACTIONS = [
+        'signup', 
+        'login', 
+        'reset-password', 
+        'contact'
+    ];
+
     public function behaviors()
     {
         $behaviors = parent::behaviors();
         $behaviors['AccessControl'] = [
             'class' => 'app\filters\AccessControl',
-            'publicActions' => ['login', 'reset-password', 'contact']
+            'publicActions' => self::PUBLIC_ACTIONS
         ];
         $behaviors['VerbFilter'] = [
             'class' => 'app\filters\VerbFilter',
@@ -35,6 +42,9 @@ class SiteController extends Controller
                 $this->layout = 'login';
                 break;
             
+            case 'signup':
+                $this->layout = 'frontend';
+                break;
             default:
                 # code...
                 break;
@@ -57,6 +67,11 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionSignup()
+    {
+        return $this->render('signup');
     }
 
     public function actionResetPassword()

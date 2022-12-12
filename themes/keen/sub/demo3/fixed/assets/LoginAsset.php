@@ -15,7 +15,7 @@ class LoginAsset extends \yii\web\AssetBundle
     public $js = [
         'plugins/custom/prismjs/prismjs.bundle.js',
         'js/scripts.bundle.js',
-        'js/pages/custom/login/login.js',
+        // 'js/pages/custom/login/login.js',
         // 'js/demo3.js'
     ];
     public $depends = [
