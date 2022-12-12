@@ -20,10 +20,12 @@ class AppAsset extends AssetBundle
     public $sourcePath = '@app/assets/frontend';
 
     public $css = [
+        // 'https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css',
         'css/bootstrap.min.css',
         'css/fancybox/jquery.fancybox.css',
         'css/flexslider.css',
         'css/style.css',
+        'css/custom.css',
     ];
     public $js = [
         'js/jquery.easing.1.3.js',

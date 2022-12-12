@@ -6,6 +6,7 @@ use app\helpers\App;
 use app\models\form\ContactForm;
 use app\models\form\LoginForm;
 use app\models\form\PasswordResetForm;
+use app\models\form\SignupForm;
 
 class SiteController extends Controller
 {
@@ -71,7 +72,11 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        return $this->render('signup');
+        $model = new SignupForm();
+
+        return $this->render('signup', [
+            'model' => $model
+        ]);
     }
 
     public function actionResetPassword()
