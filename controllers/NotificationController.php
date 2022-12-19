@@ -116,6 +116,7 @@ class NotificationController extends Controller
                 'user_id' => App::identity('id'),
                 'status' => Notification::STATUS_UNREAD
             ])
+            ->orderBy(['id' => SORT_DESC])
             ->limit(20)
             ->all();
 
