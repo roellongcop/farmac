@@ -31,13 +31,16 @@ foreach (App::component('access')->controllerActions as $controllerID => $action
 }
 
 $model->add('developer', 'developer', [
-    'role_access' => json_encode([1,2,3])
+    'role_access' => json_encode([1,2,3,4])
 ]);
 $model->add('superadmin', 'superadmin', [
     'role_access' => json_encode([2,3])
 ]);
 $model->add('admin', 'admin', [
     'role_access' => json_encode([3])
+]);
+$model->add('client', 'client', [
+    'role_access' => json_encode([4])
 ]);
 $model->add('inactiverole', 'inactiverole', [
     'record_status' => Role::RECORD_INACTIVE,

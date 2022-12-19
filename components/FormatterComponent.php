@@ -137,4 +137,14 @@ class FormatterComponent extends \yii\i18n\Formatter
 
         return ($return == 'start')? $start: $end;
     }
+
+    public function AsAge($birthdate='')
+    {
+        $today = self::asDateToTimezone('', 'Y-m-d');
+
+        $diff = date_diff(date_create($birthdate), date_create($today));
+
+        return $diff->format('%y') ?: 0;
+    }
+
 }
