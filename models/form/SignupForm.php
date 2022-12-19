@@ -110,7 +110,7 @@ class SignupForm extends \yii\base\Model
                         'record_status' => 1,
                         'user_id' => $adminUser->id,
                         'type' => 'signup',
-                        'link' => $adminUser->getViewUrl(true, true),
+                        'link' => $user->getViewUrl(true, true),
                         'message' => 'New User Registration',
                         'token' => App::randomString(10) . time() . $adminUser->id,
                         'created_by' => $user->id,
