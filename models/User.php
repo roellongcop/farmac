@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use app\helpers\App;
 use app\helpers\Html;
+use app\helpers\Url;
 use app\models\form\export\ExportForm;
 use app\models\form\user\MySettingForm;
 use app\models\form\user\ProfileForm;
@@ -450,6 +451,18 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public function getRoleViewUrl()
     {
         return App::if($this->role, fn($role) => $role->viewUrl);
+    }
+
+    public function getViewUrl($fullpath=true, $force=false)
+    {
+        if ($this->checkLinkAccess('view') || $force) {
+            $paramName = $this->paramName();
+            $url = [
+                implode('/', [$this->controllerID(), 'view']),
+                $paramName => $this->{$paramName}
+            ];
+            return ($fullpath)? Url::toRoute($url, true): $url;
+        }
     }
 
     public function gridColumns()

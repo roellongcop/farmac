@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\App;
+use app\helpers\Html;
 use app\models\form\ContactForm;
 use app\models\form\LoginForm;
 use app\models\form\PasswordResetForm;
@@ -11,6 +12,7 @@ use app\models\form\SignupForm;
 class SiteController extends Controller
 {
     const PUBLIC_ACTIONS = [
+        'signup-success', 
         'signup', 
         'login', 
         'reset-password', 
@@ -70,12 +72,26 @@ class SiteController extends Controller
         ];
     }
 
+    public function actionSignupSuccess($vt)
+    {
+        return $vt;
+    }
+
     public function actionSignup()
     {
         $model = new SignupForm([
             'sex' => 'Male',
             'age' => 0
         ]);
+
+        if ($model->load(App::post())) {
+            if (($user = $model->signup()) != null) {
+                return $this->redirect(['signup-success', 'vt' => $user->verification_token]);
+            }
+
+            App::danger(Html::errorSummary($model));
+        }
+
 
         return $this->render('signup', [
             'model' => $model

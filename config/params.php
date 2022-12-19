@@ -16,7 +16,8 @@ return [
         1 => ['id' => 1, 'label' => 'Read', 'class' => 'success'],
     ],
     'notification_types' => [
-        0 => ['id' => 0, 'type' => 'notification_change_password', 'label' => 'Password Changed']
+        0 => ['id' => 0, 'type' => 'notification_change_password', 'label' => 'Password Changed'],
+        1 => ['id' => 1, 'type' => 'signup', 'label' => 'Signup']
     ],
     'user_status' => [
         0 => ['id' => 0, 'label' => 'Archived', 'class' => 'danger'],

@@ -3,8 +3,11 @@
 namespace app\models\form;
 
 use app\helpers\App;
+use app\models\Notification;
 use app\models\Role;
 use app\models\User;
+use app\models\form\user\UserProfileForm;
+use yii\db\Expression;
 
 class SignupForm extends \yii\base\Model
 {
@@ -37,7 +40,16 @@ class SignupForm extends \yii\base\Model
             ['sex', 'in', 'range' => [
                 'Male', 'Female'
             ]],
+            ['email', 'validateEmail']
         ];
+    }
+
+    public function validateEmail($attribute, $params)
+    {
+        $user = User::findOne(['email' => $this->email]);
+        if ($user) {
+            $this->addError('email', 'Email already exist.');
+        }
     }
 
     public function validateBirthDate($attribute, $params)
@@ -65,14 +77,55 @@ class SignupForm extends \yii\base\Model
             'status' => User::STATUS_INACTIVE,
             'is_blocked' => User::UNBLOCKED
         ]);
-        $user->password = $this->password;
         $user->username = $explode[0];
         $user->email = $this->email;
+        $user->setPassword($this->password);
 
         if ($user->save()) {
-            // code...
+            
+            $profile = new UserProfileForm([
+                'user_id' => $user->id,
+                'first_name' => $this->first_name,
+                'middle_name' => $this->middle_name,
+                'last_name' => $this->last_name,
+                'birthdate' => $this->birthdate,
+                'age' => $this->age,
+                'sex' => $this->sex,
+                'contact_no' => $this->contact_no,
+                'email' => $this->email,
+                'address' => $this->address,
+                'documents' => $this->documents,
+            ]);
 
-            return true;
+            if ($profile->save()) {
+                $roles = [
+                    Role::DEVELOPER,
+                    Role::SUPERADMIN,
+                    Role::ADMIN,
+                ];
+
+                $data = App::foreach(User::findAll(['role_id' => $roles]), function ($adminUser) use($user) {
+                    return [
+                        'status' => Notification::STATUS_UNREAD,
+                        'record_status' => 1,
+                        'user_id' => $adminUser->id,
+                        'type' => 'signup',
+                        'link' => $adminUser->getViewUrl(true, true),
+                        'message' => 'New User Registration',
+                        'token' => App::randomString(10) . time() . $adminUser->id,
+                        'created_by' => $user->id,
+                        'updated_by' => $user->id,
+                        'created_at' => new Expression('UTC_TIMESTAMP'),
+                        'updated_at' => new Expression('UTC_TIMESTAMP'),
+                    ];
+                } , false);
+
+                Notification::batchInsert($data);
+                return $user;
+            }
+
+            $this->addError('profile', $profile->errors);
+
         }
 
         $this->addError('user', $user->errors);

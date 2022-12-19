@@ -11,6 +11,8 @@ use app\widgets\DatePicker;
 use app\widgets\Dropzone;
 
 $this->title = 'Create an Account';
+
+$this->addJsFile('js/frontend/signup');
 ?>
 
 <div class="d-flex justify-content-between">
@@ -89,10 +91,10 @@ $this->title = 'Create an Account';
 
     <div class="row">
         <div class="col-md-4">
-            <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'password')->passwordInput(['maxlength' => true]) ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, 'password_repeat')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'password_repeat')->passwordInput(['maxlength' => true]) ?>
         </div>
     </div>
 
