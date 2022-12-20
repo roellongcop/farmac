@@ -335,9 +335,9 @@ class File extends ActiveRecord
 
     public function getCanDelete()
     {
-        if ($this->extension == 'sql') {
-            return false;
-        }
+        // if ($this->extension == 'sql') {
+        //     return false;
+        // }
 
         return parent::getCanDelete();
     }
@@ -415,4 +415,23 @@ class File extends ActiveRecord
     {
         return Url::home(true) . $this->rawUrlLocation;
     }
+
+    public function getViewerUrl($fullpath=true)
+    {
+        $paramName = $this->paramName();
+        $url = [
+            implode('/', [$this->controllerID(), 'viewer']),
+            $paramName => $this->{$paramName}
+        ];
+        return ($fullpath)? Url::to($url, true): $url;
+    }
+
+    public function getNameWithExtension()
+    {
+        return implode('.', [
+            $this->name,
+            $this->extension,
+        ]);
+    }
+
 }

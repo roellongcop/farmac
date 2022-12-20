@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\File;
 use app\models\form\FileForm;
+use app\models\form\SpreadsheetReaderForm;
 use app\models\form\UploadForm;
 use app\models\search\FileSearch;
 use app\widgets\ActiveForm;
@@ -97,10 +98,21 @@ class FileController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($token)
+    public function actionView($token, $template='view')
     {
-        return $this->render('view', [
-            'model' => File::controllerFind($token, 'token'),
+        $model = File::controllerFind($token, 'token');
+
+        if (App::isAjax()) {
+            return $this->asJson([
+                'status' => 'success',
+                'form' => $this->renderAjax($template, [
+                    'model' => $model,
+                ])
+            ]);
+        }
+
+        return $this->render($template, [
+            'model' => $model,
         ]);
     }
 
@@ -281,30 +293,83 @@ class FileController extends Controller
         return $this->render('my-files', $data); 
     }
 
-    public function actionRename()
+    public function actionUpdate($token)
     {
-        $model = new FileForm();
+        $model = File::controllerFind($token, 'token');
+
+        if (App::get('ajaxValidate')) {
+            return $this->_ajaxValidate($model);
+        }
+
+        $response = [];
+
         if ($model->load(App::post())) {
-            if (App::get('ajaxValidate')) {
-                return $this->asJson(ActiveForm::validate($model));
-            }
-            if ($model->rename()) {
-                return $this->asJson([
-                    'status' => 'success',
-                    'message' => 'File renamed.',
-                    'model' => $model
-                ]);
+            if ($model->save()) {
+                $model->name = strtoupper($model->name);
+                $response['status'] = 'success';
+                $response['message'] = 'File Updated.';
+                $response['file'] = $model;
             }
             else {
-                return $this->asJson([
-                    'status' => 'failed',
-                    'error' => $model->errors
-                ]);
+                $response['status'] = 'failed';
+                $response['error'] = $model->errorSummary;
             }
         }
-        return $this->asJson([
-            'status' => 'failed',
-            'error' => 'No post data'
-        ]);
+        else {
+            $response['status'] = 'failed';
+            $response['error'] = 'No post data';
+        }
+        return $this->asJson($response);
+    }
+
+    public function actionViewer($token)
+    {
+        $model = File::controllerFind($token, 'token');
+
+        $this->layout = 'file-viewer';
+
+        switch ($model->extension) {
+            case 'pdf':
+                return $this->render('viewer/pdf', ['model' => $model]);
+                break;
+
+            case 'gif':
+            case 'jpeg':
+            case 'jpg':
+            case 'bmp':
+            case 'tiff':
+            case 'png':
+            case 'ico':
+                return $this->render('viewer', [
+                    'model' => $model, 
+                    'location' => App::baseUrl($model->location)
+                ]);
+                break;
+
+            case 'csv':
+            case 'xls':
+            case 'xlsx':
+                if (App::isAjax()) {
+                    return $this->asJson(['data' => (new SpreadsheetReaderForm(['file' => $model]))->data]);
+                }
+                else {
+                    return $this->render('viewer/spreadsheet', ['model' => $model]);
+                }
+                break;
+
+            case 'doc':
+            case 'docx':
+                return $this->render('viewer/docx', ['model' => $model]);
+                break;
+
+            case 'sql':
+            case 'txt':
+                return $this->render('viewer/sql', ['model' => $model]);
+
+            default:
+                return 'No Preview Available';
+                return $this->redirect($model->getDisplayPath(500, 500));
+                break;
+        }
     }
 }

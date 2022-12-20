@@ -110,9 +110,7 @@ $this->addJsFile('js/frontend/signup');
                 'tag' => 'User',
                 'model' => $model,
                 'attribute' => 'documents',
-                'acceptedFiles' => array_map(
-                    fn($val)=> ".{$val}", File::EXTENSIONS['image']
-                )
+                'inputName' => 'SignupForm[documents][]'
             ]) ?>
         </div>
     </div>

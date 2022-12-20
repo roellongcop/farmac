@@ -271,3 +271,43 @@ div.required label.control-label:after {
     padding: 3px 5px;
     right: 0.5rem;
 }
+
+
+.app-hidden {
+    width: 0;
+    height: 0;
+    border: none;
+    position: absolute;
+    background: transparent;
+    color: transparent;
+}
+
+
+.dataTables_filter{
+    text-align: right;
+}
+.dataTables_filter label,
+.dataTables_length label {
+    display: inline-flex;
+    align-items: center;
+}
+.dataTables_filter input {
+    margin-left: 5px;
+}
+
+.dataTables_filterinput {
+    margin-top: -5px;
+    margin-left: 5px;
+}
+.dataTables_length select{
+    margin-top: -5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.dataTables_paginate {
+    float: right;
+}
+
+.ow-anywhere {
+    overflow-wrap: anywhere;
+}

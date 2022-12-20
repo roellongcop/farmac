@@ -94,7 +94,7 @@ class Dropzone extends BaseWidget
             $this->parameters["UploadForm[extensions][{$key}]"] = $extension;
         }
 
-        $this->inputName = implode('', [
+        $this->inputName = $this->inputName ?: implode('', [
             $className, 
             '[', $this->attribute, ']',
             ((is_array($this->model->{$this->attribute}))? '[]': '')

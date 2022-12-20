@@ -3,6 +3,8 @@
 namespace app\models\form\user;
 
 use app\helpers\App;
+use app\helpers\Html;
+use app\models\File;
 
 class UserProfileForm extends UserForm
 {
@@ -59,8 +61,31 @@ class UserProfileForm extends UserForm
     {
         return [
             'first_name:raw',
+            'middle_name:raw',
             'last_name:raw',
+            'birthdate:raw',
+            'age:raw',
+            'sex:raw',
+            'contact_no:raw',
+            'email:raw',
+            'address:raw',
+            // 'documentPreviews:raw',
         ];
+    }
+
+    public function getFiles()
+    {
+        return File::findAll(['token' => $this->documents]);
+    }
+
+    public function getDocumentPreviews()
+    {
+        return App::foreach(
+            File::findAll(['token' => $this->documents]), 
+            fn ($file) => Html::image($file->token, ['w' => 100], [
+                'class' => 'symbol img-fluid'
+            ])
+        );
     }
 
     public function beforeValidate()

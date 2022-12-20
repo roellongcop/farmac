@@ -9,6 +9,7 @@ use app\helpers\Url;
 use app\models\form\export\ExportForm;
 use app\models\form\user\MySettingForm;
 use app\models\form\user\ProfileForm;
+use app\models\form\user\UserProfileForm;
 use app\widgets\Anchor;
 use app\widgets\Label;
 
@@ -94,6 +95,8 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->setAttributeLabels([
             'role_id' => 'Role',
+            'userStatusHtml' => 'Status',
+            'blockedStatusHtml' => 'Is Blocked',
         ]);
     }
 
@@ -104,6 +107,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     public static function find()
     {
         return new \app\models\query\UserQuery(get_called_class());
+    }
+
+    public function getBeforeCanDelete()
+    {
+        return false;
     }
 
     public function getCanDelete()
@@ -597,6 +605,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
         return new ProfileForm(['user_id' => $this->id]);
     }
 
+    public function getUserProfile()
+    {
+        return new UserProfileForm(['user_id' => $this->id]);
+    }
+
     public function getIsDeleted()
     {
         return $this->status == self::STATUS_DELETED;
@@ -676,5 +689,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 ->asArray()
                 ->all();
         });
+    }
+
+    public function getDashboardVisitable()
+    {
+        return $this->status == self::STATUS_ACTIVE
+            && $this->is_blocked == self::UNBLOCKED
+            && $this->record_status == self::RECORD_ACTIVE;
     }
 }
