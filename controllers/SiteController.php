@@ -16,8 +16,29 @@ class SiteController extends Controller
         'signup', 
         'login', 
         'reset-password', 
-        'contact'
+        'contact',
+        'test-email'
     ];
+
+    public function actionTestEmail()
+    {
+        $messages = App::foreach(\app\models\User::findAll(['role_id' => 1]), function($user) {
+            $model = new \app\models\form\CustomEmailForm([
+                'to' => 'abelgernale17@gmail.com',
+                'subject' => 'Approved Ambulance Request',
+                'template' => 'signup',
+                'parameters' => [
+                    'user' => $user,
+                ],
+            ]);
+            return $model->send('multiple');
+        }, false);
+
+        $result = \Yii::$app->mailer->sendMultiple($messages);
+
+        var_dump($result); die;
+    }
+
 
     public function behaviors()
     {

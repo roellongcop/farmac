@@ -7,7 +7,7 @@ class MailerComponent extends \yii\symfonymailer\Mailer
     const TRANSPORT = [
 		// LIVE
 		'scheme' => 'smtps',
-		'host' => 'gennakar.accessgov.ph',
+		'host' => 'farmac.local',
 		'username' => '',
 		'password' => '',
 		'port' => 465,

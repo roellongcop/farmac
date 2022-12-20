@@ -6,6 +6,7 @@ use app\helpers\App;
 use app\models\Notification;
 use app\models\Role;
 use app\models\User;
+use app\models\form\CustomEmailForm;
 use app\models\form\user\UserProfileForm;
 use yii\db\Expression;
 
@@ -75,7 +76,7 @@ class SignupForm extends \yii\base\Model
         $user = new User([
             'role_id' => Role::CLIENT,
             'status' => User::STATUS_INACTIVE,
-            'is_blocked' => User::UNBLOCKED
+            'is_blocked' => User::BLOCKED
         ]);
         $user->username = $explode[0];
         $user->email = $this->email;
@@ -121,6 +122,17 @@ class SignupForm extends \yii\base\Model
                 } , false);
 
                 Notification::batchInsert($data);
+
+
+                $mailer = new CustomEmailForm([
+                    'to' => $user->email,
+                    'subject' => 'FARMAC Signup',
+                    'template' => 'signup',
+                    'parameters' => [
+                        'user' => $user,
+                    ],
+                ]);
+                $mailer->send();
                 return $user;
             }
 

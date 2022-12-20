@@ -2,6 +2,7 @@
 
 namespace tests\unit\models\form;
 
+use app\helpers\App;
 use app\models\form\SignupForm;
 use app\models\form\user\UserProfileForm;
 
@@ -80,6 +81,20 @@ class SignupFormTest extends \Codeception\Test\Unit
         $this->tester->seeRecord('app\models\Notification', [
             'type' => 'signup',
         ]);
+
+
+        // using Yii2 module actions to check email was sent
+        $this->tester->seeEmailIsSent();
+
+
+        /** @var MessageInterface $emailMessage */
+        $emailMessage = $this->tester->grabLastSentEmail();
+
+        expect('valid email is sent', $emailMessage)->isInstanceOf('yii\mail\MessageInterface');
+        expect($emailMessage->getTo())->hasKey('email@test.com');
+        expect($emailMessage->getFrom())->hasKey(App::setting('email')->sender_email);
+        // expect($emailMessage->getReplyTo())->hasKey(App::setting('email')->admin_email);
+        expect($emailMessage->getSubject())->equals('FARMAC Signup');
     }
 
 

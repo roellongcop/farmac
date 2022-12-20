@@ -30,7 +30,11 @@ const pollNotification = (totalUnread) => {
 $('.notification .topbar-item').on('click', function(e) {
 	e.preventDefault();
 
-	KTApp.block('.notification-content');
+	KTApp.block('.notification-content', {
+		overlayColor: '#000000',
+		message: 'Please wait...',
+		state: 'primary'
+	});
 
 	$.ajax({
 		url: app.baseUrl + 'notification/load',
