@@ -55,7 +55,7 @@ KeenAsset::register($this);
 						                'title' => '<i class="fa fa-angle-left"></i>',
 						                'tooltip' => 'Go Back',
 						                'options' => [
-						                    'class' => 'btn btn-secondary tbn-sm',
+						                    'class' => 'btn btn-outline-dark btn-sm',
 						                    'data-original-title' => 'Go back',
 						                    'data-toggle' => "tooltip",
 						                    'data-theme' => "dark",

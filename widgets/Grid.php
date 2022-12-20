@@ -66,7 +66,7 @@ class Grid extends BaseWidget
  
         return [
             'class' => 'yii\grid\ActionColumn',
-            'header' => '<span style="color:#3699FF">Actions</span>',
+            'header' => '<span style="color:#0BB783">Actions</span>',
             'headerOptions' => ['class' => 'text-center'],
             'contentOptions' => ['class' => 'text-center', 'width' => '70'],
             'template' => $this->render('grid/grid_action', ['template' => $template ]),

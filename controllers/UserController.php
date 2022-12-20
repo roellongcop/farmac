@@ -249,4 +249,18 @@ class UserController extends Controller
     {
         # dont delete; use in condition if user has access to in-active data
     }
+
+    public function actionActivate($slug)
+    {
+        $model = User::controllerFind($slug, 'slug');
+        $model->activateStatus();
+        if ($model->save()) {
+            App::success('User activated.');
+        }
+        else {
+            App::danger($model->errors);
+        }
+
+        return $this->redirect(App::referrer());
+    }
 }

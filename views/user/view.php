@@ -1,6 +1,7 @@
 <?php
 
 use app\helpers\App;
+use app\helpers\Html;
 use app\models\search\UserSearch;
 use app\widgets\Anchor;
 use app\widgets\Anchors;
@@ -18,7 +19,7 @@ $this->params['wrapCard'] = false;
 ?>
 <div class="user-view-page">
     <?= Anchors::widget([
-    	'names' => ['update', 'duplicate', 'log'], 
+    	'names' => ['update', 'duplicate'], 
     	'model' => $model,
     ]) ?> 
     <?= App::if($model->dashboardVisitable, Anchor::widget([
@@ -36,6 +37,14 @@ $this->params['wrapCard'] = false;
         'link' => ['log/index', 'userSlug' => $model->slug],
         'options' => ['class' => 'btn btn-secondary']
     ]) ?>
+
+
+    <?= App::if($model->isActivatable, Html::a('Activate', ['user/activate', 'slug' => $model->slug], [
+        'class' => 'btn btn-info',
+        'data-confirm' => 'You are going to activate this user',
+        'data-method' => 'post'
+    ])) ?>
+
 
     <div class="my-2"></div>
     <div class="row">

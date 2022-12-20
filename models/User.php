@@ -697,4 +697,16 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             && $this->is_blocked == self::UNBLOCKED
             && $this->record_status == self::RECORD_ACTIVE;
     }
+
+
+
+    public function activateStatus()
+    {
+        $this->status = self::STATUS_ACTIVE;
+    }
+
+    public function getIsActivatable()
+    {
+        return $this->status == self::STATUS_INACTIVE;
+    }
 }
