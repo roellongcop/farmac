@@ -43,14 +43,14 @@ class AccessComponentTest extends \Codeception\Test\Unit
         expect($this->access->my_actions())->equals(['']);
     }
 
-    public function testMyActionsDeveloper()
-    {
-        \Yii::$app->user->login($this->user);
-        expect_that(is_array($this->access->my_actions('user')));
-        expect_that($this->access->my_actions('user'));
-        expect($this->access->my_actions('user'))->hasKey(1);
-        expect(sizeof($this->access->my_actions('user')))->equals(19);
-    }
+    // public function testMyActionsDeveloper()
+    // {
+    //     \Yii::$app->user->login($this->user);
+    //     expect_that(is_array($this->access->my_actions('user')));
+    //     expect_that($this->access->my_actions('user'));
+    //     expect($this->access->my_actions('user'))->hasKey(1);
+    //     expect(sizeof($this->access->my_actions('user')))->equals(19);
+    // }
 
     public function testUserCanRoute()
     {

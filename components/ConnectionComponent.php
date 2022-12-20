@@ -4,6 +4,7 @@ namespace app\components;
 
 class ConnectionComponent extends \yii\db\Connection
 {
+    // public $dsn = 'mysql:host=localhost;dbname=db_farmac_test';
     public $dsn = 'mysql:host=localhost;dbname=db_farmac';
     public $username = 'root';
     public $password = '';
