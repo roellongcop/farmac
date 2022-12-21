@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\App;
 use app\helpers\Html;
+use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\LoginForm;
 use app\models\form\PasswordResetForm;
@@ -12,6 +13,8 @@ use app\models\form\SignupForm;
 class SiteController extends Controller
 {
     const PUBLIC_ACTIONS = [
+        'resend-verification',
+        'verify',
         'signup-success', 
         'signup', 
         'login', 
@@ -67,6 +70,8 @@ class SiteController extends Controller
                 break;
             
             case 'signup':
+            case 'signup-success':
+            case 'verify':
                 $this->layout = 'frontend';
                 break;
             default:
@@ -76,9 +81,7 @@ class SiteController extends Controller
         return parent::beforeAction($action);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+   
     public function actions()
     {
         return [
@@ -93,9 +96,81 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionSignupSuccess($vt)
+    public function actionResendVerification($vt)
     {
-        return $vt;
+        $user = User::findOrFailed($vt, 'verification_token');
+
+        if ((new SignupForm())->sendEmail($user)) {
+            App::success('Email verification was resent.');
+        }
+        else {
+            App::danger('There\'s an error sending an email.');
+        }
+
+        return $this->redirect(['signup-success', 'vt' => $user->verification_token]);
+    }
+
+
+    public function actionVerify($vt='', $status='')
+    {
+        $user = User::findOrFailed($vt, 'verification_token');
+
+        if ($status) {
+            return $this->render("verification/{$status}", [
+                'user' => $user
+            ]);
+        }
+
+        if ($user->is_blocked == User::UNBLOCKED) {
+            App::success('User already verified');
+
+            if ($user->status != User::STATUS_ACTIVE) {
+                return $this->redirect(['verify', 
+                    'vt' => $user->verification_token, 
+                    'status' => 'in-active'
+                ]);
+            }
+
+            return $this->redirect(['verify', 
+                'vt' => $user->verification_token, 
+                'status' => 'already-verified'
+            ]);
+        }
+
+        $user->is_blocked = User::UNBLOCKED;
+        $user->generateEmailVerificationToken();
+        if ($user->save()) {
+            App::success('User verified');
+
+            if ($user->status != User::STATUS_ACTIVE) {
+                return $this->redirect(['verify', 
+                    'vt' => $user->verification_token, 
+                    'status' => 'in-active'
+                ]);
+            }
+
+            return $this->redirect(['verify', 
+                'vt' => $user->verification_token, 
+                'status' => 'verified'
+            ]);
+        }
+
+
+        App::danger($model->errors);
+        
+        return $this->redirect(['verify', 
+            'vt' => $user->verification_token, 
+            'status' => 'verified'
+        ]);
+    }
+
+    public function actionSignupSuccess($vt='')
+    {
+        $user = User::findOrFailed($vt, 'verification_token');
+
+        return $this->render('signup-success', [
+            'user' => $user
+        ]);
     }
 
     public function actionSignup()

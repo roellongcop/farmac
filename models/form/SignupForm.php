@@ -3,6 +3,7 @@
 namespace app\models\form;
 
 use app\helpers\App;
+use app\models\File;
 use app\models\Notification;
 use app\models\Role;
 use app\models\User;
@@ -82,6 +83,17 @@ class SignupForm extends \yii\base\Model
         $user->email = $this->email;
         $user->setPassword($this->password);
 
+        $file = File::find()
+            ->where([
+                'token' => $this->documents, 
+                'extension' => File::EXTENSIONS['image']
+            ])
+            ->one();
+
+        if ($file) {
+            $user->photo = $file->token;
+        }
+
         if ($user->save()) {
             
             $profile = new UserProfileForm([
@@ -124,15 +136,7 @@ class SignupForm extends \yii\base\Model
                 Notification::batchInsert($data);
 
 
-                $mailer = new CustomEmailForm([
-                    'to' => $user->email,
-                    'subject' => 'FARMAC Signup',
-                    'template' => 'signup',
-                    'parameters' => [
-                        'user' => $user,
-                    ],
-                ]);
-                $mailer->send();
+                $this->sendEmail($user);
                 return $user;
             }
 
@@ -142,6 +146,19 @@ class SignupForm extends \yii\base\Model
 
         $this->addError('user', $user->errors);
 
+    }
+
+    public function sendEmail($user)
+    {
+        $mailer = new CustomEmailForm([
+            'to' => $user->email,
+            'subject' => 'FARMAC Signup',
+            'template' => 'signup',
+            'parameters' => [
+                'user' => $user,
+            ],
+        ]);
+        return $mailer->send();
     }
 
     public function beforeValidate()
