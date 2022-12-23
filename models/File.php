@@ -434,4 +434,8 @@ class File extends ActiveRecord
         ]);
     }
 
+    public static function imageExtensions()
+    {
+        return array_map(fn($ext) => ".{$ext}", self::EXTENSIONS['image']);
+    }
 }

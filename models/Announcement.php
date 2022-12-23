@@ -1,0 +1,142 @@
+<?php
+
+namespace app\models;
+
+use app\helpers\App;
+use app\helpers\Html;
+use app\widgets\Anchor;
+
+/**
+ * This is the model class for table "{{%announcements}}".
+ *
+ * @property int $id
+ * @property string $title
+ * @property string|null $content
+ * @property string|null $photos
+ * @property int $record_status
+ * @property int $created_by
+ * @property int $updated_by
+ * @property string $created_at
+ * @property string $updated_at
+ */
+class Announcement extends ActiveRecord
+{
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return '{{%announcements}}';
+    }
+
+    public function config()
+    {
+        return [
+            'controllerID' => 'announcement',
+            'mainAttribute' => 'title',
+            'paramName' => 'slug',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return $this->setRules([
+            [['title'], 'required'],
+            [['content'], 'string'],
+            [['title'], 'string', 'max' => 255],
+            [['photos'], 'safe']
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return $this->setAttributeLabels([
+            'id' => 'ID',
+            'title' => 'Title',
+            'content' => 'Content',
+            'photos' => 'Photos',
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return \app\models\query\AnnouncementQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \app\models\query\AnnouncementQuery(get_called_class());
+    }
+
+    public function getDefaultGridColumns()
+    {
+        return [
+            'serial',
+            'checkbox',
+            'title',
+            'active',
+            'created_at',
+            'last_updated'
+        ];
+    }
+     
+    public function gridColumns()
+    {
+        return [
+            'title' => [
+                'attribute' => 'title', 
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Anchor::widget([
+                        'title' => $model->title,
+                        'link' => $model->viewUrl,
+                        'text' => true
+                    ]);
+                }
+            ],
+            'content' => ['attribute' => 'content', 'format' => 'raw'],
+            // 'photos' => ['attribute' => 'photos', 'format' => 'raw'],
+        ];
+    }
+
+    public function detailColumns()
+    {
+        return [
+            'title:raw',
+            'content:raw',
+            'imagePreviews:raw',
+        ];
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['JsonBehavior']['fields'] = [
+            'photos', 
+        ];
+        $behaviors['SluggableBehavior'] = [
+            'class' => 'yii\behaviors\SluggableBehavior',
+            'attribute' => 'title',
+            'ensureUnique' => true,
+        ];
+
+        return $behaviors;
+    }
+
+    public function getImageFiles()
+    {
+        return File::findAll(['token' => $this->photos]);
+    }
+
+    public function getImagePreviews()
+    {
+        return App::foreach($this->imageFiles, fn($file) => Html::image($file->token, ['w' => 200], [
+            'class' => 'img-fluid symbol'
+        ]));
+    }
+}

@@ -1,7 +1,11 @@
 <?php
 
+use app\helpers\App;
 use app\helpers\Html;
 
+$this->registerJsFile(App::publishedUrl("/plugins/custom/tinymce/tinymce.bundle.js"), [
+    'depends' => App::setting('theme')->appAssetClass
+]);
 $this->registerWidgetJsFile('tinymce');
 
 $this->registerJs(<<< JS

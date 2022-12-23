@@ -311,3 +311,19 @@ div.required label.control-label:after {
 .ow-anywhere {
     overflow-wrap: anywhere;
 }
+
+.table-bordered th{
+    white-space: nowrap;
+}
+.br-1 {
+    border-radius: 1em;
+}
+.br-2 {
+    border-radius: 2em;
+}
+.br-3 {
+    border-radius: 3em;
+}
+.br-4 {
+    border-radius: 4em;
+}

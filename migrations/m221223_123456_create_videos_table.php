@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Handles the creation of table `{{%posts}}`.
+ * Handles the creation of table `{{%videos}}`.
  */
-class m221223_115837_create_posts_table extends \app\migrations\Migration
+class m221223_123456_create_videos_table extends \app\migrations\Migration
 {
     public function tableName()
     {
-        return '{{%posts}}';
+        return '{{%videos}}';
     }
 
     /**
@@ -16,8 +16,10 @@ class m221223_115837_create_posts_table extends \app\migrations\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName(), $this->attributes([
-            'name' => $this->string()->notNull()->unique(),
-            'description' => $this->text(),
+            'title' => $this->string()->notNull(),
+            'description' => 'MEDIUMTEXT',
+            'link' => $this->text(),
+            'slug' => $this->string(),
         ]));
     }
 
