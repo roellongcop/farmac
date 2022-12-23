@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\User;
 use app\models\form\ChangePasswordForm;
+use app\models\form\UserVerificationForm;
 use app\models\search\UserSearch;
 
 /**
@@ -252,9 +253,10 @@ class UserController extends Controller
 
     public function actionActivate($slug)
     {
-        $model = User::controllerFind($slug, 'slug');
-        $model->activateStatus();
-        if ($model->save()) {
+        $user = User::controllerFind($slug, 'slug');
+        $model = new UserVerificationForm(['verification_token' => $user->verification_token]);
+
+        if ($model->activate()) {
             App::success('User activated.');
         }
         else {

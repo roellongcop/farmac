@@ -27,7 +27,6 @@ class UserVerificationForm extends \yii\base\Model
         }
 
         $user = $this->getUser();
-
         $user->status = User::STATUS_ACTIVE;
 
         if ($user->save()) {
@@ -51,6 +50,7 @@ class UserVerificationForm extends \yii\base\Model
 
         $user = $this->getUser();
         $user->is_blocked = User::UNBLOCKED;
+        $user->generateEmailVerificationToken();
 
         if ($user->save()) {
             return $user;
