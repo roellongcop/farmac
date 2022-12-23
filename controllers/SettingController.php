@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\Setting;
 use app\models\Theme;
+use app\models\form\setting\AboutUsSettingForm;
 use app\models\form\setting\EmailSettingForm;
 use app\models\form\setting\GeneralSettingForm;
 use app\models\form\setting\ImageSettingForm;
@@ -170,6 +171,10 @@ class SettingController extends Controller
 
             case 'notification':
                 $model = new NotificationSettingForm();
+                break;
+
+            case 'about-us':
+                $model = new AboutUsSettingForm();
                 break;
             
             default:
