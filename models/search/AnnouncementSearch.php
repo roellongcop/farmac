@@ -91,8 +91,6 @@ class AnnouncementSearch extends Announcement
                 
         $query->andFilterWhere(['or', 
             ['like', 'title', $this->keywords],  
-            ['like', 'content', $this->keywords],  
-            ['like', 'photos', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

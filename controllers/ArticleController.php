@@ -3,29 +3,29 @@
 namespace app\controllers;
 
 use app\helpers\App;
-use app\models\Announcement;
-use app\models\search\AnnouncementSearch;
+use app\models\Article;
+use app\models\search\ArticleSearch;
 
 /**
- * AnnouncementController implements the CRUD actions for Announcement model.
+ * ArticleController implements the CRUD actions for Article model.
  */
-class AnnouncementController extends Controller 
+class ArticleController extends Controller 
 {
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Announcement::findByKeywords($keywords, ['title'])
+            Article::findByKeywords($keywords, ['id'])
         );
     }
 
     /**
-     * Lists all Announcement models.
+     * Lists all Article models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new AnnouncementSearch();
-        $dataProvider = $searchModel->search(['AnnouncementSearch' => App::queryParams()]);
+        $searchModel = new ArticleSearch();
+        $dataProvider = $searchModel->search(['ArticleSearch' => App::queryParams()]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -34,26 +34,26 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Displays a single Announcement model.
-     * @param integer $slug
+     * Displays a single Article model.
+     * @param integer $id
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($slug)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => Announcement::controllerFind($slug, 'slug'),
+            'model' => Article::controllerFind($id),
         ]);
     }
 
     /**
-     * Creates a new Announcement model.
+     * Creates a new Article model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Announcement();
+        $model = new Article();
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');
@@ -67,14 +67,14 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Duplicates a new Announcement model.
+     * Duplicates a new Article model.
      * If duplication is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionDuplicate($slug)
+    public function actionDuplicate($id)
     {
-        $originalModel = Announcement::controllerFind($slug, 'slug');
-        $model = new Announcement();
+        $originalModel = Article::controllerFind($id);
+        $model = new Article();
         $model->attributes = $originalModel->attributes;
 
         if ($model->load(App::post()) && $model->save()) {
@@ -90,15 +90,15 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Updates an existing Announcement model.
+     * Updates an existing Article model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($slug)
+    public function actionUpdate($id)
     {
-        $model = Announcement::controllerFind($slug, 'slug');
+        $model = Article::controllerFind($id);
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Updated');
@@ -111,15 +111,15 @@ class AnnouncementController extends Controller
     }
 
     /**
-     * Deletes an existing Announcement model.
+     * Deletes an existing Article model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($slug)
+    public function actionDelete($id)
     {
-        $model = Announcement::controllerFind($slug, 'slug');
+        $model = Article::controllerFind($id);
 
         if($model->delete()) {
             App::success('Successfully Deleted');

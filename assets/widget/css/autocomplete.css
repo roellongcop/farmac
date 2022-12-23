@@ -45,4 +45,5 @@
 
 .autocomplete input.typing {
 	background: url(loading.gif) no-repeat right center !important;
+	background-color: #fff !important;
 }

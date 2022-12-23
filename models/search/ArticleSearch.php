@@ -3,21 +3,21 @@
 namespace app\models\search;
 
 use yii\data\ActiveDataProvider;
-use app\models\Video;
+use app\models\Article;
 use app\helpers\App;
 
 /**
- * VideoSearch represents the model behind the search form of `app\models\Video`.
+ * ArticleSearch represents the model behind the search form of `app\models\Article`.
  */
-class VideoSearch extends Video
+class ArticleSearch extends Article
 {
     public $keywords;
     public $date_range;
     public $pagination;
 
-    public $searchTemplate = 'video/_search';
-    public $searchAction = ['video/index'];
-    public $searchLabel = 'Video';
+    public $searchTemplate = 'article/_search';
+    public $searchAction = ['article/index'];
+    public $searchLabel = 'Article';
 
     /**
      * {@inheritdoc}
@@ -25,8 +25,8 @@ class VideoSearch extends Video
     public function rules()
     {
         return [
-            [['id', 'created_by', 'updated_by'], 'integer'],
-            [['title', 'description', 'link', 'slug', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'parent_id', 'created_by', 'updated_by'], 'integer'],
+            [['category', 'menu', 'title', 'photo', 'content', 'created_at', 'updated_at'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -55,7 +55,7 @@ class VideoSearch extends Video
      */
     public function search($params)
     {
-        $query = Video::find();
+        $query = Article::find();
 
         // add conditions that should always apply here
         $this->load($params);
@@ -77,6 +77,7 @@ class VideoSearch extends Video
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
+            'parent_id' => $this->parent_id,
             'record_status' => $this->record_status,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
@@ -84,15 +85,20 @@ class VideoSearch extends Video
             'updated_at' => $this->updated_at,
         ]);
         
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'link', $this->link])
-            ->andFilterWhere(['like', 'slug', $this->slug]);
+        $query->andFilterWhere(['like', 'category', $this->category])
+            ->andFilterWhere(['like', 'menu', $this->menu])
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'photo', $this->photo])
+            ->andFilterWhere(['like', 'content', $this->content]);
         
                 
         $query->andFilterWhere(['or', 
+            ['like', 'parent_id', $this->keywords],  
+            ['like', 'category', $this->keywords],  
+            ['like', 'menu', $this->keywords],  
             ['like', 'title', $this->keywords],  
-            ['like', 'link', $this->keywords],  
+            ['like', 'photo', $this->keywords],  
+            ['like', 'content', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

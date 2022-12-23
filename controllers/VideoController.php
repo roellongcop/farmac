@@ -14,7 +14,7 @@ class VideoController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Video::findByKeywords($keywords, ['id'])
+            Video::findByKeywords($keywords, ['title', 'link'])
         );
     }
 
