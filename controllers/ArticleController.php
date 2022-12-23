@@ -35,14 +35,16 @@ class ArticleController extends Controller
 
     /**
      * Displays a single Article model.
-     * @param integer $id
+     * @param integer $slug
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($slug)
     {
+        $model = Article::controllerFind($slug, 'slug');
+
         return $this->render('view', [
-            'model' => Article::controllerFind($id),
+            'model' => $model,
         ]);
     }
 
@@ -122,9 +124,9 @@ class ArticleController extends Controller
      * If duplication is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($slug)
     {
-        $originalModel = Article::controllerFind($id);
+        $originalModel = Article::controllerFind($slug, 'slug');
         $model = new Article();
         $model->attributes = $originalModel->attributes;
 
@@ -147,9 +149,9 @@ class ArticleController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($slug)
     {
-        $model = Article::controllerFind($id);
+        $model = Article::controllerFind($slug, 'slug');
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Updated');
@@ -168,9 +170,9 @@ class ArticleController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($slug)
     {
-        $model = Article::controllerFind($id);
+        $model = Article::controllerFind($slug, 'slug');
 
         if($model->delete()) {
             App::success('Successfully Deleted');

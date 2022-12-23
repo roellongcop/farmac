@@ -24,7 +24,7 @@ use app\helpers\App;
 				<tr>
 					<th>#</th>
 					<th>Title</th>
-					<th>action</th>
+					<th class="th-action">action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,9 +34,12 @@ use app\helpers\App;
 							<td>{$counter}</td>
 							<td>{$content->title}</td>
 							<td>
-								<button class="btn btn-primary">
-									<button></button>
-								</button>
+								<a href="{$content->viewUrl}" class="btn btn-info btn-sm" target="_blank">
+									View
+								</a>
+								<a href="{$content->deleteUrl}" class="btn btn-danger btn-sm" data-confirm="Are you sure?" data-method="post">
+									Delete
+								</a>
 							</td>
 						</tr>
 					HTML;
