@@ -1,8 +1,9 @@
 <?php
 
+use app\models\search\VideoSearch;
 use app\widgets\Anchors;
 use app\widgets\Detail;
-use app\models\search\VideoSearch;
+use app\widgets\Youtube;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Video */
@@ -23,10 +24,7 @@ $this->params['showCreateButton'] = true;
             <?= Detail::widget(['model' => $model]) ?>
         </div>
         <div class="col-md-6">
-            <div class="video-container">
-                <iframe class="br-1 video" src="https://www.youtube.com/embed/<?= $model->videoId ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                </iframe>
-            </div>
+            <?= Youtube::widget(['videoId' => $model->videoId]) ?>
         </div>
     </div>
 </div>

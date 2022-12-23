@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\widgets\Anchor;
+use app\widgets\Youtube;
 
 /**
  * This is the model class for table "{{%videos}}".
@@ -78,6 +79,7 @@ class Video extends ActiveRecord
         return [
             'serial',
             'checkbox',
+            // 'video',
             'title',
             'description',
             'active',
@@ -89,6 +91,12 @@ class Video extends ActiveRecord
     public function gridColumns()
     {
         return [
+            // 'video' => [
+            //     'label' => 'video',
+            //     'attribute' => 'title', 
+            //     'format' => 'raw',
+            //     'value' => fn ($model) => Youtube::widget(['videoId' => $model->videoId])
+            // ],
             'title' => [
                 'attribute' => 'title', 
                 'format' => 'raw',
@@ -130,6 +138,5 @@ class Video extends ActiveRecord
         preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $this->link, $matches);
 
         return $matches[1] ?? '';
-
     }
 }

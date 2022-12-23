@@ -78,6 +78,7 @@ class Announcement extends ActiveRecord
         return [
             'serial',
             'checkbox',
+            'photo',
             'title',
             'active',
             'created_at',
@@ -88,6 +89,14 @@ class Announcement extends ActiveRecord
     public function gridColumns()
     {
         return [
+            'photo' => [
+                'label' => 'photo',
+                'attribute' => 'title', 
+                'format' => 'raw',
+                'value' => fn ($model) => Html::image($model->imageFileToken, ['w' => 50], [
+                    'class' => 'img-fluid symbol'
+                ])
+            ],
             'title' => [
                 'attribute' => 'title', 
                 'format' => 'raw',
@@ -126,6 +135,20 @@ class Announcement extends ActiveRecord
         ];
 
         return $behaviors;
+    }
+
+    public function getImageFileToken()
+    {
+        $imageFile = $this->imageFile;
+
+        return $imageFile ? $imageFile->token: '';
+    }
+
+    public function getImageFile()
+    {
+        $imageFiles = $this->imageFiles;
+
+        return $imageFiles[0] ?? '';
     }
 
     public function getImageFiles()
