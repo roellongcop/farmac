@@ -27,6 +27,9 @@ $this->title = 'Sign Up Success';
     <p>
         We sent an email to <strong><?= $user->email ?></strong> in order to verify your account.
     </p>
+    <p>
+        You can access your account once activated by the admin.
+    </p>
     <?= Html::tag('a', 'Resend Verification', [
         'href' => Url::toRoute(['site/resend-verification', 'vt' => $user->verification_token]),
         'class' => 'btn btn-success font-weight-bold'
