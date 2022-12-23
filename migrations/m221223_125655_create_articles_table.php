@@ -20,8 +20,10 @@ class m221223_125655_create_articles_table extends \app\migrations\Migration
             'category' => $this->string()->notNull(),
             'menu' => $this->string()->notNull(),
             'title' => $this->string()->notNull(),
-            'photo' => $this->string()->notNull(),
+            'photo' => $this->string(),
             'content' => $this->text(),
+            'sort' => $this->smallInteger(6)->notNull()->defaultValue(0),
+            'slug' => $this->string()->notNull(),
         ]));
 
         $this->createIndexes($this->tableName(), [

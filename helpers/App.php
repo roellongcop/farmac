@@ -583,10 +583,12 @@ class App {
     {
         $content = [];
         if ($array && is_array($array)) {
+        	$counter = 0;
             foreach ($array as $key => $value) {
-            	$result = call_user_func($function, $value, $key);
+            	$counter++;
+            	$result = call_user_func($function, $value, $key, $counter);
             	if ($result) {
-                	$content[] = $result;
+                	$content[$key] = $result;
             	}
             }
 

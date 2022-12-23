@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\ArrayHelper;
 use app\widgets\Anchor;
 
 /**
@@ -22,6 +23,37 @@ use app\widgets\Anchor;
  */
 class Article extends ActiveRecord
 {
+    const STEP_FORM = [
+        [
+            'counter' => 1,
+            'state' => 'current',
+            'step' => 'general',
+            'title' => 'General Information',
+            'description' => 'Fill up Primary Details'
+        ],
+        [
+            'counter' => 2,
+            'state' => 'pending',
+            'step' => 'content',
+            'title' => 'Content',
+            'description' => 'Setup Article Content'
+        ],
+        [
+            'counter' => 3,
+            'state' => 'pending',
+            'step' => 'sort',
+            'title' => 'Content Sorting',
+            'description' => 'Ordering Contents'
+        ],
+        [
+            'counter' => 4,
+            'state' => 'pending',
+            'step' => 'completed',
+            'title' => 'Completed',
+            'description' => 'Review and Submit'
+        ]
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -45,8 +77,8 @@ class Article extends ActiveRecord
     public function rules()
     {
         return $this->setRules([
-            [['parent_id'], 'integer'],
-            [['category', 'menu', 'title', 'photo'], 'required'],
+            [['parent_id', 'sort'], 'integer'],
+            [['category', 'menu', 'title'], 'required'],
             [['content'], 'string'],
             [['category', 'menu', 'title', 'photo'], 'string', 'max' => 255],
         ]);
@@ -109,5 +141,63 @@ class Article extends ActiveRecord
             'photo:raw',
             'content:raw',
         ];
+    }
+
+    public static function stepForms($step)
+    {
+        $stepForms = ArrayHelper::index(self::STEP_FORM, 'step');
+        $activeStep = $stepForms[$step];
+
+        foreach ($stepForms as &$stepForm) {
+            if ($activeStep['counter'] == $stepForm['counter']) {
+                $stepForm['state'] = 'current';
+            }
+            elseif ($activeStep['counter'] > $stepForm['counter']) {
+                $stepForm['state'] = 'done';
+            }
+            elseif ($activeStep['counter'] < $stepForm['counter']) {
+                $stepForm['state'] = 'pending';
+            }
+        }
+
+        return $stepForms;
+    }
+
+    public function getPreviousStep($activeStep)
+    {
+        if ($activeStep['step'] == 'general') {
+            return $activeStep;
+        }
+
+        $stepForms = ArrayHelper::index(self::STEP_FORM, 'counter');
+
+        return $stepForms[$activeStep['counter'] - 1];
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+       
+        $behaviors['SluggableBehavior'] = [
+            'class' => 'yii\behaviors\SluggableBehavior',
+            'attribute' => 'title',
+            'ensureUnique' => true,
+        ];
+
+        return $behaviors;
+    }
+
+    public function getNewArticle()
+    {
+        return new self([
+            'parent_id' => $this->id,
+            'category' => $this->category,
+            'menu' => $this->menu
+        ]);
+    }
+
+    public function getContents()
+    {
+        return $this->hasMany(self::class, ['parent_id' => 'id']);
     }
 }

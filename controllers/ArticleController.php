@@ -46,23 +46,68 @@ class ArticleController extends Controller
         ]);
     }
 
+    private function setPostData($post, $step)
+    {
+        if ($step == 'completed') {
+            $post['Product']['record_status'] = Product::RECORD_ACTIVE;
+        }
+
+        return $post;
+    }
+
+    private function setRedirectLink($model, $step, $action='create')
+    {
+        switch ($step) {
+            case 'general':
+                $redirect = [$action, 'slug' => $model->slug, 'step' => 'content'];
+                break;
+
+            case 'content':
+                $redirect = [$action, 'slug' => $model->slug, 'step' => 'sort'];
+                break;
+
+            case 'sort':
+                $redirect = [$action, 'slug' => $model->slug, 'step' => 'completed'];
+                break;
+
+            case 'completed':
+                $redirect = $model->viewUrl;
+                break;
+
+            default:
+                $redirect = $model->viewUrl;
+                break;
+        }
+
+        return $redirect;
+    }
+
     /**
      * Creates a new Article model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($slug='', $step='general')
     {
-        $model = new Article();
+        $model = Article::findOrCreate(['slug' => $slug]);
+        $model->setInactive();
+        $stepForms = Article::stepForms($step);
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Created');
+        if (($post = App::post()) != null) {
+            $post = $this->setPostData($post, $step);
 
-            return $this->redirect($model->viewUrl);
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Processed');
+                return $this->redirect($this->setRedirectLink($model, $step));
+            }
         }
+
+        $model->flashErrors();
 
         return $this->render('create', [
             'model' => $model,
+            'activeStep' => $stepForms[$step],
+            'stepForms' => $stepForms,
         ]);
     }
 
@@ -169,5 +214,19 @@ class ArticleController extends Controller
     public function actionInActiveData()
     {
         # dont delete; use in condition if user has access to in-active data
+    }
+
+    public function actionCreateContent()
+    {
+        $model = new Article();
+
+        if ($model->load(App::post()) && $model->save()) {
+            App::success('Successfully Created');
+        }
+        else {
+            App::danger($model->errorSummary);
+        }
+
+        return $this->redirect(App::referrer());
     }
 }

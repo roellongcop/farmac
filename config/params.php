@@ -40,4 +40,9 @@ return [
         0 => ['id' => 0, 'label' => 'Disable', 'class' => 'danger'],
         1 => ['id' => 1, 'label' => 'Enable (require internet connection)', 'class' => 'success'],
     ],
+    'article_categories' => [
+        'Poultry',
+        'Farming',
+        'Fishing',
+    ]
 ];
