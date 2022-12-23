@@ -23,8 +23,10 @@ $this->params['showCreateButton'] = true;
             <?= Detail::widget(['model' => $model]) ?>
         </div>
         <div class="col-md-6">
-            <iframe class="br-1" width="100%" height="100%"src="https://www.youtube.com/embed/<?= $model->videoId ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
+            <div class="video-container">
+                <iframe class="br-1 video" src="https://www.youtube.com/embed/<?= $model->videoId ?>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>
         </div>
     </div>
 </div>
