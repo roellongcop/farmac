@@ -35,8 +35,8 @@ class Article extends ActiveRecord
             'counter' => 2,
             'state' => 'pending',
             'step' => 'content',
-            'title' => 'Content',
-            'description' => 'Setup Article Content'
+            'title' => 'Sub Content',
+            'description' => 'Setup Sub Content'
         ],
         [
             'counter' => 3,

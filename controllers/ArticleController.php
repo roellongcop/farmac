@@ -90,6 +90,12 @@ class ArticleController extends Controller
     public function actionCreate($slug='', $step='general')
     {
         $model = Article::findOrCreate(['slug' => $slug]);
+
+        if ($model->isNewRecord && $step != 'general') {
+            App::warning('Fill up General Information First');
+            return $this->redirect(['create']);
+        }
+
         $model->setInactive();
         $stepForms = Article::stepForms($step);
 

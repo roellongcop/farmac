@@ -47,7 +47,7 @@ use app\widgets\TinyMce;
 <div class="my-5"></div>
 <div class="row">
 	<div class="col-md-12">
-		<label>Content</label>
+		<label>Main Content</label>
 		<?= TinyMce::widget([
 			'model' => $model,
 			'attribute' => 'content'
