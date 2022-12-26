@@ -9,6 +9,13 @@ class DateTimePicker extends BaseWidget
     public $attribute;
     public $options = [];
 
+    public function getId($autoGenerate = true)
+    {
+        $id = parent::getId($autoGenerate) . time();
+
+        return $id;
+    }
+
     /**
      * {@inheritdoc}
      */

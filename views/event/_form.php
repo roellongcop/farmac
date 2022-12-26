@@ -1,9 +1,10 @@
 <?php
 
 use app\helpers\Html;
+use app\models\File;
 use app\widgets\ActiveForm;
 use app\widgets\DateTimePicker;
-use app\widgets\ImageGallery;
+use app\widgets\Dropzone;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Event */
@@ -17,7 +18,6 @@ use app\widgets\ImageGallery;
                 'stretch' => true
             ]) ?>
                 <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-                <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
     			<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
                 <div class="row">
@@ -42,8 +42,8 @@ use app\widgets\ImageGallery;
                     <?= $model->color ?>
                     <div class="radio-inline">
                         <label class="radio">
-                            <?= Html::input('radio', 'Event[color]', 'primary', [
-                                'checked' => $model->color == 'primary'
+                            <?= Html::input('radio', 'Event[color]', 'info', [
+                                'checked' => $model->color == 'info'
                             ]) ?>
                             <span></span> Blue
                         </label>
@@ -63,23 +63,19 @@ use app\widgets\ImageGallery;
                 </div>
                
                 <div class="text-center mt-10">
-                    <?= Html::image($model->photo, ['w' => 200], [
-                        'class' => 'img-thumbnail event-photo',
-                        'loading' => 'lazy',
-                    ] ) ?>
-                    <div class="my-5"></div>
-                    <?= ImageGallery::widget([
-                        'buttonTitle' => 'Choose Photo',
-                        'fixedSize' => false,
+                    <?= Dropzone::widget([
+                        'maxFiles' => 1,
                         'tag' => 'Event',
+                        'files' => $model->imageFiles,
                         'model' => $model,
                         'attribute' => 'photo',
-                        'ajaxSuccess' => "
-                            if(s.status == 'success') {
-                                $('.event-photo').attr('src', s.src);
-                            }
-                        ",
-                    ]) ?> 
+                        'acceptedFiles' => File::imageExtensions()
+                    ]) ?>
+                </div>
+
+
+                <div class="form-group mt-20">
+                    <?= ActiveForm::buttons() ?>
                 </div>
 
             <?php $this->endContent() ?>
@@ -92,7 +88,25 @@ use app\widgets\ImageGallery;
             <?php $this->endContent() ?>
         </div>
     </div>
-    <div class="form-group">
-        <?= ActiveForm::buttons() ?>
-    </div>
 <?php ActiveForm::end(); ?>
+
+
+
+<div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-eventLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-eventLabel">Update Event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary font-weight-bold btn-save-event">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

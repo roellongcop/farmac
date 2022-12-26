@@ -59,7 +59,30 @@ var KTCalendarBasic = function() {
             events: events,
 
             eventClick: function(info) {
-                console.log(info.event.id);
+                KTApp.blockPage({
+                    overlayColor: '#000000',
+                    message: 'Loading Event...',
+                    state: 'primary'
+                });
+                $.ajax({
+                    url: app.baseUrl + 'event/view',
+                    data: {token: info.event.id},
+                    dataType: 'json',
+                    success: (s) => {
+                        if (s.status == 'success') {
+                            $('#modal-event .modal-body').html(s.form);
+                            $('#modal-event').modal('show');
+                        }
+                        else {
+                            Swal.fire('Error', s.errorSummary, 'error');
+                        }
+                        KTApp.unblockPage();
+                    },
+                    error: (e) => {
+                        Swal.fire('Error', e.responseText, 'error');
+                        KTApp.unblockPage();
+                    }
+                })
             },
 
 
@@ -114,6 +137,11 @@ jQuery(document).ready(function() {
     KTCalendarBasic.init();
 });
 
-$('.fc-day-grid-event').click(function() {
-    alert()
+$('.btn-save-event').click(function() {
+    KTApp.block('#modal-event .modal-body', {
+        overlayColor: '#000000',
+        message: 'Loading Event...',
+        state: 'primary'
+    });
+    $(document).find('form#ajax-event-form').submit();
 })

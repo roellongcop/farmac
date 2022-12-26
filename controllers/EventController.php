@@ -35,14 +35,20 @@ class EventController extends Controller
 
     /**
      * Displays a single Event model.
-     * @param integer $id
+     * @param integer $token
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($token)
     {
+        $model = Event::controllerFind($token, 'token');
+
+        if (App::isAjax()) {
+            return  $this->_ajaxForm($model);
+        }
+
         return $this->render('view', [
-            'model' => Event::controllerFind($id),
+            'model' => $model
         ]);
     }
 
@@ -53,7 +59,7 @@ class EventController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Event(['color' => 'primary']);
+        $model = new Event(['color' => 'info']);
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');
@@ -102,7 +108,7 @@ class EventController extends Controller
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+            return $this->redirect($model->createUrl);
         }
 
         return $this->render('update', [
@@ -177,7 +183,6 @@ class EventController extends Controller
             return [
                 'id' => $event->token,
                 'title' => $event->title,
-                'url' => $event->url,
                 'description' => $event->description,
                 'className' => "fc-event-light fc-event-solid-{$event->color}",
                 'start' => date('Y-m-d', strtotime($event->start)),

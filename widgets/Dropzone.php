@@ -33,6 +33,13 @@ class Dropzone extends BaseWidget
     public $attribute;
     public $extensions;
 
+    public function getId($autoGenerate = true)
+    {
+        $id = parent::getId($autoGenerate) . time();
+
+        return $id;
+    }
+
 
     public function init() 
     {

@@ -48,8 +48,9 @@ class Event extends ActiveRecord
         return $this->setRules([
             [['title', 'color', 'start', 'end'], 'required'],
             [['description'], 'string'],
-            [['start', 'end', 'url'], 'safe'],
+            [['start', 'end',], 'safe'],
             [['title', 'photo'], 'string', 'max' => 255],
+            [['start', 'end'], 'validateDate'],
         ]);
     }
 
@@ -67,6 +68,16 @@ class Event extends ActiveRecord
             'end' => 'End',
             'photo' => 'Photo',
         ]);
+    }
+
+    public function validateDate($attribute, $params)
+    {
+        $start = strtotime($this->start);
+        $end = strtotime($this->end);
+
+        if ($start > $end) {
+            $this->addError($attribute, 'Start date must less than end date');
+        }
     }
 
     /**
@@ -117,11 +128,15 @@ class Event extends ActiveRecord
             'tablePhoto:raw',
             'title:raw',
             'description:raw',
-            'url:raw',
             'color:raw',
             'start:raw',
             'end:raw',
         ];
+    }
+
+    public function getImageFiles()
+    {
+        return File::findAll(['token' => $this->photo]);
     }
 
     public function behaviors()
