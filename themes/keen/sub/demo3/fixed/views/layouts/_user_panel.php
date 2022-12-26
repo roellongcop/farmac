@@ -101,7 +101,7 @@ $access = App::component('access');
                         </div>
                     </div>
                 HTML,
-                ['user/my-account'],
+                ['/user/my-account'],
                 ['class' => 'navi-item']
             ) ?>
 
@@ -126,7 +126,7 @@ $access = App::component('access');
                         </div>
                     </div>
                 HTML,
-                ['user/my-password'],
+                ['/user/my-password'],
                 ['class' => 'navi-item']
             ) ?>
 
@@ -151,7 +151,7 @@ $access = App::component('access');
                         <div class="text-muted">File Manager</div>
                     </div>
                 </div>
-            HTML, ['file/my-files'], ['class' => 'navi-item']) ?>
+            HTML, ['/file/my-files'], ['class' => 'navi-item']) ?>
 
             <?= Html::a(<<< HTML
                     <div class="navi-link">
@@ -174,7 +174,7 @@ $access = App::component('access');
                         </div>
                     </div>
                 HTML,
-                ['setting/my-setting'],
+                ['/setting/my-setting'],
                 ['class' => 'navi-item']
             ) ?>
    
@@ -201,7 +201,7 @@ $access = App::component('access');
                         </div>
                     </div>
                 HTML,
-                ['role/my-role'],
+                ['/role/my-role'],
                 ['class' => 'navi-item']
             ) ?>
    
@@ -209,7 +209,7 @@ $access = App::component('access');
             <!--begin::Item-->
             <span class="navi-item mt-2">
                 <span class="navi-link">
-                    <?= Html::beginForm(['site/logout'], 'post') ?>
+                    <?= Html::beginForm(['/site/logout'], 'post') ?>
                         <?= Html::submitButton(
                             'Sign Out',
                             ['class' => 'btn btn-sm btn-light-danger font-weight-bolder py-3 px-6']

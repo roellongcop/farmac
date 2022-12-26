@@ -102,7 +102,13 @@ KeenAsset::register($this);
 						<!--begin::Container-->
 						<div class="container-fluid">
 							<?= Alert::widget() ?>
-							<?= Html::content($content, $this->params) ?>
+							<?php if ($this->params['wrapCard'] ?? true): ?>
+								<?php $this->beginContent('@app/views/layouts/_card_wrapper.php') ?>
+									<?= $content ?>
+								<?php $this->endContent() ?>
+							<?php else: ?>
+								<?= $content ?>
+							<?php endif ?>
 						</div>
 						<!--end::Container-->
 					</div>
