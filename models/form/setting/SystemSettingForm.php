@@ -55,7 +55,7 @@ class SystemSettingForm extends SettingForm
             ],
             'theme' => [
                 'name' => 'theme',
-                'default' => 1,
+                'default' => 2,
             ],
             'whitelist_ip_only' => [
                 'name' => 'whitelist_ip_only',
