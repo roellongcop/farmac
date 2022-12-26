@@ -6,14 +6,17 @@ use app\helpers\App;
 use app\helpers\Html;
 use app\models\User;
 use app\models\form\ContactForm;
+use app\models\form\ForgotPasswordForm;
 use app\models\form\LoginForm;
 use app\models\form\PasswordResetForm;
+use app\models\form\ResetPasswordForm;
 use app\models\form\SignupForm;
 use app\models\form\UserVerificationForm;
 
 class SiteController extends Controller
 {
     const PUBLIC_ACTIONS = [
+        'forgot-password',
         'resend-verification',
         'verify',
         'signup-success', 
@@ -65,6 +68,7 @@ class SiteController extends Controller
     {
         switch ($action->id) {
             case 'login':
+            case 'forgot-password':
             case 'reset-password':
             case 'contact':
                 $this->layout = 'login';
@@ -156,24 +160,22 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionResetPassword()
+    public function actionResetPassword($prt)
     {
-        $model = new PasswordResetForm();
+        $model = new ResetPasswordForm(['password_reset_token' => $prt]);
         if ($model->load(App::post())) {
-            if (($user = $model->process()) != null) {
-                if ($model->hint) {
-                    App::success("Your password hint is: '{$user->password_hint}'.");
-                }
-                else {
-                    App::success("Email sent.");
-                }
+            if (($user = $model->reset()) != null) {
+                App::success("Password reset successfully.");
+                return $this->redirect(['login']);
             }
             else {
                 App::danger($model->errors);
             }
         }
 
-        return $this->redirect(['login']);
+        return $this->render('reset-password', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -251,5 +253,30 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionForgotPassword()
+    {
+        $model = new ForgotPasswordForm();
+        if ($model->load(App::post())) {
+            if (($user = $model->process()) != null) {
+                if ($model->hint) {
+                    App::success("Your password hint is: '{$user->password_hint}'.");
+                }
+                else {
+                    App::success("We've sent an email for resetting your password.");
+                }
+            }
+            else {
+                App::danger($model->errors);
+            }
+
+            return $this->redirect(['login']);
+        }
+       
+
+        return $this->render('forgot-password', [
+            'model' => $model,
+        ]);
     }
 }

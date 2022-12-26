@@ -68,7 +68,10 @@ $publishedUrl = App::publishedUrl();
                         ])->passwordInput([
                             'class' => 'form-control form-control-solid h-auto p-6 rounded-lg'
                         ]) ?>
-                        <!-- <a href="#" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Forgot Password ?</a> -->
+                        <?= Html::tag('a', 'Forgot Password ?', [
+                            'href' => Url::toRoute(['site/forgot-password']),
+                            'class' => 'text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5'
+                        ]) ?>
                         <div class="pb-lg-0 pb-5">
                             <button type="submit" id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
                         </div>
