@@ -17,20 +17,8 @@ class AccessComponent extends \yii\base\Component
 	    ],
 	    '2' => [
 	        'label' => 'Users',
-	        'link' => '#',
+            'link' => '/user',
 	        'icon' => '<i class="fa fa-cog"></i>',
-	        'sub' => [
-	            '2.1' => [
-	                'label' => 'List',
-	                'link' => '/user',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ],
-	            '2.2' => [
-	                'label' => 'User Meta',
-	                'link' => '/user-meta',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ],
-	        ],
 	    ],
 	    '3' => [
 	        'label' => 'Files',
@@ -59,11 +47,6 @@ class AccessComponent extends \yii\base\Component
 	                'link' => '/role',
 	                'icon' => '<i class="fa fa-cog"></i>',
 	            ],
-	            '4.2' => [
-	                'label' => 'Backups',
-	                'link' => '/backup',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ],
 	            '4.3' => [
 	                'label' => 'Sessions',
 	                'link' => '/session',
@@ -79,11 +62,6 @@ class AccessComponent extends \yii\base\Component
 	                'link' => '/visit-log',
 	                'icon' => '<i class="fa fa-cog"></i>',
 	            ],
-	            '4.6' => [
-	                'label' => 'Queues',
-	                'link' => '/queue',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ],
 	        ],
 	    ],
 	    '5' => [
@@ -91,11 +69,6 @@ class AccessComponent extends \yii\base\Component
 	        'link' => '#',
 	        'icon' => '<i class="fa fa-cog"></i>',
 	        'sub' => [
-	        	'5.0' => [
-	                'label' => 'Setting List',
-	                'link' => '/setting',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ],
 	            '5.1' => [
 	                'label' => 'General Setting',
 	                'link' => '/setting/general',
@@ -106,11 +79,6 @@ class AccessComponent extends \yii\base\Component
 	                'link' => '/ip',
 	                'icon' => '<i class="fa fa-cog"></i>',
 	            ],
-	            '5.3' => [
-	                'label' => 'Themes',
-	                'link' => '/theme',
-	                'icon' => '<i class="fa fa-cog"></i>',
-	            ]
 	        ]
 	    ],
 	    '6' => [
