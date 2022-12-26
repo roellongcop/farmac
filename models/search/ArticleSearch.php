@@ -93,11 +93,9 @@ class ArticleSearch extends Article
         
                 
         $query->andFilterWhere(['or', 
-            ['like', 'parent_id', $this->keywords],  
             ['like', 'category', $this->keywords],  
             ['like', 'menu', $this->keywords],  
             ['like', 'title', $this->keywords],  
-            ['like', 'photo', $this->keywords],  
             ['like', 'content', $this->keywords],  
         ]);
 

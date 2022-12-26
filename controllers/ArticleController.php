@@ -14,7 +14,9 @@ class ArticleController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Article::findByKeywords($keywords, ['id'])
+            Article::findByKeywords($keywords, ['title', 'menu', 'category'], 10, [
+                'parent_id' => 0
+            ])
         );
     }
 

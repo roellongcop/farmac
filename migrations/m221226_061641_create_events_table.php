@@ -16,8 +16,12 @@ class m221226_061641_create_events_table extends \app\migrations\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName(), $this->attributes([
-            'name' => $this->string()->notNull()->unique(),
+            'title' => $this->string()->notNull(),
             'description' => $this->text(),
+            'start' => $this->datetime(),
+            'end' => $this->datetime(),
+            'slug' => $this->string(),
+            'photo' => $this->string(),
         ]));
     }
 
