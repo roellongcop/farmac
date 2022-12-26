@@ -66,8 +66,8 @@ class Article extends ActiveRecord
     {
         return [
             'controllerID' => 'article',
-            'mainAttribute' => 'id',
-            'paramName' => 'id',
+            'mainAttribute' => 'title',
+            'paramName' => 'slug',
         ];
     }
 
@@ -108,25 +108,39 @@ class Article extends ActiveRecord
     {
         return new \app\models\query\ArticleQuery(get_called_class());
     }
+
+    public function getDefaultGridColumns()
+    {
+        return [
+            'serial',
+            'checkbox',
+            'title',
+            'category',
+            'menu',
+            'active',
+            'created_at',
+            'last_updated'
+        ];
+    }
      
     public function gridColumns()
     {
         return [
-            'parent_id' => [
-                'attribute' => 'parent_id', 
+            'title' => [
+                'attribute' => 'title', 
                 'format' => 'raw',
                 'value' => function($model) {
                     return Anchor::widget([
-                        'title' => $model->parent_id,
+                        'title' => $model->title,
                         'link' => $model->viewUrl,
                         'text' => true
                     ]);
                 }
             ],
+            'parent_id' => ['attribute' => 'parent_id', 'format' => 'raw'],
             'category' => ['attribute' => 'category', 'format' => 'raw'],
             'menu' => ['attribute' => 'menu', 'format' => 'raw'],
-            'title' => ['attribute' => 'title', 'format' => 'raw'],
-            'photo' => ['attribute' => 'photo', 'format' => 'raw'],
+            // 'photo' => ['attribute' => 'photo', 'format' => 'raw'],
             'content' => ['attribute' => 'content', 'format' => 'raw'],
         ];
     }
@@ -134,11 +148,11 @@ class Article extends ActiveRecord
     public function detailColumns()
     {
         return [
-            'parent_id:raw',
+            // 'parent_id:raw',
             'category:raw',
             'menu:raw',
             'title:raw',
-            'photo:raw',
+            // 'photo:raw',
             'content:raw',
         ];
     }
@@ -198,6 +212,7 @@ class Article extends ActiveRecord
 
     public function getContents()
     {
-        return $this->hasMany(self::class, ['parent_id' => 'id']);
+        return $this->hasMany(self::class, ['parent_id' => 'id'])
+            ->orderBy(['sort' => SORT_ASC]);
     }
 }

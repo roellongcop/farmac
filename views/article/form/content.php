@@ -31,7 +31,7 @@ use app\helpers\App;
 				<?= App::foreach($model->contents, function($content, $key, $counter) {
 					return <<< HTML
 						<tr>
-							<td>{$counter}</td>
+							<td width="10%">{$counter}</td>
 							<td>{$content->title}</td>
 							<td>
 								<a href="{$content->viewUrl}" class="btn btn-info btn-sm" target="_blank">
@@ -49,3 +49,4 @@ use app\helpers\App;
 	</div>
 </div>
 
+<?= $form->field($model, 'id')->hiddenInput()->label(false) ?>

@@ -43,7 +43,13 @@ class ArticleController extends Controller
     {
         $model = Article::controllerFind($slug, 'slug');
 
-        return $this->render('view', [
+        if ($model->parent_id == 0) {
+            return $this->render('view', [
+                'model' => $model,
+            ]);
+        }
+        
+        return $this->render('view-content', [
             'model' => $model,
         ]);
     }
@@ -51,7 +57,7 @@ class ArticleController extends Controller
     private function setPostData($post, $step)
     {
         if ($step == 'completed') {
-            $post['Product']['record_status'] = Product::RECORD_ACTIVE;
+            $post['Article']['record_status'] = Article::RECORD_ACTIVE;
         }
 
         return $post;
@@ -104,6 +110,14 @@ class ArticleController extends Controller
         if (($post = App::post()) != null) {
             $post = $this->setPostData($post, $step);
 
+            if ($step == 'sort') {
+                App::foreach($post['sort'], function($id, $index, $counter) {
+                    Article::updateAll(['sort' => $counter], ['id' => $id]);
+                });
+                App::success('Successfully Sorted');
+                return $this->redirect($this->setRedirectLink($model, $step));
+            }
+
             if ($model->load($post) && $model->save()) {
                 App::success('Successfully Processed');
                 return $this->redirect($this->setRedirectLink($model, $step));
@@ -119,28 +133,6 @@ class ArticleController extends Controller
         ]);
     }
 
-    /**
-     * Duplicates a new Article model.
-     * If duplication is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionDuplicate($slug)
-    {
-        $originalModel = Article::controllerFind($slug, 'slug');
-        $model = new Article();
-        $model->attributes = $originalModel->attributes;
-
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Duplicated');
-
-            return $this->redirect($model->viewUrl);
-        }
-
-        return $this->render('duplicate', [
-            'model' => $model,
-            'originalModel' => $originalModel,
-        ]);
-    }
 
     /**
      * Updates an existing Article model.
@@ -149,17 +141,41 @@ class ArticleController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($slug)
+    public function actionUpdate($slug='', $step='general')
     {
         $model = Article::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if ($model->isNewRecord && $step != 'general') {
+            App::warning('Fill up General Information First');
+            return $this->redirect(['create']);
         }
+
+        $model->setInactive();
+        $stepForms = Article::stepForms($step);
+
+        if (($post = App::post()) != null) {
+            $post = $this->setPostData($post, $step);
+
+            if ($step == 'sort') {
+                App::foreach($post['sort'], function($id, $index, $counter) {
+                    Article::updateAll(['sort' => $counter], ['id' => $id]);
+                });
+                App::success('Successfully Sorted');
+                return $this->redirect($this->setRedirectLink($model, $step));
+            }
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Processed');
+                return $this->redirect($this->setRedirectLink($model, $step));
+            }
+        }
+
+        $model->flashErrors();
 
         return $this->render('update', [
             'model' => $model,
+            'activeStep' => $stepForms[$step],
+            'stepForms' => $stepForms,
         ]);
     }
 
@@ -181,7 +197,8 @@ class ArticleController extends Controller
             App::danger(json_encode($model->errors));
         }
 
-        return $this->redirect($model->indexUrl);
+        return $this->redirect(App::referrer());
+        // return $this->redirect($model->indexUrl);
     }
 
     public function actionChangeRecordStatus()

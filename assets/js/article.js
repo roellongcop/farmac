@@ -5,5 +5,5 @@ $('.btn-save-content').click(function() {
 
 $('#tbl-contents').DataTable({
     // pageLength: {$pageLength},
-    order: [[0, 'desc']]
+    // order: [[0, 'desc']]
 });

@@ -101,6 +101,8 @@ class ArticleSearch extends Article
             ['like', 'content', $this->keywords],  
         ]);
 
+        $query->andWhere(['=', 'parent_id', 0]);
+
         $query->daterange($this->date_range);
 
         return $dataProvider;

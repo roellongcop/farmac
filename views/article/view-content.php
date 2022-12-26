@@ -19,8 +19,4 @@ $this->params['showCreateButton'] = true;
     	'model' => $model
     ]) ?> 
     <?= Detail::widget(['model' => $model]) ?>
-    <p class="lead font-weight-bold text-uppercase mt-10">Sub Content</p>
-    <?= $this->render('_sub-content', [
-        'model' => $model
-    ]) ?>
 </div>
