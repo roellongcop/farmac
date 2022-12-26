@@ -22,6 +22,9 @@ class m221226_061641_create_events_table extends \app\migrations\Migration
             'end' => $this->datetime(),
             'slug' => $this->string(),
             'photo' => $this->string(),
+            'color' => $this->string(),
+            'url' => $this->string(),
+            'token' => $this->string(),
         ]));
     }
 
