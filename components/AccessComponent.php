@@ -15,6 +15,16 @@ class AccessComponent extends \yii\base\Component
 	        'link' => '/dashboard', 
 	        'icon' => '<i class="fa fa-cog"></i>',
 	    ],
+	    '1.1' => [
+	        'label' => 'Videos',
+            'link' => '/video',
+	        'icon' => '<i class="fa fa-cog"></i>',
+	    ],
+	    '1.2' => [
+	        'label' => 'Articles',
+            'link' => '/article',
+	        'icon' => '<i class="fa fa-cog"></i>',
+	    ],
 	    '2' => [
 	        'label' => 'Users',
             'link' => '/user',
