@@ -97,8 +97,6 @@ class EventSearch extends Event
             ['like', 'description', $this->keywords],  
             ['like', 'start', $this->keywords],  
             ['like', 'end', $this->keywords],  
-            ['like', 'slug', $this->keywords],  
-            ['like', 'photo', $this->keywords],  
         ]);
 
         $query->daterange($this->date_range);

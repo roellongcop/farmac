@@ -152,7 +152,7 @@ class Event extends ActiveRecord
         $behaviors['DateBehavior'] = [
             'class' => 'app\behaviors\DateBehavior',
             'inFormat' => 'Y-m-d H:i:s',
-            'outFormat' => 'm/d/Y H:i:s',
+            'outFormat' => 'm/d/Y h:i:s A',
             'attributes' => [
                 'start',
                 'end',

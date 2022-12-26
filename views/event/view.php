@@ -12,11 +12,30 @@ $this->params['breadcrumbs'][] = ['label' => 'Events', 'url' => $model->indexUrl
 $this->params['breadcrumbs'][] = $model->mainAttribute;
 $this->params['searchModel'] = new EventSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['wrapCard'] = false;
 ?>
 <div class="event-view-page">
-    <?= Anchors::widget([
-    	'names' => ['update', 'duplicate', 'delete', 'log'], 
-    	'model' => $model
-    ]) ?> 
-    <?= Detail::widget(['model' => $model]) ?>
+    
+
+    <div class="row">
+        <div class="col-md-6">
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Event Details',
+                'stretch' => true
+            ]) ?>
+                <?= Anchors::widget([
+                    'names' => ['update', 'duplicate', 'delete', 'log'], 
+                    'model' => $model
+                ]) ?> 
+                <?= Detail::widget(['model' => $model]) ?>
+            <?php $this->endContent() ?>
+        </div>
+        <div class="col-md-6">
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Calendar'
+            ]) ?>
+                <?= $this->render('_calendar') ?>
+            <?php $this->endContent() ?>
+        </div>
+    </div>
 </div>

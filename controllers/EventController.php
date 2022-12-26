@@ -14,7 +14,7 @@ class EventController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Event::findByKeywords($keywords, ['id'])
+            Event::findByKeywords($keywords, ['title'])
         );
     }
 
@@ -185,8 +185,8 @@ class EventController extends Controller
                 'title' => $event->title,
                 'description' => $event->description,
                 'className' => "fc-event-light fc-event-solid-{$event->color}",
-                'start' => date('Y-m-d', strtotime($event->start)),
-                'end' => date('Y-m-d', strtotime($event->end)),
+                'start' => date('Y-m-d H:i:s', strtotime($event->start)),
+                'end' => date('Y-m-d H:i:s', strtotime($event->end)),
             ];
         }, false);
 
