@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => $originalModel->mainAttribute, 'url
 $this->params['breadcrumbs'][] = 'Duplicate';
 $this->params['searchModel'] = new EventSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['wrapCard'] = false;
 ?>
 <div class="event-duplicate-page">
 	<?= $this->render('_form', [

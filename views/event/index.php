@@ -14,6 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = $searchModel; 
 $this->params['showCreateButton'] = true; 
 $this->params['showExportButton'] = true;
+$this->params['headerButtons'] = Html::a('Calendar', ['calendar'], [
+    'class' => 'btn btn-info font-weight-bold ml-2'
+])
 ?>
 <div class="event-index-page">
     <?= FilterColumn::widget(['searchModel' => $searchModel]) ?>

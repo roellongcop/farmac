@@ -39,7 +39,7 @@ use app\widgets\Dropzone;
                 <?= Html::input('radio', 'Event[color]', 'info', [
                     'checked' => $model->color == 'info'
                 ]) ?>
-                <span></span> Blue
+                <span></span> Purple
             </label>
             <label class="radio">
                 <?= Html::input('radio', 'Event[color]', 'success', [

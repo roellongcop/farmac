@@ -64,7 +64,7 @@ class EventController extends Controller
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');
 
-            return $this->redirect($model->createUrl);
+            return $this->redirect(App::referrer());
         }
 
         return $this->render('create', [
@@ -77,16 +77,16 @@ class EventController extends Controller
      * If duplication is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionDuplicate($id)
+    public function actionDuplicate($token)
     {
-        $originalModel = Event::controllerFind($id);
+        $originalModel = Event::controllerFind($token, 'token');
         $model = new Event();
         $model->attributes = $originalModel->attributes;
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Duplicated');
 
-            return $this->redirect($model->viewUrl);
+            return $this->redirect(App::referrer());
         }
 
         return $this->render('duplicate', [
@@ -98,17 +98,17 @@ class EventController extends Controller
     /**
      * Updates an existing Event model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param string $token
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($token)
     {
-        $model = Event::controllerFind($id);
+        $model = Event::controllerFind($token, 'token');
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Updated');
-            return $this->redirect($model->createUrl);
+            return $this->redirect(App::referrer());
         }
 
         return $this->render('update', [
@@ -119,13 +119,13 @@ class EventController extends Controller
     /**
      * Deletes an existing Event model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param string $token
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($token)
     {
-        $model = Event::controllerFind($id);
+        $model = Event::controllerFind($token, 'token');
 
         if($model->delete()) {
             App::success('Successfully Deleted');
@@ -193,6 +193,13 @@ class EventController extends Controller
         return $this->asJson([
             'status' => 'success',
             'events' => $events
+        ]);
+    }
+
+    public function actionCalendar()
+    {
+        return $this->render('calendar', [
+            'model' => new Event()
         ]);
     }
 }

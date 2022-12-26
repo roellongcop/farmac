@@ -94,6 +94,7 @@ KeenAsset::register($this);
 								<!--begin::Dropdown-->
 					            <?= Html::exportButton($this->params) ?>
             					<?= Html::createButton($this->params) ?>
+            					<div><?= $this->params['headerButtons'] ?? '' ?></div>
 							</div>
 							<!--end::Toolbar-->
 						</div>

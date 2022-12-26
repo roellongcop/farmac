@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->mainAttribute, 'url' => $mo
 $this->params['breadcrumbs'][] = 'Update';
 $this->params['searchModel'] = new EventSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['wrapCard'] = false;
 ?>
 <div class="event-update-page">
 	<?= $this->render('_form', [

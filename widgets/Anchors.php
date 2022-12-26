@@ -15,14 +15,14 @@ class Anchors extends BaseWidget
         'log' => 'Data Logs',
     ];
     public $options = [
-        'log' => ['class' => 'btn btn-secondary btn-bold btn-upper btn-font-sm'],
-        'index' => ['class' => 'btn btn-secondary btn-bold btn-upper btn-font-sm'],
-        'create' => ['class' => 'btn btn-success font-weight-bolder font-size-sm '],
-        'view' => ['class' => 'btn btn-info font-weight-bolder font-size-sm '],
-        'update' => ['class' => 'btn btn-primary font-weight-bolder font-size-sm '],
-        'duplicate' => ['class' => 'btn btn-default font-weight-bolder font-size-sm '],
+        'log' => ['class' => 'btn btn-secondary btn-bold btn-upper '],
+        'index' => ['class' => 'btn btn-secondary btn-bold btn-upper '],
+        'create' => ['class' => 'btn btn-success font-weight-bolder  '],
+        'view' => ['class' => 'btn btn-info font-weight-bolder  '],
+        'update' => ['class' => 'btn btn-primary font-weight-bolder  '],
+        'duplicate' => ['class' => 'btn btn-default font-weight-bolder  '],
         'delete' => [
-            'class' => 'btn btn-danger btn-bold btn-upper btn-font-sm ',
+            'class' => 'btn btn-danger btn-bold btn-upper  ',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this ?',
                 'method' => 'post',
@@ -31,7 +31,7 @@ class Anchors extends BaseWidget
     ];
     public $anchors;
     public $glue = ' ';
-    public $defaultOptions = ['class' => 'btn btn-primary btn-bold btn-upper btn-font-sm'];
+    public $defaultOptions = ['class' => 'btn btn-primary btn-bold btn-upper '];
 
     public function init() 
     {

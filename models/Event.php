@@ -35,8 +35,8 @@ class Event extends ActiveRecord
     {
         return [
             'controllerID' => 'event',
-            'mainAttribute' => 'id',
-            'paramName' => 'id',
+            'mainAttribute' => 'title',
+            'paramName' => 'token',
         ];
     }
 
