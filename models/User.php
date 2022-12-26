@@ -709,4 +709,9 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
     {
         return $this->status == self::STATUS_INACTIVE;
     }
+
+    public function getFullname()
+    {
+        return $this->userProfile->fullname ?: $this->username;
+    }
 }

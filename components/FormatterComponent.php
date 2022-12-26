@@ -9,6 +9,16 @@ use yii\helpers\Json;
 
 class FormatterComponent extends \yii\i18n\Formatter
 {
+    public function asImplode($list, $conjunction = 'and') 
+    {
+        $list = is_array($list) ? $list: [$list];
+        $last = array_pop($list);
+        if ($list) {
+            return implode(', ', $list) . ' ' . $conjunction . ' ' . $last;
+        }
+        return $last;
+    }
+    
     public function asStripTags($value)
     {
         return strip_tags($value);

@@ -46,6 +46,18 @@ class File extends ActiveRecord
         return '{{%files}}';
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+        $fields['truncatedName'] = 'truncatedName';
+        $fields['display'] = 'display';
+        $fields['downloadUrl'] = 'downloadUrl';
+
+        return $fields;
+    }
+
+      
+
     public function config()
     {
         return [

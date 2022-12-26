@@ -13,6 +13,12 @@ class UrlManagerComponent extends \yii\web\UrlManager
             'pluralize' => false
         ],
 
+        'chat' => 'chat/default/index',
+        'chat/<token>' => 'chat/default/index',
+        'chat/<controller>/<action>/<token>' => 'chat/<controller>/<action>',
+        'chat/<controller>/<action>' => 'chat/<controller>/<action>', 
+
+
         'my-files' => 'file/my-files',
         'my-setting' => 'setting/my-setting',
         'my-role' => 'role/my-role',

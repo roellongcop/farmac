@@ -31,4 +31,15 @@ class GeneralComponent extends \yii\base\Component
                 break;
         }
     }
+
+    public function dateDiff($date1, $date2, $format="days")
+    {
+        
+        $date1 = new \DateTime($date1);
+        $date2 = new \DateTime($date2);
+
+        $diff = $date1->diff($date2);
+
+        return $diff->$format;
+    }
 }

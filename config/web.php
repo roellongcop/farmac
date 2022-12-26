@@ -12,9 +12,8 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'modules' => [
-        'api' => [
-            'class' => 'app\modules\api\ApiModule',
-        ],
+        'api' => ['class' => 'app\modules\api\ApiModule'],
+        'chat' => ['class' => 'app\modules\chat\Module'],
     ],
     'components' => [
         'imageResize' => ['class' => 'app\components\ImageResizeComponent'],

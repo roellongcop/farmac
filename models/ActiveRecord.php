@@ -733,6 +733,15 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
 
+    public function getCreatedByName()
+    {
+        if ($this->created_by == 0) {
+            $this->_createdByName = 'None';
+        }
+
+        return App::if($this->createdBy, fn ($user) => $user->fullname);
+    }
+
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
@@ -1019,5 +1028,16 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
                     ->execute();
             }
         }
+    }
+
+    public function getAgo()
+    {
+        return App::formatter('asAgo', $this->updated_at);
+    }
+
+
+    public function getCreatedAt()
+    {
+        return App::formatter('asFulldate', $this->created_at);
     }
 }

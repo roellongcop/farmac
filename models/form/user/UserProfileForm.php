@@ -99,4 +99,13 @@ class UserProfileForm extends UserForm
 
         return true;
     }
+
+    public function getFullname()
+    {
+        return implode(' ', array_filter([
+            $this->first_name,
+            $this->middle_name,
+            $this->last_name,
+        ]));
+    }
 }
