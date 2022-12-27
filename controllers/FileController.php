@@ -209,6 +209,9 @@ class FileController extends Controller
                     $result['message'] = 'Uploaded';
                     $result['src'] = $file->urlImage;
                     $result['file'] = $file;
+                    $result['row'] = $this->renderPartial('/file/_row', [
+                        'model' => $file
+                    ]);
                 }
                 else {
                     $result['status'] = 'error';

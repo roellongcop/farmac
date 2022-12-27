@@ -14,17 +14,19 @@ $this->registerJsFile(App::publishedUrl("/plugins/custom/datatables/datatables.b
 
 $this->registerJs(<<< JS
     $('#{$tableId}').DataTable({
+        responsive: true,
         pageLength: {$pageLength},
         order: [[0, 'desc']],
         columns: [
             null,
-            { "width": "20%" },
+            { width: "20%" },
         ]
     });
 JS);
 
 ?>
-<table class="table table-bordered table-head-solid" id="<?= $tableId ?>">
+
+<table class="table table-bordered table-head-solid" id="<?= $tableId ?>" width="100%">
     <thead>
         <tr>
             <th class="th-file">File</th>

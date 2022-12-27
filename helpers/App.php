@@ -450,7 +450,8 @@ class App {
 
 	public static function publishedUrl($path='', $basePath='')
 	{
-		$basePath = $basePath ?: self::app()->view->theme->basePath;
+		$basePath = $basePath ?: self::setting('theme')->base_path;
+		// $basePath = $basePath ?: self::app()->view->theme->basePath;
 
 		return self::app()->assetManager->getPublishedUrl($basePath) . $path;
 	}

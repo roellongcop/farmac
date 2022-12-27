@@ -50,7 +50,7 @@ $page = $this->params['page'] ?? '';
 	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= $page == 'chat'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Community Board</span>
-			<span class="nav-desc text-muted">Group Chats | Public & Private</span>
+			<span class="nav-desc text-muted">Group Chats Messages</span>
 		</span>
 	</a>
 	<!--end::Item-->

@@ -3,6 +3,8 @@
 namespace app\controllers;
 
 use app\helpers\App;
+use app\helpers\Html;
+use app\models\File;
 use app\models\User;
 use app\models\form\ChangePasswordForm;
 use app\models\form\UserVerificationForm;
@@ -212,6 +214,7 @@ class UserController extends Controller
     {
         $model = App::identity();
 
+
         if (App::identity('isClient')) {
             $model = App::identity('userProfile');
         }
@@ -268,5 +271,41 @@ class UserController extends Controller
         }
 
         return $this->redirect(App::referrer());
+    }
+
+    public function actionAddDocument()
+    {
+        if (($post = App::post()) != null) {
+            $user = User::controllerFind($post['id'], 'id');
+
+            if ($post['token'] ?? '') {
+                $model = $user->userProfile;
+
+                $documents = $model->documents;
+                array_push($documents, $post['token']);
+                $model->documents = $documents;
+
+                if ($model->save()) {
+                    $file = File::findByToken($post['token']);
+                    return $this->asJson([
+                        'status' => 'success',
+                        'errorSummary' => $model,
+                        'row' => $this->renderPartial('/file/_row', [
+                            'model' => $file
+                        ])
+                    ]);
+                }
+
+                return $this->asJson([
+                    'status' => 'failed',
+                    'errorSummary' => Html::errorSummary($model)
+                ]);
+            }
+
+            return $this->asJson([
+                'status' => 'failed',
+                'errorSummary' => 'No token data'
+            ]);
+        }
     }
 }

@@ -544,8 +544,8 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                 'value' => function($model) {
                     return Html::image(
                         $model->photo,
-                        ['w'=>40, 'h'=>40, 'ratio'=>'false', 'quality'=>90],
-                        ['style' => 'border-radius: 50%;']
+                        ['w'=>40],
+                        ['class' => 'img-circle symbol']
                     );
                 }
             ],
@@ -553,11 +553,11 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
             'roleName:raw',
             'username:raw',
             'email:raw',
-            'auth_key:raw',
-            'password_hash:raw',
-            'password_hint:raw',
-            'password_reset_token:raw',
-            'verification_token:raw',
+            // 'auth_key:raw',
+            // 'password_hash:raw',
+            // 'password_hint:raw',
+            // 'password_reset_token:raw',
+            // 'verification_token:raw',
             // 'slug:raw',
             'userStatusHtml:raw',
             'blockedStatusHtml:raw',

@@ -60,11 +60,17 @@ $this->params['wrapCard'] = false;
         </div>
         <div class="col-md-6">
             <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
-                'title' => 'Profile'
+                'title' => 'Profile',
+                'stretch' => true
             ]) ?>
                 <?= Detail::widget(['model' => $model->userProfile]) ?>
             <?php $this->endContent() ?>
 
+           
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
                 'title' => 'Documents'
             ]) ?>
