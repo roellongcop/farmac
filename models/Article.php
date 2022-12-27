@@ -149,6 +149,11 @@ class Article extends ActiveRecord
     {
         return [
             // 'parent_id:raw',
+            [
+                'label' => 'Preview',
+                'value' => fn ($model) => $model->viewUrl,
+                'format' => 'raw'
+            ],
             'category:raw',
             'menu:raw',
             'title:raw',

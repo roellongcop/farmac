@@ -4,13 +4,13 @@ use app\helpers\App;
 use app\helpers\Html;
 ?>
 
-<div class="row">
+<div class="row article-content" data-sticky-container>
 	<div class="col-md-8">
 		<?= Html::image($model->photo, [], ['class' => 'img-fluid symbol']) ?>
 
-		<h4 class="font-weight-bold text-dark">
+		<h1 class="font-weight-bold text-dark my-10">
 			<?= $model->title ?>
-		</h4>
+		</h1>
 		<div>
 			<?= $model->content ?>
 		</div>
@@ -21,27 +21,29 @@ use app\helpers\Html;
 			<h4 class="font-weight-bold text-dark" id="content-{$content->slug}">
 				{$content->title}
 			</h4>
-			<div class="article-content">
+			<div >
 				{$content->content}
 			</div>
 		HTML) ?>
 	</div>
 
 	<div class="col-md-4" style="border-left: 1px solid #ddd;">
-		<p class="lead font-weight-bold"><?= $model->title ?></p>
-		<ul class="navi navi-accent navi-hover navi-bold navi-border">
-			<?= App::foreach($model->contents, fn($content) => <<< HTML
-				<li class="navi-item">
-				    <a class="navi-link" href="#content-{$content->slug}">
-				        <span class="navi-icon">
-				        	<i class="fas fa-cog"></i>        
-				        </span>
-				        <span class="navi-text">
-				        	{$content->title}
-				        </span>
-				    </a>
-				</li> 
-			HTML) ?>
-		</ul>
+		<div data-sticky="true" data-margin-top="100">
+			<p class="lead font-weight-bold"><?= $model->title ?></p>
+			<ul class="navi navi-accent navi-hover navi-bold navi-border">
+				<?= App::foreach($model->contents, fn($content) => <<< HTML
+					<li class="navi-item">
+					    <a class="navi-link" href="#content-{$content->slug}">
+					        <span class="navi-icon">
+					        	<i class="fas fa-cog"></i>        
+					        </span>
+					        <span class="navi-text">
+					        	{$content->title}
+					        </span>
+					    </a>
+					</li> 
+				HTML) ?>
+			</ul>
+		</div>
 	</div>
 </div>
