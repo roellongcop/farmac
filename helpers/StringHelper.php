@@ -2,7 +2,7 @@
 
 namespace app\helpers;
 
-class ArrayHelper extends \yii\helpers\ArrayHelper
+class StringHelper extends \yii\helpers\StringHelper
 {
     public static function combine($array)
     {

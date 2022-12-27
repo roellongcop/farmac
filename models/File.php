@@ -9,10 +9,11 @@ use Imagine\Image\BoxInterface;
 use Yii;
 use app\helpers\App;
 use app\helpers\Html;
-use yii\helpers\FileHelper;
+use app\helpers\StringHelper;
 use app\helpers\Url;
 use app\widgets\Anchor;
 use app\widgets\FileTagFilter;
+use yii\helpers\FileHelper;
 use yii\imagine\Image;
 
 /**
