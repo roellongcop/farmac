@@ -159,7 +159,8 @@ class Announcement extends ActiveRecord
     public function getImagePreviews()
     {
         return App::foreach($this->imageFiles, fn($file) => Html::image($file->token, ['w' => 200], [
-            'class' => 'img-fluid symbol'
+            'class' => 'img-fluid symbol m-2',
+            'style' => 'height: 200px;'
         ]));
     }
 }

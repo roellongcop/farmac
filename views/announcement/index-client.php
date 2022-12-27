@@ -9,8 +9,7 @@ use yii\widgets\ListView;
 $this->title = 'Announcements';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = $searchModel; 
-$this->params['showCreateButton'] = true; 
-$this->params['showExportButton'] = true;
+$this->params['wrapCard'] = false; 
 ?>
 <div class="announcement-index-page">
     <?= ListView::widget([
