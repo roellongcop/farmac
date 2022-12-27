@@ -10,6 +10,7 @@ $this->title = 'Videos';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = $searchModel; 
 $this->params['wrapCard'] = false;
+$this->params['page'] = 'video';
 ?>
 <div class="video-index-page">
 	<?= ListView::widget([
