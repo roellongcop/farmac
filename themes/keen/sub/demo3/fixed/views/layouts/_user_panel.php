@@ -12,7 +12,7 @@ $access = App::component('access');
     <!--begin::Header-->
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
         <h3 class="font-weight-bold m-0">User Profile
-        <small class="text-muted font-size-sm ml-2">15 messages</small></h3>
+        <!-- <small class="text-muted font-size-sm ml-2">15 messages</small></h3> -->
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
             <i class="ki ki-close icon-xs text-muted"></i>
         </a>
@@ -31,7 +31,7 @@ $access = App::component('access');
             <div class="d-flex flex-column">
                 <?= Anchor::widget([
                     'title' => $identity->username,
-                    'link' => ['user/view', 'id' => $identity->id],
+                    'link' => ['user/my-account'],
                     'text' => true,
                     'options' => [
                         'class' => 'font-weight-bold font-size-h5 text-dark-75 text-hover-primary'

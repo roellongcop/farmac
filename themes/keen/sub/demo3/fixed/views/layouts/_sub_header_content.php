@@ -3,6 +3,8 @@
 use app\helpers\App;
 use app\helpers\Html;
 use app\helpers\Url;
+
+$page = $this->params['page'] ?? '';
 ?>
 
 <!--begin::Logo-->
@@ -20,7 +22,7 @@ use app\helpers\Url;
 <!--begin::Nav-->
 <div class="subheader-nav nav flex-grow-1">
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/expert/index']) ?>" class="nav-item <?= App::isController('expert')? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/expert/index']) ?>" class="nav-item <?= $page == 'expert'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Diagnostic AI</span>
 			<span class="nav-desc text-muted">Ask the system</span>
@@ -29,15 +31,15 @@ use app\helpers\Url;
 	<!--end::Item-->
 	<!--begin::Item-->
 	<!-- active -->
-	<a href="<?= Url::toRoute(['/announcement/index']) ?>" class="nav-item <?= App::isController('announcement')? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/announcement/client']) ?>" class="nav-item <?= $page == 'announcement'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Announcements</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">News and Updates</span>
 			<span class="nav-desc text-muted">Publication Statements</span>
 		</span>
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/event/calendar']) ?>" class="nav-item <?= App::isController('event')? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/event/calendar']) ?>" class="nav-item <?= $page == 'event'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Calendar</span>
 			<span class="nav-desc text-muted">Events & Happenings </span>
@@ -45,7 +47,7 @@ use app\helpers\Url;
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= App::isController('default')? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= $page == 'chat'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Community Board</span>
 			<span class="nav-desc text-muted">Group Chats | Public & Private</span>
@@ -54,7 +56,7 @@ use app\helpers\Url;
 	<!--end::Item-->
 
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/user/my-account']) ?>" class="nav-item "> 
+	<a href="<?= Url::toRoute(['/user/my-account']) ?>" class="nav-item <?= $page == 'my-account'? 'active': '' ?>"> 
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">My Account</span>
 			<span class="nav-desc text-muted">Profile Information</span>

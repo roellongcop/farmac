@@ -27,7 +27,20 @@ class AnnouncementController extends Controller
         $searchModel = new AnnouncementSearch();
         $dataProvider = $searchModel->search(['AnnouncementSearch' => App::queryParams()]);
 
-        return $this->render(App::identity('isClient') ? 'index-client': 'index', [
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionClient()
+    {
+        $searchModel = new AnnouncementSearch([
+            'searchAction' => ['announcement/client']
+        ]);
+        $dataProvider = $searchModel->search(['AnnouncementSearch' => App::queryParams()]);
+
+        return $this->render('client', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

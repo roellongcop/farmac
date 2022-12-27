@@ -212,12 +212,16 @@ class UserController extends Controller
     {
         $model = App::identity();
 
+        if (App::identity('isClient')) {
+            $model = App::identity('userProfile');
+        }
+
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Updated');
             return $this->refresh();
         } 
 
-        return $this->render('my_account', [
+        return $this->render(App::identity('isClient') ? 'my_account-client': 'my_account', [
             'model' => $model,
         ]);
     }
