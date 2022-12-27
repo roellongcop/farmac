@@ -13,6 +13,7 @@ $this->title = 'Profile';
 $this->params['breadcrumbs'][] = 'Update';
 $this->params['searchModel'] = new UserSearch();
 $this->params['wrapCard'] = false;
+$this->addJsFile('js/my-profile');
 ?>
 <div class="user-my-account-page">
 	<div class="row">
