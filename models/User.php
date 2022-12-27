@@ -662,17 +662,22 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
 
     public function getIsDeveloper()
     {
-        return App::if($this->role, fn($role) => $role->getIsDeveloper());
+        return $this->role_id == Role::DEVELOPER;
     }
 
     public function getIsSuperadmin()
     {
-        return App::if($this->role, fn($role) => $role->getIsSuperadmin());
+        return $this->role_id == Role::SUPERADMIN;
     }
 
     public function getIsAdmin()
     {
-        return App::if($this->role, fn($role) => $role->getIsAdmin());
+        return $this->role_id == Role::ADMIN;
+    }
+
+    public function getIsClient()
+    {
+        return $this->role_id == Role::CLIENT;
     }
 
     public static function findByKeywords($keywords='', $attributes='', $limit=10, $andFilterWhere=[])

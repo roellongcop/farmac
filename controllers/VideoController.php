@@ -27,7 +27,7 @@ class VideoController extends Controller
         $searchModel = new VideoSearch();
         $dataProvider = $searchModel->search(['VideoSearch' => App::queryParams()]);
 
-        return $this->render('index', [
+        return $this->render(App::identity('isClient') ? 'index-client': 'index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

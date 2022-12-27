@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\helpers\Html;
+use app\helpers\StringHelper;
 use app\widgets\Anchor;
 use app\widgets\Youtube;
 
@@ -138,5 +140,19 @@ class Video extends ActiveRecord
         preg_match("/^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user|shorts)\/))([^\?&\"'>]+)/", $this->link, $matches);
 
         return $matches[1] ?? '';
+    }
+
+    public function getClientDescription($limit = 150)
+    {
+        if (strlen($this->description) > $limit) {
+            return StringHelper::truncate($this->description, $limit) 
+                . Html::tag('a', 'See more', [
+                    'class' => 'font-weight-bold see-more cursor-pointer', 
+                    'data-toggle' => 'collapse',
+                    'href' => "#description-{$this->id}"
+                ]);
+        }
+        
+        return $this->description;
     }
 }
