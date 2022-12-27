@@ -34,12 +34,18 @@ use app\helpers\App;
 							<td width="10%">{$counter}</td>
 							<td>{$content->title}</td>
 							<td>
-								<a href="{$content->viewUrl}" class="btn btn-info btn-sm" target="_blank">
-									View
-								</a>
-								<a href="{$content->deleteUrl}" class="btn btn-danger btn-sm" data-confirm="Are you sure?" data-method="post">
-									Delete
-								</a>
+								
+								<div class="btn-group">
+									<a href="{$content->viewUrl}" class="btn btn-info btn-sm btn-icon" target="_blank">
+										<i class="fa fa-eye"></i>
+									</a>
+									<a href="{$content->updateUrl}" class="btn btn-warning btn-sm btn-icon" target="_blank">
+										<i class="fa fa-edit"></i>
+									</a>
+									<a href="{$content->deleteUrl}" class="btn btn-danger btn-sm btn-icon" data-confirm="Are you sure?" data-method="post">
+										<i class="fa fa-trash"></i>
+									</a>
+								</div>
 							</td>
 						</tr>
 					HTML;

@@ -2,7 +2,6 @@
 
 use app\helpers\App;
 use app\helpers\Html;
-
 ?>
 
 <div class="row">
@@ -22,7 +21,7 @@ use app\helpers\Html;
 			<h4 class="font-weight-bold text-dark" id="content-{$content->slug}">
 				{$content->title}
 			</h4>
-			<div>
+			<div class="article-content">
 				{$content->content}
 			</div>
 		HTML) ?>

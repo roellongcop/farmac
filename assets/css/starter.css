@@ -370,3 +370,11 @@ th.th-action {
 .hidden {
   display: none;
 }
+
+.mw-500 {width: -webkit-fill-available !important; max-width: 500px !important;}
+.mw-400 {width: -webkit-fill-available !important; max-width: 400px !important;}
+.mw-300 {width: -webkit-fill-available !important; max-width: 300px !important;}
+.mw-200 {width: -webkit-fill-available !important; max-width: 200px !important;}
+.mw-150 {width: -webkit-fill-available !important; max-width: 150px !important;}
+.mw-100 {width: -webkit-fill-available !important; max-width: 100px !important;}
+.mw-120 {width: -webkit-fill-available !important; max-width: 120px !important;}

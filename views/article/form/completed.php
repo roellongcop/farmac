@@ -37,6 +37,6 @@ use app\helpers\Url;
 
 <div class="separator separator-dashed my-5"></div>
 
-<?= $this->render('_sub-content', [
+<?= $this->render('/article/_sub-content', [
 	'model' => $model
 ]) ?>

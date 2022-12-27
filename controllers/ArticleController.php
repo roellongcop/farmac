@@ -45,15 +45,16 @@ class ArticleController extends Controller
     {
         $model = Article::controllerFind($slug, 'slug');
 
-        if ($model->parent_id == 0) {
-            return $this->render('view', [
+        if ($model->isSub) {
+            return $this->render('view-content', [
                 'model' => $model,
             ]);
         }
-        
-        return $this->render('view-content', [
+                
+        return $this->render('view', [
             'model' => $model,
         ]);
+        
     }
 
     private function setPostData($post, $step)
@@ -136,6 +137,8 @@ class ArticleController extends Controller
     }
 
 
+
+
     /**
      * Updates an existing Article model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -146,6 +149,18 @@ class ArticleController extends Controller
     public function actionUpdate($slug='', $step='general')
     {
         $model = Article::controllerFind($slug, 'slug');
+
+        if ($model->isSub) {
+            if ($model->load(App::post()) && $model->save()) {
+                App::success('Successfully Updated');
+
+                return $this->redirect($model->viewUrl);
+            }
+
+            return $this->render('update-sub', [
+                'model' => $model,
+            ]);
+        }
 
         if ($model->isNewRecord && $step != 'general') {
             App::warning('Fill up General Information First');

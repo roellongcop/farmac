@@ -153,7 +153,7 @@ class Article extends ActiveRecord
             'menu:raw',
             'title:raw',
             // 'photo:raw',
-            'content:raw',
+            // 'content:raw',
         ];
     }
 
@@ -214,5 +214,10 @@ class Article extends ActiveRecord
     {
         return $this->hasMany(self::class, ['parent_id' => 'id'])
             ->orderBy(['sort' => SORT_ASC]);
+    }
+
+    public function getIsSub()
+    {
+        return $this->parent_id != 0;
     }
 }

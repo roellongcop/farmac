@@ -18,8 +18,8 @@ class m200913_060425_create_logs_table extends \app\migrations\Migration
         $this->createTable($this->tableName(), $this->attributes([
             'user_id' => $this->bigInteger(20)->notNull()->defaultValue(0),
             'model_id' => $this->bigInteger(20)->notNull()->defaultValue(0),
-            'request_data' => $this->text(),
-            'change_attribute' => $this->text(),
+            'request_data' => 'LONGTEXT',
+            'change_attribute' => 'LONGTEXT',
             'method' => $this->string(32)->notNull(),
             'url' => $this->text(),
             'action' => $this->string()->notNull(),

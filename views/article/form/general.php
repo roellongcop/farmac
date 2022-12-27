@@ -25,7 +25,7 @@ use app\widgets\TinyMce;
 	</div>
 	<div class="col-md-6 text-center">
 		<?= Html::image($model->photo, ['w' => 300], [
-            'class' => 'img-thumbnail article-photo',
+            'class' => 'img-fluid symbol article-photo',
             'loading' => 'lazy',
         ] ) ?>
         <div class="my-5"></div>

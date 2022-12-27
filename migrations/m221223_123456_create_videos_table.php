@@ -17,7 +17,7 @@ class m221223_123456_create_videos_table extends \app\migrations\Migration
     {
         $this->createTable($this->tableName(), $this->attributes([
             'title' => $this->string()->notNull(),
-            'description' => 'MEDIUMTEXT',
+            'description' => 'LONGTEXT',
             'link' => $this->text(),
             'slug' => $this->string(),
         ]));

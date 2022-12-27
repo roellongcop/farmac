@@ -17,7 +17,7 @@ class m221223_121130_create_announcements_table extends \app\migrations\Migratio
     {
         $this->createTable($this->tableName(), $this->attributes([
             'title' => $this->string()->notNull(),
-            'content' => 'MEDIUMTEXT',
+            'content' => 'LONGTEXT',
             'photos' => $this->text(),
             'slug' => $this->string(),
         ]));

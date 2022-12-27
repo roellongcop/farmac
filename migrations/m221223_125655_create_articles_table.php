@@ -21,7 +21,7 @@ class m221223_125655_create_articles_table extends \app\migrations\Migration
             'menu' => $this->string()->notNull(),
             'title' => $this->string()->notNull(),
             'photo' => $this->string(),
-            'content' => $this->text(),
+            'content' => 'LONGTEXT',
             'sort' => $this->smallInteger(6)->notNull()->defaultValue(0),
             'slug' => $this->string()->notNull(),
         ]));
