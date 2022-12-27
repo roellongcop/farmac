@@ -37,10 +37,10 @@ use app\helpers\Url;
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/event/index']) ?>" class="nav-item <?= App::isController('event')? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/event/calendar']) ?>" class="nav-item <?= App::isController('event')? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Events</span>
-			<span class="nav-desc text-muted">Happenings & Calendar</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Calendar</span>
+			<span class="nav-desc text-muted">Events & Happenings </span>
 		</span>
 	</a>
 	<!--end::Item-->

@@ -1,9 +1,5 @@
 <?php
 
-use app\helpers\Html;
-use app\widgets\BulkAction;
-use app\widgets\FilterColumn;
-use app\widgets\Grid;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
