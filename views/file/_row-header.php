@@ -15,7 +15,11 @@ $this->registerJsFile(App::publishedUrl("/plugins/custom/datatables/datatables.b
 $this->registerJs(<<< JS
     $('#{$tableId}').DataTable({
         pageLength: {$pageLength},
-        order: [[0, 'desc']]
+        order: [[0, 'desc']],
+        columns: [
+            null,
+            { "width": "20%" },
+        ]
     });
 JS);
 
