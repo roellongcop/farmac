@@ -196,6 +196,14 @@ class EventController extends Controller
         ]);
     }
 
+    public function actionCalendarClient()
+    {
+        return $this->render('calendar-client', [
+            'model' => new Event()
+        ]);
+    }
+
+
     public function actionCalendar()
     {
         return $this->render('calendar', [

@@ -6,6 +6,7 @@ use app\modules\chat\helpers\Html;
 $this->title = 'Community Board' . (($activeSpace) ? ': ' . $activeSpace->name: 's');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['wrapCard'] = false;
+$this->params['page'] = 'chat';
 $this->registerJsFile(
     App::publishedUrl('/js/chat.js', Yii::getAlias('@app/modules/chat/assets/assetsfiles')), [
     'type' => 'module',

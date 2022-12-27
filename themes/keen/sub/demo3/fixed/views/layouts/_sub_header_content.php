@@ -39,7 +39,7 @@ $page = $this->params['page'] ?? '';
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/event/calendar']) ?>" class="nav-item <?= $page == 'event'? 'active': '' ?>">
+	<a href="<?= Url::toRoute(['/event/calendar-client']) ?>" class="nav-item <?= $page == 'calendar'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Calendar</span>
 			<span class="nav-desc text-muted">Events & Happenings </span>
@@ -56,10 +56,12 @@ $page = $this->params['page'] ?? '';
 	<!--end::Item-->
 
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/user/my-account']) ?>" class="nav-item <?= $page == 'my-account'? 'active': '' ?>"> 
+	<a href="<?= Url::toRoute(['/video/client']) ?>" class="nav-item <?= $page == 'video'? 'active': '' ?>"> 
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">My Account</span>
-			<span class="nav-desc text-muted">Profile Information</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Stream Videos</span>
+			<span class="nav-desc text-muted">
+				Youtube Video Contents
+			</span>
 		</span>
 	</a>
 	<!--end::Item-->

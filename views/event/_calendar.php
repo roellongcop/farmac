@@ -8,17 +8,10 @@ $this->registerCssFile(App::publishedUrl("/plugins/custom/fullcalendar/fullcalen
 $this->registerJsFile(App::publishedUrl("/plugins/custom/fullcalendar/fullcalendar.bundle.js"), [
     'depends' => App::setting('theme')->appAssetClass
 ]);
-
-
 $this->addJsFile('js/calendar');
 ?>
 
-
-
 <div id="kt_calendar"></div>
-
-
-
 
 <div class="modal fade" id="modal-event" tabindex="-1" role="dialog" aria-labelledby="modal-eventLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-scrollable" role="document">
