@@ -20,7 +20,7 @@ use app\helpers\Url;
 <!--begin::Nav-->
 <div class="subheader-nav nav flex-grow-1">
 	<!--begin::Item-->
-	<a href="#" class="nav-item">
+	<a href="<?= Url::toRoute(['/expert/index']) ?>" class="nav-item <?= App::isController('expert')? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Diagnostic AI</span>
 			<span class="nav-desc text-muted">Ask the system</span>
@@ -29,7 +29,7 @@ use app\helpers\Url;
 	<!--end::Item-->
 	<!--begin::Item-->
 	<!-- active -->
-	<a href="<?= Url::toRoute(['/announcement/index']) ?>" class="nav-item "> 
+	<a href="<?= Url::toRoute(['/announcement/index']) ?>" class="nav-item <?= App::isController('announcement')? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Announcements</span>
 			<span class="nav-desc text-muted">Publication Statements</span>
@@ -37,7 +37,7 @@ use app\helpers\Url;
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/event/index']) ?>" class="nav-item "> 
+	<a href="<?= Url::toRoute(['/event/index']) ?>" class="nav-item <?= App::isController('event')? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Events</span>
 			<span class="nav-desc text-muted">Happenings & Calendar</span>
@@ -45,7 +45,7 @@ use app\helpers\Url;
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
-	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item "> 
+	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= App::isController('default')? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Community Board</span>
 			<span class="nav-desc text-muted">Group Chats | Public & Private</span>
