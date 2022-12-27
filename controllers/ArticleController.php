@@ -45,12 +45,6 @@ class ArticleController extends Controller
     {
         $model = Article::controllerFind($slug, 'slug');
 
-        if (App::identity('isClient')) {
-            return $this->render('_sub-content', [
-                'model' => $model,
-            ]);
-        }
-
         if ($model->isSub) {
             return $this->render('view-content', [
                 'model' => $model,
@@ -58,6 +52,15 @@ class ArticleController extends Controller
         }
                 
         return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionClientView($slug)
+    {
+        $model = Article::controllerFind($slug, 'slug');
+
+        return $this->render('_sub-content', [
             'model' => $model,
         ]);
     }

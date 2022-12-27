@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\helpers\ArrayHelper;
+use app\helpers\Url;
 use app\widgets\Anchor;
 
 /**
@@ -145,13 +146,23 @@ class Article extends ActiveRecord
         ];
     }
 
+    public function getClientViewUrl($fullpath=true)
+    {
+        $paramName = $this->paramName();
+        $url = [
+            implode('/', [$this->controllerID(), 'client-view']),
+            $paramName => $this->{$paramName}
+        ];
+        return ($fullpath)? Url::toRoute($url, true): $url;
+    }
+
     public function detailColumns()
     {
-        return [
+        $columns = [
             // 'parent_id:raw',
             [
                 'label' => 'Preview',
-                'value' => fn ($model) => $model->viewUrl,
+                'value' => fn ($model) => $model->clientViewUrl,
                 'format' => 'raw'
             ],
             'category:raw',
@@ -160,6 +171,12 @@ class Article extends ActiveRecord
             // 'photo:raw',
             // 'content:raw',
         ];
+
+        if ($this->isSub) {
+            array_shift($columns);
+        }
+
+        return $columns;
     }
 
     public static function stepForms($step)
