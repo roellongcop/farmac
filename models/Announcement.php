@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\helpers\App;
 use app\helpers\Html;
+use app\helpers\Url;
 use app\widgets\Anchor;
 
 /**
@@ -158,9 +159,17 @@ class Announcement extends ActiveRecord
 
     public function getImagePreviews()
     {
-        return App::foreach($this->imageFiles, fn($file) => Html::image($file->token, ['w' => 200], [
-            'class' => 'img-fluid symbol m-2',
-            'style' => 'height: 200px;'
-        ]));
+        return App::foreach($this->imageFiles, function($file) {
+            return Html::tag('a', 
+                Html::image($file->token, ['w' => 200], [
+                    'class' => 'img-fluid symbol m-2',
+                    'style' => 'height: 200px;width: 200px;'
+                ]), 
+                [
+                    'href' => $file->viewerUrl,
+                    'target' => '_blank'
+                ]
+            );
+        });
     }
 }
