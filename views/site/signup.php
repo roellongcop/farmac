@@ -82,9 +82,6 @@ $this->addJsFile('js/frontend/signup');
         </div>
     </div>
 
-
-
-
     <p class="text-muted font-weight-bold lead text-uppercase mt-5">
         Credentials
     </p>
@@ -103,7 +100,6 @@ $this->addJsFile('js/frontend/signup');
         Upload Documents (ID's, CERTIFICATES)
     </p>
 
-
     <div class="row">
         <div class="col-md-8">
             <?= Dropzone::widget([
@@ -114,8 +110,6 @@ $this->addJsFile('js/frontend/signup');
             ]) ?>
         </div>
     </div>
-
-
 
     <div class="form-group mt-10">
         <?= Html::submitButton('Register', [
