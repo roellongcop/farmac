@@ -108,6 +108,8 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         $labels['record_status'] = $labels['record_status'] ?? 'Record Status';
         $labels['created_by'] = $labels['created_by'] ?? 'Created By';
         $labels['updated_by'] = $labels['updated_by'] ?? 'Updated By';
+        $labels['createdByEmail'] = $labels['created_by'] ?? 'Created By';
+        $labels['updatedByEmail'] = $labels['updated_by'] ?? 'Updated By';
         $labels['created_at'] = $labels['created_at'] ?? 'Created At';
         $labels['updated_at'] = $labels['updated_at'] ?? 'Updated At';
         $labels['recordStatusHtml'] = $labels['recordStatusHtml'] ?? 'Record Status';

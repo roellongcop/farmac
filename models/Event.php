@@ -67,6 +67,7 @@ class Event extends ActiveRecord
             'start' => 'Start',
             'end' => 'End',
             'photo' => 'Photo',
+            'tablePhoto' => 'Photo'
         ]);
     }
 

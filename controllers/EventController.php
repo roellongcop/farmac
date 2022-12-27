@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\models\Event;
 use app\models\search\EventSearch;
+use app\widgets\Detail;
 
 /**
  * EventController implements the CRUD actions for Event model.
@@ -44,7 +45,18 @@ class EventController extends Controller
         $model = Event::controllerFind($token, 'token');
 
         if (App::isAjax()) {
-            return  $this->_ajaxForm($model);
+            $response['status'] = 'success';
+            $response['model'] = $model;
+
+           
+            $response['form'] = $this->renderAjax(
+                App::identity('isClient')? '_detail-client': '_form-ajax', [
+                'model' => $model
+            ]);
+
+            $response['isClient'] = App::identity('isClient');
+
+            return $this->asJson($response);
         }
 
         return $this->render('view', [

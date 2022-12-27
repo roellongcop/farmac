@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 class Detail extends BaseWidget
 {
     public $model;
+    public $attributes;
     public $formatter = ['class' => 'app\components\FormatterComponent'];
     public $options = ['class' => 'table table-striped table-bordered detail-view ow-anywhere'];
     
@@ -25,7 +26,7 @@ class Detail extends BaseWidget
     {
         return DetailView::widget([
             'model' => $this->model,
-            'attributes' => $this->model->detailColumns ?? ['id'],
+            'attributes' => $this->attributes ?: ($this->model->detailColumns ?? ['id']),
             'formatter' => $this->formatter,
             'options' => $this->options,
         ]);

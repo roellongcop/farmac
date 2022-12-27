@@ -70,6 +70,15 @@ var KTCalendarBasic = function() {
                     dataType: 'json',
                     success: (s) => {
                         if (s.status == 'success') {
+                            if (s.isClient) {
+                                $('#modal-event .modal-title').html('Event Details');
+                                $('#modal-event .btn-save-event').hide();
+
+                            }
+                            else {
+                                $('#modal-event .modal-title').html('Update Event');
+                                $('#modal-event .btn-save-event').show();
+                            }
                             $('#modal-event .modal-body').html(s.form);
                             $('#modal-event').modal('show');
                         }
