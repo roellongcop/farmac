@@ -2,7 +2,7 @@
 
 use app\helpers\Url;
 
-$url = filter_var($menu['link'] ?? '', FILTER_VALIDATE_URL)? $menu['link']: Url::toRoute($menu['link']);
+$url = trim(filter_var($menu['link'] ?? '', FILTER_VALIDATE_URL)? $menu['link']: Url::toRoute($menu['link']));
 ?>
 
 <a href="<?= $url ?>" class="menu-link" 
