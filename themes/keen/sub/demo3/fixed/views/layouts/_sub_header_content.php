@@ -8,7 +8,8 @@ $page = $this->params['page'] ?? '';
 ?>
 
 <!--begin::Logo-->
-<div class="d-none d-lg-flex align-items-center flex-wrap w-250px">
+<!-- w-250px -->
+<div class="d-none d-lg-flex align-items-center flex-wrap">  
 	<!--begin::Logo-->
 	<a href="index.html">
 		<?= Html::image(App::setting('image')->primary_logo, ['w' => 150, 'quality' => 90], [
@@ -50,7 +51,7 @@ $page = $this->params['page'] ?? '';
 	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= $page == 'chat'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Community Board</span>
-			<span class="nav-desc text-muted">Group Chats</span>
+			<span class="nav-desc text-muted">Group Chats & Inquiries</span>
 		</span>
 	</a>
 	<!--end::Item-->
