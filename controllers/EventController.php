@@ -25,6 +25,13 @@ class EventController extends Controller
      */
     public function actionIndex()
     {
+        if (App::identity('isClient')) {
+            $queryParams = App::queryParams();
+            array_unshift($queryParams, 'calendar-client');
+
+            return $this->redirect($queryParams);
+        }
+
         $searchModel = new EventSearch();
         $dataProvider = $searchModel->search(['EventSearch' => App::queryParams()]);
 
@@ -47,7 +54,6 @@ class EventController extends Controller
         if (App::isAjax()) {
             $response['status'] = 'success';
             $response['model'] = $model;
-
            
             $response['form'] = $this->renderAjax(
                 App::identity('isClient')? '_detail-client': '_form-ajax', [
@@ -57,6 +63,13 @@ class EventController extends Controller
             $response['isClient'] = App::identity('isClient');
 
             return $this->asJson($response);
+        }
+
+        if (App::identity('isClient')) {
+            $queryParams = App::queryParams();
+            array_unshift($queryParams, 'calendar-client');
+
+            return $this->redirect($queryParams);
         }
 
         return $this->render('view', [

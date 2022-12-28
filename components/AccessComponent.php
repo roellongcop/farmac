@@ -278,8 +278,10 @@ class AccessComponent extends \yii\base\Component
 				$modelName = Inflector::camel2words(str_replace('Search', '', $name));
 				$controllerId = Inflector::camel2id($modelName);
 
-				if (App::isLogin() && $this->userCan('index', $controllerId)) {
-					$data[$name] = $modelName;
+				if (App::isLogin()) {
+					if ($this->userCan('index', $controllerId)) {
+						$data[$name] = $modelName;
+					}
 				}
 			}
 		}

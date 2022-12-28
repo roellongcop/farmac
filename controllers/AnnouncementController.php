@@ -24,6 +24,12 @@ class AnnouncementController extends Controller
      */
     public function actionIndex()
     {
+        if (App::identity('isClient')) {
+            $queryParams = App::queryParams();
+            array_unshift($queryParams, 'client');
+
+            return $this->redirect($queryParams);
+        }
         $searchModel = new AnnouncementSearch();
         $dataProvider = $searchModel->search(['AnnouncementSearch' => App::queryParams()]);
 

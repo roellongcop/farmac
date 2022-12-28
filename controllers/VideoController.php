@@ -24,6 +24,13 @@ class VideoController extends Controller
      */
     public function actionIndex()
     {
+        if (App::identity('isClient')) {
+            $queryParams = App::queryParams();
+            array_unshift($queryParams, 'client');
+
+            return $this->redirect($queryParams);
+        }
+        
         $searchModel = new VideoSearch();
         $dataProvider = $searchModel->search(['VideoSearch' => App::queryParams()]);
 
