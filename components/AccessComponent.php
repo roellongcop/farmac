@@ -275,7 +275,12 @@ class AccessComponent extends \yii\base\Component
 			$name = str_replace('.php', '', basename($searchModel));
 
 			if (! in_array($name, $ignore)) {
-				$data[$name] = Inflector::camel2words(str_replace('Search', '', $name));
+				$modelName = Inflector::camel2words(str_replace('Search', '', $name));
+				$controllerId = Inflector::camel2id($modelName);
+
+				if (App::isLogin() && $this->userCan('index', $controllerId)) {
+					$data[$name] = $modelName;
+				}
 			}
 		}
 
