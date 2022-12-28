@@ -30,7 +30,7 @@ use app\helpers\Html;
 			<?php $this->beginContent('@app/views/layouts/_card_wrapper.php') ?>
 				<div class="text-center mb-5">
 					<h3 class="font-weight-bold mb-5"><?= $model->title ?></h3>
-					<p class="lead font-weight-bolder text-muted">- Mga Nilalaman -</p>
+					<!-- <p class="lead font-weight-bolder text-muted">- Mga Nilalaman -</p> -->
 				</div>
 				<ul class="navi navi-accent navi-hover navi-bold navi-border">
 					<?= App::foreach($model->contents, fn($content) => <<< HTML
