@@ -3,7 +3,10 @@
 namespace app\controllers;
 
 use app\helpers\App;
+use app\models\Announcement;
+use app\models\Article;
 use app\models\Backup;
+use app\models\Event;
 use app\models\File;
 use app\models\Ip;
 use app\models\Log;
@@ -15,6 +18,7 @@ use app\models\Setting;
 use app\models\Theme;
 use app\models\User;
 use app\models\UserMeta;
+use app\models\Video;
 use app\models\VisitLog;
 use app\models\Visitor;
 use app\models\search\DashboardSearch;
@@ -26,16 +30,19 @@ class DashboardController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         $data = array_merge(
+            Video::findByKeywords($keywords, ['title', 'link']),
+            Event::findByKeywords($keywords, ['title']),
+            Article::findByKeywords($keywords, ['title', 'menu', 'category'], 10, [
+                'parent_id' => 0
+            ]),
+            Announcement::findByKeywords($keywords, ['title']),
             File::findByKeywords($keywords, ['name', 'extension', 'token']),
-            Backup::findByKeywords($keywords, ['filename', 'tables', 'description']),
             Ip::findByKeywords($keywords, ['name', 'description']),
             Log::findByKeywords($keywords, ['method', 'action', 'controller', 'table_name', 'model_name']),
             Notification::findByKeywords($keywords, ['message']),
-            Queue::findByKeywords($keywords, ['channel', 'job', 'pushed_at']),
             Role::findByKeywords($keywords, ['name']),
             Session::findByKeywords($keywords, ['id', 'expire', 'ip', 'browser', 'os', 'device']),
             Setting::findByKeywords($keywords, ['name', 'value']),
-            Theme::findByKeywords($keywords, ['name', 'description']),
             User::findByKeywords($keywords, ['username', 'email']), 
             UserMeta::findByKeywords($keywords, ['name', 'value']), 
             VisitLog::findByKeywords($keywords, ['ip']), 
