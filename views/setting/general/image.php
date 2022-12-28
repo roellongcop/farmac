@@ -8,11 +8,12 @@ use app\widgets\ImageGallery;
     <h4 class="mb-10 font-weight-bold text-dark">Images</h4>
 	<div class="row">
 		<div class="col-md-4">
-            <p class="text-warning">Primary Logo</p>
+            <p class="font-weight-bold">Primary Logo</p>
             <?= Html::image($model->primary_logo, ['w' => 200], [
                 'class' => 'img-thumbnail primary_logo',
                 'loading' => 'lazy',
             ]) ?>
+            <div class="my-2"></div>
             <?= ImageGallery::widget([
                 'tag' => 'Setting',
                 'model' => $model,
@@ -25,11 +26,12 @@ use app\widgets\ImageGallery;
             ]) ?> 
 		</div>
 		<div class="col-md-4">
-            <p class="text-warning">Secondary Logo</p>
+            <p class="font-weight-bold">Secondary Logo</p>
             <?= Html::image($model->secondary_logo, ['w' => 200], [
                 'class' => 'img-thumbnail secondary_logo',
                 'loading' => 'lazy',
             ]) ?>
+            <div class="my-2"></div>
             <?= ImageGallery::widget([
                 'tag' => 'Setting',
                 'model' => $model,
@@ -42,11 +44,12 @@ use app\widgets\ImageGallery;
             ]) ?> 
 		</div>
 		<div class="col-md-4">
-            <p class="text-warning">Favicon</p>
+            <p class="font-weight-bold">Favicon</p>
             <?= Html::image($model->favicon, ['w' => 200], [
                 'class' => 'img-thumbnail favicon',
                 'loading' => 'lazy',
             ]) ?>
+            <div class="my-2"></div>
             <?= ImageGallery::widget([
                 'tag' => 'Setting',
                 'model' => $model,
@@ -59,13 +62,15 @@ use app\widgets\ImageGallery;
             ]) ?> 
 		</div>
 	</div>
+    <div class="my-10"></div>
 	<div class="row">
 		<div class="col-md-4">
-            <p class="text-warning">Image Holder</p>
+            <p class="font-weight-bold">Image Holder</p>
             <?= Html::image($model->image_holder, ['w' => 200], [
                 'class' => 'img-thumbnail image_holder',
                 'loading' => 'lazy',
             ]) ?>
+            <div class="my-2"></div>
             <?= ImageGallery::widget([
                 'tag' => 'Setting',
                 'model' => $model,
