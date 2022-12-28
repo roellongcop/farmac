@@ -162,7 +162,10 @@ class Article extends ActiveRecord
             // 'parent_id:raw',
             [
                 'label' => 'Preview',
-                'value' => fn ($model) => $model->getClientViewUrl(false),
+                'value' => fn ($model) => implode('<br>', [
+                    $model->getClientViewUrl(false),
+                    // $model->clientViewUrl,
+                ]),
                 'format' => 'raw'
             ],
             'category:raw',
