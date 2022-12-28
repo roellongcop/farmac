@@ -1037,9 +1037,17 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
         return App::formatter('asAgo', $this->updated_at);
     }
 
-
     public function getCreatedAt()
     {
         return App::formatter('asFulldate', $this->created_at);
+    }
+
+    public function getCreatedDateFormat($format='')
+    {
+        if ($format) {
+            return date($format, strtotime($this->createdAt));
+        }
+
+        return $this->createdAt;
     }
 }

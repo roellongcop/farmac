@@ -5,7 +5,15 @@
 
 $this->title = 'Dashboard';
 $this->params['searchModel'] = $searchModel; 
+$this->params['wrapCard'] = false;
 ?>
 <div class="dashboard-page">
-	Dashboard
+	<div class="row">
+		<div class="col-md-4">
+			<?= $this->render('_announcement') ?>
+		</div>
+		<div class="col-md-4">
+			<?= $this->render('_event') ?>
+		</div>
+	</div>
 </div>
