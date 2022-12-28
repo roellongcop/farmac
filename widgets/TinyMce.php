@@ -46,7 +46,7 @@ class TinyMce extends BaseWidget
     // public $plugins = 'advlist autolink link image lists charmap print preview code table pagebreak';
     public $toolbar = 'code | preview | print | undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen save | insertfile image media template link anchor codesample | ltr rtl';
     
-    public $plugins = 'code | print preview paste importcss searchreplace autolink save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons';
+    public $plugins = 'code print preview paste importcss searchreplace autolink save directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons';
 
     public $readonly = false;
     public $menubar = true;

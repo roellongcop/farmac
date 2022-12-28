@@ -15,7 +15,7 @@ $this->registerJs(<<< JS
 	});
 JS);
 ?>
-<div class="card card-custom">
+<div class="card card-custom mb-7">
 	<div class="card-header">
 		<div class="card-title">
 			<h3 class="card-label">
@@ -35,7 +35,7 @@ JS);
 			</div>
 		</div>
 	</div>
-	<div class="card-footer d-flex justify-content-between">
+	<div class="card-footer d-flex justify-content-between p-5">
 		<?= Html::tag('a', 'View on Youtube', [
 			'class' => 'btn btn-outline-secondary font-weight-bold',
 			'target' => '_blank',

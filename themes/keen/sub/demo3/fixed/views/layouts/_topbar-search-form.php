@@ -4,7 +4,7 @@ use app\widgets\ActiveForm;
 use app\widgets\Search;
 ?>
 
-<div style="width: 25vw;">
+<div style="width: 20vw;">
     <?php $form = ActiveForm::begin(['action' => $searchAction, 'method' => 'get']); ?>
         <?= Search::widget([
             'submitOnclick' => true,

@@ -36,7 +36,7 @@ class VideoController extends Controller
     public function actionClient()
     {
         $searchModel = new VideoSearch([
-            'searchAction' => ['video/client']
+            'searchAction' => ['video/client'],
         ]);
         $dataProvider = $searchModel->search(['VideoSearch' => App::queryParams()]);
 

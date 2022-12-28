@@ -50,5 +50,5 @@ $(document).ready(function() {
         limitReachedClass: "label label-success label-rounded label-inline"
     });
 
-    autosize($('textarea'));
+    // autosize($('textarea'));
 });

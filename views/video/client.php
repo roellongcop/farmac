@@ -14,6 +14,7 @@ $this->params['page'] = 'video';
 ?>
 <div class="video-index-page">
 	<?= ListView::widget([
+        'pager' => ['class' => 'app\widgets\LinkPager'],
         'dataProvider' => $dataProvider,
         'options' => [
             'tag' => 'div',
@@ -23,10 +24,24 @@ $this->params['page'] = 'video';
         'summaryOptions' => [
             'class' => 'col-12'
         ],
-        'layout' => "{summary}\n{items}\n<div class='col-12'>{pager}</div>",
+        'layout' => <<< HTML
+            <div class="col-md-12 mb-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>{summary}</div>
+                    <div>{pager}</div>
+                </div>
+            </div>
+            {items}
+            <div class="col-md-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>{summary}</div>
+                    <div>{pager}</div>
+                </div>
+            </div>
+        HTML,
         'itemView' => '_video',
         'beforeItem' => function ($model, $key, $index, $widget) {
-            return '<div class="col-lg-4 col-md-6 col-sm-6 pb-1">';
+            return '<div class="col-md-6">';
         },
         'afterItem' => function ($model, $key, $index, $widget) {
             return '</div>';
