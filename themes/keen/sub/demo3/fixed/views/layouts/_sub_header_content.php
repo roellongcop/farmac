@@ -24,7 +24,7 @@ $page = $this->params['page'] ?? '';
 	<!--begin::Item-->
 	<a href="<?= Url::toRoute(['/expert/index']) ?>" class="nav-item <?= $page == 'expert'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Diagnostic AI</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Diagnostic AI</span>
 			<span class="nav-desc text-muted">Ask the system</span>
 		</span>
 	</a>
@@ -33,15 +33,15 @@ $page = $this->params['page'] ?? '';
 	<!-- active -->
 	<a href="<?= Url::toRoute(['/announcement/client']) ?>" class="nav-item <?= $page == 'announcement'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">News and Updates</span>
-			<span class="nav-desc text-muted">Publication Statements</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Announcements</span>
+			<span class="nav-desc text-muted">News & Updates</span>
 		</span>
 	</a>
 	<!--end::Item-->
 	<!--begin::Item-->
 	<a href="<?= Url::toRoute(['/event/calendar-client']) ?>" class="nav-item <?= $page == 'calendar'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Calendar</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Calendar</span>
 			<span class="nav-desc text-muted">Events & Happenings </span>
 		</span>
 	</a>
@@ -49,8 +49,8 @@ $page = $this->params['page'] ?? '';
 	<!--begin::Item-->
 	<a href="<?= Url::toRoute(['/chat']) ?>" class="nav-item <?= $page == 'chat'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Community Board</span>
-			<span class="nav-desc text-muted">Group Chats Messages</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Community Board</span>
+			<span class="nav-desc text-muted">Group Chats</span>
 		</span>
 	</a>
 	<!--end::Item-->
@@ -58,9 +58,9 @@ $page = $this->params['page'] ?? '';
 	<!--begin::Item-->
 	<a href="<?= Url::toRoute(['/video/client']) ?>" class="nav-item <?= $page == 'video'? 'active': '' ?>"> 
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h4">Stream Videos</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Stream Videos</span>
 			<span class="nav-desc text-muted">
-				Youtube Video Contents
+				Youtube Contents
 			</span>
 		</span>
 	</a>

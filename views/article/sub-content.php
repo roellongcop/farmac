@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = $model->category;
 $this->params['breadcrumbs'][] = $model->menu;
 $this->params['searchModel'] = new ArticleSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['wrapCard'] = false; 
 ?>
 <div class="article-view-page article-content">
     <?= $this->render('_sub-content', [
