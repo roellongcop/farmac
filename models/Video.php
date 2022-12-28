@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\helpers\Html;
 use app\helpers\StringHelper;
+use app\helpers\Url;
 use app\widgets\Anchor;
 use app\widgets\Youtube;
 
@@ -154,5 +155,23 @@ class Video extends ActiveRecord
         }
         
         return $this->description;
+    }
+
+    public static function recent($limit=5)
+    {
+        return self::find()
+            ->orderBy(['id' => SORT_DESC])
+            ->limit($limit)
+            ->all();
+    }
+
+    public function getTruncatedContent($len=200)
+    {
+        return StringHelper::truncate(strip_tags($this->description), $len);
+    }
+
+    public function getClientUrlByTitle()
+    {
+        return Url::toRoute(['video/client', 'title' => $this->title]);
     }
 }

@@ -177,9 +177,4 @@ class Event extends ActiveRecord
     {
         return StringHelper::truncate(strip_tags($this->description), $len);
     }
-
-    public function getClientUrlByTitle()
-    {
-        return Url::toRoute(['event/client', 'title' => $this->title]);
-    }
 }

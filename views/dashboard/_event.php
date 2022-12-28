@@ -12,6 +12,10 @@ use app\models\Event;
 			<div class="d-flex align-items-center justify-content-between flex-wrap">
 				<span class="font-size-h6 text-muted font-weight-bolder text-uppercase pr-2">events</span>
 				<div class="p-0">
+					<?= Html::tag('a', 'View All', [
+						'href' => Url::toRoute(['event/calendar-client']),
+						'class' => 'btn btn-sm btn-outline-secondary font-weight-bold mr-2'
+					]) ?>
 					<a href="#carousel-event" class="btn btn-icon btn-light btn-sm mr-1" role="button" data-slide="prev">
 						<span class="svg-icon svg-icon-md">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -37,7 +41,7 @@ use app\models\Event;
 			<div class="carousel-inner pt-9">
 				<?= App::foreach(Event::recent(), function ($event, $key, $counter) {
 					$class = $counter == 1 ? 'active': '';
-					$photo = Html::image($event->photo, ['w' => 400], [
+					$photo = Html::image($event->photo, ['w' => 350], [
 						'class' => 'img-fluid symbol',
 					]);
 					$url = Url::toRoute(['event/calendar-client']);

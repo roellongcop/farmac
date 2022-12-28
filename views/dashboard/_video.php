@@ -3,20 +3,23 @@
 use app\helpers\App;
 use app\helpers\Html;
 use app\helpers\Url;
-use app\models\Announcement;
+use app\models\Video;
+use app\widgets\Youtube;
 ?>
 
 <div class="card card-custom card-stretch gutter-b">
 	<div class="card-body">
-		<div id="carousel-announcement" class="carousel slide" data-ride="carousel" data-interval="8000">
+		<div id="carousel-video" class="carousel slide" data-ride="carousel" data-interval="8000">
 			<div class="d-flex align-items-center justify-content-between flex-wrap">
-				<span class="font-size-h6 text-muted font-weight-bolder text-uppercase pr-2">Announcements</span>
+				<span class="font-size-h6 text-muted font-weight-bolder text-uppercase pr-2">
+					videos
+				</span>
 				<div class="p-0">
 					<?= Html::tag('a', 'View All', [
-						'href' => Url::toRoute(['announcement/client']),
+						'href' => Url::toRoute(['video/client']),
 						'class' => 'btn btn-sm btn-outline-secondary font-weight-bold mr-2'
 					]) ?>
-					<a href="#carousel-announcement" class="btn btn-icon btn-light btn-sm mr-1" role="button" data-slide="prev">
+					<a href="#carousel-video" class="btn btn-icon btn-light btn-sm mr-1" role="button" data-slide="prev">
 						<span class="svg-icon svg-icon-md">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -26,7 +29,7 @@ use app\models\Announcement;
 							</svg>
 						</span>
 					</a>
-					<a href="#carousel-announcement" class="btn btn-icon btn-light btn-sm" role="button" data-slide="next">
+					<a href="#carousel-video" class="btn btn-icon btn-light btn-sm" role="button" data-slide="next">
 						<span class="svg-icon svg-icon-md">
 							<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
 								<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -39,30 +42,27 @@ use app\models\Announcement;
 				</div>
 			</div>
 			<div class="carousel-inner pt-9">
-				<?= App::foreach(Announcement::recent(), function ($announcement, $key, $counter) {
+				<?= App::foreach(Video::recent(), function ($video, $key, $counter) {
 					$class = $counter == 1 ? 'active': '';
-					$photo = Html::image($announcement->imageFileToken, ['w' => 350], [
-						'class' => 'img-fluid symbol',
-					]);
+					$youtube = Youtube::widget(['videoId' => $video->videoId]);
 					return <<< HTML
 						<div class="carousel-item {$class}">
 							<div class="d-flex flex-column justify-content-between h-100">
 								<h3 class="font-size-h4 text-dark-75 text-hover-primary font-weight-bold cursor-pointer">
-									{$announcement->title}
+									{$video->title}
 								</h3>
 								<p class="text-dark-75 font-size-lg font-weight-normal pt-2 mb-0">
-									{$announcement->truncatedContent}
+									{$video->truncatedContent}
 								</p>
 							</div>
 							<div class="my-2 text-center">
-								{$photo}
+								{$youtube}
 							</div>
 							<div class="mt-10 border-0 d-flex align-items-center justify-content-between pt-0">
-								
 								<span class="label label-lg label-light-primary label-inline font-size-sm font-weight-bolder py-5">
-									{$announcement->getCreatedDateFormat('d M y')}
+									{$video->getCreatedDateFormat('d M y')}
 								</span>
-								<a href="{$announcement->clientUrlByTitle}" class="btn btn-sm btn-primary font-weight-bolder px-6">View</a>
+								<a href="{$video->clientUrlByTitle}" class="btn btn-sm btn-primary font-weight-bolder px-6">View</a>
 							</div>
 						</div>
 					HTML;

@@ -15,5 +15,8 @@ $this->params['wrapCard'] = false;
 		<div class="col-md-4">
 			<?= $this->render('_event') ?>
 		</div>
+		<div class="col-md-4">
+			<?= $this->render('_video') ?>
+		</div>
 	</div>
 </div>
