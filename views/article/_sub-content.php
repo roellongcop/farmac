@@ -6,7 +6,9 @@ use app\helpers\Html;
 
 <div class="row article-content" data-sticky-container>
 	<div class="col-md-8">
-		<?= Html::image($model->photo, [], ['class' => 'img-fluid symbol']) ?>
+		<div class="text-center">
+			<?= Html::image($model->photo, [], ['class' => 'img-fluid symbol']) ?>
+		</div>
 
 		<h1 class="font-weight-bold text-dark my-10">
 			<?= $model->title ?>
@@ -14,7 +16,6 @@ use app\helpers\Html;
 		<div>
 			<?= $model->content ?>
 		</div>
-
 
 		<?= App::foreach($model->contents, fn($content) => <<< HTML
 			<div class="separator separator-dashed my-5"></div>

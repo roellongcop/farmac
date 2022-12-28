@@ -60,7 +60,7 @@ class ArticleController extends Controller
     {
         $model = Article::controllerFind($slug, 'slug');
 
-        return $this->render('_sub-content', [
+        return $this->render('sub-content', [
             'model' => $model,
         ]);
     }
@@ -172,10 +172,9 @@ class ArticleController extends Controller
 
         if ($model->isNewRecord && $step != 'general') {
             App::warning('Fill up General Information First');
-            return $this->redirect(['create']);
+            return $this->redirect(['update']);
         }
 
-        $model->setInactive();
         $stepForms = Article::stepForms($step);
 
         if (($post = App::post()) != null) {
@@ -186,12 +185,12 @@ class ArticleController extends Controller
                     Article::updateAll(['sort' => $counter], ['id' => $id]);
                 });
                 App::success('Successfully Sorted');
-                return $this->redirect($this->setRedirectLink($model, $step));
+                return $this->redirect($this->setRedirectLink($model, $step, 'update'));
             }
 
             if ($model->load($post) && $model->save()) {
                 App::success('Successfully Processed');
-                return $this->redirect($this->setRedirectLink($model, $step));
+                return $this->redirect($this->setRedirectLink($model, $step, 'update'));
             }
         }
 

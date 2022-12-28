@@ -174,6 +174,7 @@ class Article extends ActiveRecord
 
         if ($this->isSub) {
             array_shift($columns);
+            $columns[] = 'content:raw';
         }
 
         return $columns;

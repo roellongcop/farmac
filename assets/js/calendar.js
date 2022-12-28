@@ -34,7 +34,7 @@ var KTCalendarBasic = function() {
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
 
             height: 800,
@@ -47,7 +47,9 @@ var KTCalendarBasic = function() {
             views: {
                 dayGridMonth: { buttonText: 'month' },
                 timeGridWeek: { buttonText: 'week' },
-                timeGridDay: { buttonText: 'day' }
+                timeGridDay: { buttonText: 'day' },
+                listDay: { buttonText: 'list' },
+                listWeek: { buttonText: 'list' }
             },
 
             defaultView: 'dayGridMonth',

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $model->mainAttribute;
 $this->params['searchModel'] = new ArticleSearch();
 $this->params['showCreateButton'] = true; 
 ?>
-<div class="article-view-page">
+<div class="article-view-page article-content">
     <?= Anchors::widget([
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model

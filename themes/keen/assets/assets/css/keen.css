@@ -51,14 +51,3 @@ select.kt-selectpicker.is-valid + button.dropdown-toggle {
 .header-menu .menu-nav > .menu-item .menu-submenu .menu-submenu {
     margin-left: 21rem;
 }
-.article-content img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    
-    display: inline-block;
-    -ms-flex-negative: 0;
-    flex-shrink: 0;
-    position: relative;
-    border-radius: 0.75rem;
-}
