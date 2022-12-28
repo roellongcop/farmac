@@ -153,7 +153,7 @@ class Article extends ActiveRecord
             implode('/', [$this->controllerID(), 'client-view']),
             $paramName => $this->{$paramName}
         ];
-        return ($fullpath)? Url::toRoute($url, true): $url;
+        return Url::toRoute($url, $fullpath);
     }
 
     public function detailColumns()
@@ -162,7 +162,7 @@ class Article extends ActiveRecord
             // 'parent_id:raw',
             [
                 'label' => 'Preview',
-                'value' => fn ($model) => $model->clientViewUrl,
+                'value' => fn ($model) => $model->getClientViewUrl(false),
                 'format' => 'raw'
             ],
             'category:raw',

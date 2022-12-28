@@ -378,3 +378,7 @@ th.th-action {
 .mw-150 {width: -webkit-fill-available !important; max-width: 150px !important;}
 .mw-100 {width: -webkit-fill-available !important; max-width: 100px !important;}
 .mw-120 {width: -webkit-fill-available !important; max-width: 120px !important;}
+
+html {
+  scroll-behavior: smooth;
+}
