@@ -157,13 +157,13 @@ class Announcement extends ActiveRecord
         return File::findAll(['token' => $this->photos]);
     }
 
-    public function getImagePreviews()
+    public function getImagePreviews($token='')
     {
-        return App::foreach($this->imageFiles, function($file) {
-            return Html::tag('a', 
-                Html::image($file->token, ['w' => 200], [
+        return App::foreach($this->imageFiles, function($file) use($token) {
+            return $token == $file->token ? '': Html::tag('a', 
+                Html::image($file->token, ['w' => 150], [
                     'class' => 'img-fluid symbol m-2',
-                    'style' => 'height: 200px;width: 200px;'
+                    'style' => 'height: 150px;width: 150px;'
                 ]), 
                 [
                     'href' => $file->viewerUrl,

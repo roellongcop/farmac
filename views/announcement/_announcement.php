@@ -21,7 +21,7 @@ use app\helpers\Html;
            <div>
                 <?= $model->content ?>
                 <div class="mt-10">
-                	<?= $model->imagePreviews ?>
+                	<?= $model->getImagePreviews($model->imageFileToken) ?>
                 </div>
            </div>
         </div>
