@@ -46,7 +46,7 @@ class Concern extends ActiveRecord
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['rules'], 'safe']
+            [['rules', 'fallback_message'], 'safe']
         ]);
     }
 

@@ -12,6 +12,8 @@ $this->registerJs(<<< JS
         maxDepth: 2,
         type: 'concern-rule'
     }).init();
+
+    $('button[data-action="collapse-all"]').click();
 JS);
 
 ?>
