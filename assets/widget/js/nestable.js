@@ -1,9 +1,11 @@
 class NestableWidget {
     index = 0;
 
-    constructor({widgetId, defaultName}) {
+    constructor({widgetId, defaultName, maxDepth, type}) {
         this.defaultName = defaultName;
         this.widgetId = widgetId;
+        this.maxDepth = maxDepth ? maxDepth: 4;
+        this.type = type ? type: 'role';
     }
 
     initNestable() {
@@ -22,7 +24,7 @@ class NestableWidget {
                     dd.nestable('collapseAll');
                 }
             });
-            dd.nestable({maxDepth: 4, default_name: self.defaultName});
+            dd.nestable({maxDepth: self.maxDepth, default_name: self.defaultName});
             dd.nestable('createName');
         }
     }
@@ -36,17 +38,19 @@ class NestableWidget {
             $(this).nestable('createName');
         });
 
-        $(document).on('click', `#${self.widgetId} .btn-remove-menu`, function() {
+        $(document).on('click', `#${self.widgetId} .btn-remove-menu`, function(e) {
+            e.preventDefault();
             var confirm_dialog = confirm('Are you sure?');
             if (confirm_dialog) {
                 $(this).closest('li').remove();
             }
         })
 
-        $(`#add-main-navigation-${self.widgetId}`).on('click', function() {
+        $(`#add-main-navigation-${self.widgetId}`).on('click', function(e) {
+            e.preventDefault();
             self.index++;
-            
-            $(`#ol-dd-list-${self.widgetId}`).prepend(`
+
+            let html = `
                 <li class="dd-item dd3-item" data-id="${self.index}-new">
                     <div class="dd-handle dd3-handle"> <i class="flaticon-squares"></i></div>
                     <div class="dd3-content">
@@ -80,7 +84,29 @@ class NestableWidget {
                         </div>
                     </div>
                 </li>
-            `);
+            `;
+
+            if(self.type == 'concern-rule') {
+                html = `
+                    <li class="dd-item dd3-item" data-id="${self.index}-new">
+                        <div class="dd-handle dd3-handle"> <i class="flaticon-squares"></i></div>
+                        <div class="dd3-content">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="ml-3 w-85p">
+                                    <input data-id="label" type="text" class="form-control"  placeholder="Label" required>
+                                </div>
+                                <div>
+                                    <a href="#!" class="btn btn-danger btn-sm btn-icon mr-2 btn-remove-menu">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+            }
+
+            $(`#ol-dd-list-${self.widgetId}`).prepend(html);
             dd.trigger('change');
         });
 

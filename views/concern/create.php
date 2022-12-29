@@ -9,6 +9,7 @@ $this->title = 'Create Concern';
 $this->params['breadcrumbs'][] = ['label' => 'Concerns', 'url' => $model->indexUrl];
 $this->params['breadcrumbs'][] = 'Create';
 $this->params['searchModel'] = new ConcernSearch();
+$this->params['wrapCard'] = false;
 ?>
 <div class="concern-create-page">
 	<?= $this->render('_form', [
