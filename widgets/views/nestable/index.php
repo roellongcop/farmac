@@ -15,8 +15,6 @@ $this->registerJs(<<< JS
         defaultName: '{$defaultName}',
     }).init();
 JS);
-
-
 ?>
 <div id="<?= $widgetId ?>">
     <datalist id="link-list-<?= $widgetId ?>">
@@ -30,6 +28,16 @@ JS);
     </datalist>
     <div class="row">
         <div class="col-md-12">
+            <div class="dd" id="dd-<?= $widgetId ?>">
+                <ol class="dd-list" id="ol-dd-list-<?= $widgetId ?>">
+                    <?= $this->render('_navigation', [
+                        'data_id' => [],
+                        'navigations' => $navigations,
+                        'widgetId' => $widgetId,
+                    ]) ?>
+                </ol>
+            </div>
+            
             <menu id="nestable-menu-<?= $widgetId ?>" class="btn btn-group menu-nestable-menu">
                 <a href="#!" class="btn btn-secondary btn-linkedin btn-sm" id="add-main-navigation-<?= $widgetId ?>">
                     Add Menu
@@ -41,15 +49,6 @@ JS);
                     <i class="fas fa-expand"></i> Expand
                 </button>
             </menu>
-            <div class="dd" id="dd-<?= $widgetId ?>">
-                <ol class="dd-list" id="ol-dd-list-<?= $widgetId ?>">
-                    <?= $this->render('_navigation', [
-                        'data_id' => [],
-                        'navigations' => $navigations,
-                        'widgetId' => $widgetId,
-                    ]) ?>
-                </ol>
-            </div>
         </div>
     </div>
 </div>

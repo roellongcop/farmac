@@ -5,34 +5,35 @@ namespace app\models;
 use app\widgets\Anchor;
 
 /**
- * This is the model class for table "{{%concerns}}".
+ * This is the model class for table "{{%conclusions}}".
  *
  * @property int $id
- * @property string $name
- * @property string|null $description
- * @property string|null $rules
+ * @property int $concern_id
+ * @property string|null $conclusion
+ * @property string|null $conditions
+ * @property string|null $token
  * @property int $record_status
  * @property int $created_by
  * @property int $updated_by
  * @property string $created_at
  * @property string $updated_at
  */
-class Concern extends ActiveRecord
+class Conclusion extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%concerns}}';
+        return '{{%conclusions}}';
     }
 
     public function config()
     {
         return [
-            'controllerID' => 'concern',
-            'mainAttribute' => 'name',
-            'paramName' => 'slug',
+            'controllerID' => 'conclusion',
+            'mainAttribute' => 'id',
+            'paramName' => 'id',
         ];
     }
 
@@ -42,11 +43,10 @@ class Concern extends ActiveRecord
     public function rules()
     {
         return $this->setRules([
-            [['name'], 'required'],
-            [['description'], 'string'],
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-            [['rules', 'fallback_message'], 'safe']
+            [['concern_id'], 'integer'],
+            [['conclusion'], 'string'],
+            [['conditions'], 'safe'],
+            ['concern_id', 'exist', 'targetRelation' => 'concern'],
         ]);
     }
 
@@ -57,19 +57,19 @@ class Concern extends ActiveRecord
     {
         return $this->setAttributeLabels([
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'rules' => 'Rules',
+            'concern_id' => 'Concern ID',
+            'conclusion' => 'Conclusion',
+            'conditions' => 'Conditions',
         ]);
     }
 
     /**
      * {@inheritdoc}
-     * @return \app\models\query\ConcernQuery the active query used by this AR class.
+     * @return \app\models\query\ConclusionQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\models\query\ConcernQuery(get_called_class());
+        return new \app\models\query\ConclusionQuery(get_called_class());
     }
 
     public function getDefaultGridColumns()
@@ -77,39 +77,50 @@ class Concern extends ActiveRecord
         return [
             'serial',
             'checkbox',
-            'name',
-            'description',
+            'conclusion',
+            'concern_name',
             'created_at',
             'last_updated',
             'active'
         ];
     }
+
+    public function getConcern()
+    {
+        return $this->hasOne(Concern::class, ['id' => 'concern_id']);
+    }
+
+    public function getConcernName()
+    {
+        return App::if($this->concern, fn ($concern) => $concern->name);
+    }
+     
      
     public function gridColumns()
     {
         return [
-            'name' => [
-                'attribute' => 'name', 
+            'conclusion' => [
+                'attribute' => 'conclusion', 
                 'format' => 'raw',
                 'value' => function($model) {
                     return Anchor::widget([
-                        'title' => $model->name,
+                        'title' => $model->conclusion,
                         'link' => $model->viewUrl,
                         'text' => true
                     ]);
                 }
             ],
-            'description' => ['attribute' => 'description', 'format' => 'raw'],
-            'rules' => ['attribute' => 'rules', 'format' => 'encode'],
+            'concern_name' => ['attribute' => 'concernName', 'format' => 'raw'],
+            'conditions' => ['attribute' => 'conditions', 'format' => 'encode'],
         ];
     }
 
     public function detailColumns()
     {
         return [
-            'name:raw',
-            'description:raw',
-            'rules:jsonEditor',
+            'concern_id:raw',
+            'conclusion:raw',
+            'conditions:jsonEditor',
         ];
     }
 
@@ -117,12 +128,7 @@ class Concern extends ActiveRecord
     {
         $behaviors = parent::behaviors();
         $behaviors['JsonBehavior']['fields'] = [
-            'rules', 
-        ];
-        $behaviors['SluggableBehavior'] = [
-            'class' => 'yii\behaviors\SluggableBehavior',
-            'attribute' => 'name',
-            'ensureUnique' => true,
+            'conditions', 
         ];
 
         return $behaviors;

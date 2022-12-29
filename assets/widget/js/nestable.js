@@ -111,5 +111,6 @@ class NestableWidget {
         });
 
         self.initNestable();
+        $('button[data-action="collapse-all"]').click();
     }
 }
