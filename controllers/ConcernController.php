@@ -193,4 +193,9 @@ class ConcernController extends Controller
     {
         # dont delete; use in condition if user has access to in-active data
     }
+
+    public function actionClent()
+    {
+        return $this->render('client');
+    }
 }

@@ -29,25 +29,35 @@ class DashboardController extends Controller
 {
     public function actionFindByKeywords($keywords='')
     {
-        $data = array_merge(
-            Video::findByKeywords($keywords, ['title', 'link']),
-            Event::findByKeywords($keywords, ['title']),
-            Article::findByKeywords($keywords, ['title', 'menu', 'category'], 10, [
+        $identity = App::identity();
+        $array = [
+            'video' => Video::findByKeywords($keywords, ['title', 'link']),
+            'event' => Event::findByKeywords($keywords, ['title']),
+            'article' => Article::findByKeywords($keywords, ['title', 'menu', 'category'], 10, [
                 'parent_id' => 0
             ]),
-            Announcement::findByKeywords($keywords, ['title']),
-            File::findByKeywords($keywords, ['name', 'extension', 'token']),
-            Ip::findByKeywords($keywords, ['name', 'description']),
-            Log::findByKeywords($keywords, ['method', 'action', 'controller', 'table_name', 'model_name']),
-            Notification::findByKeywords($keywords, ['message']),
-            Role::findByKeywords($keywords, ['name']),
-            Session::findByKeywords($keywords, ['id', 'expire', 'ip', 'browser', 'os', 'device']),
-            Setting::findByKeywords($keywords, ['name', 'value']),
-            User::findByKeywords($keywords, ['username', 'email']), 
-            UserMeta::findByKeywords($keywords, ['name', 'value']), 
-            VisitLog::findByKeywords($keywords, ['ip']), 
-            Visitor::findByKeywords($keywords, ['expire', 'cookie', 'ip', 'browser', 'os', 'device', 'location'])
-        );
+            'announcement' => Announcement::findByKeywords($keywords, ['title']),
+            'file' => File::findByKeywords($keywords, ['name', 'extension', 'token']),
+            'ip' => Ip::findByKeywords($keywords, ['name', 'description']),
+            'log' => Log::findByKeywords($keywords, ['method', 'action', 'controller', 'table_name', 'model_name']),
+            'notification' => Notification::findByKeywords($keywords, ['message']),
+            'role' => Role::findByKeywords($keywords, ['name']),
+            'session' => Session::findByKeywords($keywords, ['id', 'expire', 'ip', 'browser', 'os', 'device']),
+            'setting' => Setting::findByKeywords($keywords, ['name', 'value']),
+            'user' => User::findByKeywords($keywords, ['username', 'email']),
+            'user-meta' => UserMeta::findByKeywords($keywords, ['name', 'value']),
+            'visit-log' => VisitLog::findByKeywords($keywords, ['ip']),
+            'visitor' => Visitor::findByKeywords($keywords, ['expire', 'cookie', 'ip', 'browser', 'os', 'device', 'location'])
+        ];
+
+        $data = [];
+
+        foreach ($array as $controllerId => $keywords) {
+            if ($identity->can('index', $controllerId)) {
+                $data = array_merge($data, $keywords);
+            }
+        }
+
 
         $data = array_unique($data);
         $data = array_values($data);
