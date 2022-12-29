@@ -2,6 +2,8 @@
 
 namespace app\models;
 
+use app\helpers\App;
+use app\helpers\ArrayHelper;
 use app\widgets\Anchor;
 
 /**
@@ -104,12 +106,32 @@ class Concern extends ActiveRecord
         ];
     }
 
+    public function getFormattedRules()
+    {
+        $arr = [];
+
+        foreach ($this->rules as $rule) {
+            $sub = [];
+            if ($rule['sub'] ?? '') {
+                $sub = array_values(ArrayHelper::map($rule['sub'], 'label', 'label'));
+            }
+
+            $arr[$rule['label']] = '('. implode(' | ', $sub) .')';
+        }
+
+        return $arr;
+    }
+
     public function detailColumns()
     {
         return [
             'name:raw',
             'description:raw',
-            'rules:jsonEditor',
+            [
+                'label' => 'Rules',
+                'format' => 'jsonEditor',
+                'value' => fn ($model) => $model->formattedRules
+            ]
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\helpers\App;
+use app\helpers\Html;
 use app\widgets\JsonEditor;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
@@ -155,6 +156,13 @@ class FormatterComponent extends \yii\i18n\Formatter
         $diff = date_diff(date_create($birthdate), date_create($today));
 
         return $diff->format('%y') ?: 0;
+    }
+
+    public function asUl($list)
+    {
+        $list = is_array($list) ? $list: [$list];
+
+        return Html::ul($list);
     }
 
 }

@@ -39,10 +39,22 @@ class ConcernController extends Controller
      * @return mixed
      * @throws ForbiddenHttpException if the model cannot be found
      */
-    public function actionView($slug)
+    public function actionView($slug, $attribute='slug')
     {
+        $model = Concern::controllerFind($slug, $attribute);
+
+        if (App::isAjax()) {
+            return $this->asJson([
+                'status' => 'success',
+                'conclusion_input' => $this->renderPartial('_conclusion-input', [
+                    'model' => $model
+                ])
+            ]);
+        }
+
+
         return $this->render('view', [
-            'model' => Concern::controllerFind($slug, 'slug'),
+            'model' => $model,
         ]);
     }
 

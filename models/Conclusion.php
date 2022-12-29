@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\helpers\App;
 use app\widgets\Anchor;
 
 /**
@@ -43,6 +44,7 @@ class Conclusion extends ActiveRecord
     public function rules()
     {
         return $this->setRules([
+            [['concern_id', 'conclusion', 'conditions'], 'required'],
             [['concern_id'], 'integer'],
             [['conclusion'], 'string'],
             [['conditions'], 'safe'],
@@ -57,7 +59,7 @@ class Conclusion extends ActiveRecord
     {
         return $this->setAttributeLabels([
             'id' => 'ID',
-            'concern_id' => 'Concern ID',
+            'concern_id' => 'Concern',
             'conclusion' => 'Conclusion',
             'conditions' => 'Conditions',
         ]);
@@ -110,7 +112,18 @@ class Conclusion extends ActiveRecord
                     ]);
                 }
             ],
-            'concern_name' => ['attribute' => 'concernName', 'format' => 'raw'],
+            'concern_name' => [
+                'attribute' => 'concernName', 
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Anchor::widget([
+                        'title' => $model->concernName,
+                        'link' => App::if($model->concern, fn ($concern) => $concern->viewUrl),
+                        'text' => true,
+                        'options' => ['target' => '_blank']
+                    ]);
+                }
+            ],
             'conditions' => ['attribute' => 'conditions', 'format' => 'encode'],
         ];
     }
@@ -118,7 +131,7 @@ class Conclusion extends ActiveRecord
     public function detailColumns()
     {
         return [
-            'concern_id:raw',
+            'concernName:raw',
             'conclusion:raw',
             'conditions:jsonEditor',
         ];
