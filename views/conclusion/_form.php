@@ -24,9 +24,9 @@ $this->addJsFile('js/conclusion');
         </div>
         <div class="col-md-6">
             <div class="form-group required">
-                <label class="control-label"><?= $model->getAttributeLabel('conclusion') ?></label>
+                <label class="control-label"><?= $model->getAttributeLabel('conditions') ?></label>
             </div>
-            <div class="conclusion-container">
+            <div class="conditions-container">
                 <?= $this->render('/concern/_conclusion-input', [
                     'model' => $model->concern,
                     'conclusion' => $model
