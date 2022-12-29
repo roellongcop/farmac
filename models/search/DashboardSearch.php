@@ -15,6 +15,7 @@ class DashboardSearch extends \yii\base\Model
 
     public $searchTemplate = 'dashboard/_search';
     public $searchAction = ['dashboard/index'];
+    public $searchActionKeyword = ['dashboard/find-by-keywords'];
     public $searchLabel = 'Dashboard';
 
     public $totalRecords = 0;

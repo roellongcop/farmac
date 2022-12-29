@@ -15,7 +15,12 @@ class Autocomplete extends BaseWidget
     {
         // your logic here
         parent::init();
-        $this->url = $this->url ?: Url::toRoute(['find-by-keywords']);
+        if ($this->url && is_array($this->url)) {
+            $this->url = Url::toRoute($this->url);
+        }
+        else {
+            $this->url = Url::toRoute(['find-by-keywords']);
+        }
         $this->data = json_encode($this->data);
     }
 
