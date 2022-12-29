@@ -77,11 +77,16 @@ class ConcernController extends Controller
         $model = new Concern();
         $model->attributes = $originalModel->attributes;
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Duplicated');
+        if (($post = App::post()) != null) {
+            $post['Concern']['rules'] = $post['Concern']['rules'] ?? null;
 
-            return $this->redirect($model->viewUrl);
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Duplicated');
+                return $this->redirect($model->viewUrl);
+            }
         }
+
+        $model->flashErrors();
 
         return $this->render('duplicate', [
             'model' => $model,
@@ -100,10 +105,16 @@ class ConcernController extends Controller
     {
         $model = Concern::controllerFind($slug, 'slug');
 
-        if ($model->load(App::post()) && $model->save()) {
-            App::success('Successfully Updated');
-            return $this->redirect($model->viewUrl);
+        if (($post = App::post()) != null) {
+            $post['Concern']['rules'] = $post['Concern']['rules'] ?? null;
+
+            if ($model->load($post) && $model->save()) {
+                App::success('Successfully Updated');
+                return $this->redirect($model->viewUrl);
+            }
         }
+
+        $model->flashErrors();
 
         return $this->render('update', [
             'model' => $model,

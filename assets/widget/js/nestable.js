@@ -106,7 +106,7 @@ class NestableWidget {
                 `;
             }
 
-            $(`#ol-dd-list-${self.widgetId}`).prepend(html);
+            $(`#ol-dd-list-${self.widgetId}`).append(html);
             dd.trigger('change');
         });
 

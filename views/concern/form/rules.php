@@ -19,7 +19,15 @@ JS);
 <div id="concern-rule">
     <div class="row">
         <div class="col-md-12">
-            <menu id="nestable-menu-concern-rule" class="btn btn-group menu-nestable-menu">
+            <div class="dd" id="dd-concern-rule">
+                <ol class="dd-list" id="ol-dd-list-concern-rule">
+                    <?= $this->render('_navigation', [
+                        'data_id' => [],
+                        'rules' => $model->rules,
+                    ]) ?>
+                </ol>
+            </div>
+            <menu id="nestable-menu-concern-rule" class="btn btn-group menu-nestable-menu pl-0 mt-3">
                 <a href="#!" class="btn btn-secondary btn-linkedin btn-sm" id="add-main-navigation-concern-rule">
                     Add Entry
                 </a>
@@ -30,14 +38,6 @@ JS);
                     <i class="fas fa-expand"></i> Expand
                 </button>
             </menu>
-            <div class="dd" id="dd-concern-rule">
-                <ol class="dd-list" id="ol-dd-list-concern-rule">
-                    <?= $this->render('_navigation', [
-                        'data_id' => [],
-                        'rules' => $model->rules,
-                    ]) ?>
-                </ol>
-            </div>
         </div>
     </div>
 </div>

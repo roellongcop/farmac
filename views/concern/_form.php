@@ -16,6 +16,10 @@ use app\widgets\ActiveForm;
             ]) ?>
     			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     			<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+                
+                <div class="form-group">
+                    <?= ActiveForm::buttons() ?>
+                </div>
             <?php $this->endContent() ?>
         </div>
         <div class="col-md-6">
@@ -28,8 +32,5 @@ use app\widgets\ActiveForm;
                 ]) ?>
             <?php $this->endContent() ?>
         </div>
-    </div>
-    <div class="form-group">
-        <?= ActiveForm::buttons() ?>
     </div>
 <?php ActiveForm::end(); ?>
