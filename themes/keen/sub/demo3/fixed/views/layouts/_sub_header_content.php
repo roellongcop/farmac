@@ -25,7 +25,7 @@ $page = $this->params['page'] ?? '';
 	<!--begin::Item-->
 	<a href="<?= Url::toRoute(['/expert/index']) ?>" class="nav-item <?= $page == 'expert'? 'active': '' ?>">
 		<span class="nav-label px-10">
-			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Help Desk (AI)</span>
+			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Help Desk</span>
 			<span class="nav-desc text-muted">Ask the system</span>
 		</span>
 	</a>
