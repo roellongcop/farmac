@@ -5,7 +5,7 @@ use app\helpers\App;
 $con = $conclusion ?? '';
 ?>
 
-<?= App::foreach($model->rules, function($rule) use($con) {
+<?= App::if($model, fn ($model) => App::foreach($model->rules, function($rule) use($con) {
 	$value = ($con)? ($con->conditions[$rule['label']] ?? ''): '';
 	$NAchecked = ($value == '_')? 'checked': '';
 
@@ -35,4 +35,4 @@ $con = $conclusion ?? '';
 			</div>
 		</div>
 	HTML;
-}) ?>
+})) ?>

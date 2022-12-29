@@ -38,6 +38,11 @@ class Conclusion extends ActiveRecord
         ];
     }
 
+    public function getMainAttribute()
+    {
+        return strtotime($this->created_at) . $this->id;
+    }
+
     /**
      * {@inheritdoc}
      */
