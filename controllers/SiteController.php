@@ -357,4 +357,37 @@ class SiteController extends Controller
             'errorSummary' => 'no changes'
         ]);
     }
+
+    public function actionLoadPreviousMessages($user_id='')
+    {
+        // $session_id = $session_id ?: App::session('id');
+        $user_id = $user_id ?: App::identity('id');
+        
+        if (($post = App::post()) != null) {
+            $minMessageId = (int) (App::post('minMessageId') ?: 1);
+
+            $messages = Chat::find()
+                ->where(['user_id' => $user_id])
+                ->andWhere(['<', 'id', $minMessageId])
+                ->orderBy(['id' => SORT_DESC])
+                ->limit(20)
+                ->all();
+
+            if ($messages) {
+                return $this->asJson([
+                    'status' => 'success',
+                    'messages' => array_reverse($messages)
+                ]);
+            }
+            return $this->asJson([
+                'status' => 'failed',
+                'errorSummary' => 'no messages'
+            ]);
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'No post data'
+        ]);
+    }
 }

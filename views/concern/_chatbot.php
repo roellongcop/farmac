@@ -49,11 +49,11 @@ CSS);
                     </div>
                 </div>
             </div>
-
+           
             <div class="scrollToBottomContainer" v-if="showScrollable">
                 <span></span>
                 <span>
-                    <button @click="scrollToBottom" class="btn btn-outline-primary font-weight-bold btn-sm btn-pill btn-scroller">
+                    <button @click="scrollToBottom" class="btn btn-outline-primary font-weight-bold btn-sm btn-pill">
                         Scroll to Bottom
                     </button>
                 </span>

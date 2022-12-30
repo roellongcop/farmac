@@ -45,6 +45,8 @@
 
 
   .chat-box {
+    position: absolute;
+/*    position: relative;*/
     display:block;
     background: #efefef;
     width:100%;
@@ -270,4 +272,33 @@
 
 .btn-pill {
   border-radius: 2rem;
+}
+
+div.scrollToBottomContainer { 
+    width: 100%; display: table; 
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+}
+div.scrollToBottomContainer span {
+    display: table-cell;
+    width: 1%;
+}
+div.scrollToBottomContainer span:nth-of-type(2) {
+    width: 99%;
+    text-align: center;
+}
+
+.scroller-thumb::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.scroller-thumb::-webkit-scrollbar {
+    width: 5px;  
+    background-color: #F5F5F5;
+}
+
+.scroller-thumb::-webkit-scrollbar-thumb {
+    background-color: #a3a4a5;
 }

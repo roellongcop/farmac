@@ -36,7 +36,7 @@ class ChatbotForm extends SettingForm
         return [
             'name' => [
                 'name' => 'name',
-                'default' => 'Chatbot'
+                'default' => 'Help Desk'
             ],
             'photo' => [
                 'name' => 'photo',
