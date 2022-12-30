@@ -1,5 +1,5 @@
 $('#conclusion-concern_id').change(function(e) {
-	KTApp.block('.conclusion-container', {
+	KTApp.block('.conditions-container', {
 		overlayColor: '#000000',
 		message: 'Please wait...',
 		state: 'primary'
@@ -16,16 +16,16 @@ $('#conclusion-concern_id').change(function(e) {
 		dataType: 'json',
 		success: (s) => {
 			if (s.status == 'success') {
-				$('.conclusion-container').html(s.conclusion_input);
+				$('.conditions-container').html(s.conclusion_input);
 			}
 			else {
 				Swal.fire('Error', s.errorSummary, 'error');
 			}
-			KTApp.unblock('.conclusion-container');
+			KTApp.unblock('.conditions-container');
 		},
 		error: (e) => {
 			Swal.fire('Error', e.responseText, 'error');
-			KTApp.unblock('.conclusion-container');
+			KTApp.unblock('.conditions-container');
 		}
 	})
 })

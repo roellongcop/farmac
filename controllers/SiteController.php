@@ -401,7 +401,6 @@ class SiteController extends Controller
     {
         if (($post = App::post()) != null) {
             $session = \Yii::$app->session;
-            $session->open();
             
             if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
                 $session->remove('concern_id');
@@ -417,7 +416,6 @@ class SiteController extends Controller
                 Chat::addUser($post['message'], $post['hiddenMessage']);
                 Chat::response($session['activeQuestion']);
 
-                $session->close();
                 return $this->asJson(['status' => 'success', $session]);
             }
 
@@ -429,7 +427,6 @@ class SiteController extends Controller
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
                     Chat::response($activeQuestion);
 
-                    $session->close();
                     return $this->asJson([
                         'status' => 'failed',
                         'errorSummary' => 'Answer not expected'
@@ -455,7 +452,6 @@ class SiteController extends Controller
                     Chat::expectedAnswers($session['activeQuestion']);
                 }
 
-                $session->close();
                 return $this->asJson(['status' => 'success', $session]);
             }
             else {
@@ -473,7 +469,6 @@ class SiteController extends Controller
                     Chat::addChatbot(App::setting('chatbot')->default_message);
                 }
 
-                $session->close();
                 return $this->asJson(['status' => 'success', $session]);
             }
             
