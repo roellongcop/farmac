@@ -43,7 +43,7 @@ $this->params['wrapCard'] = false;
                                 <span class="navi-text">
                                     {{index+1}}) {{concern.name}}
                                     <div class="text-muted">
-                                        Estimated: <span class="font-weight-bold" v-html="concern.totalRules"></span> Questions
+                                        Max: <span class="font-weight-bold" v-html="concern.totalRules"></span> Questions
                                     </div>
                                 </span>
                             </a>
