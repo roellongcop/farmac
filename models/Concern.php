@@ -184,4 +184,40 @@ class Concern extends ActiveRecord
             'data' => $data
         ];
     }
+
+    public function getQuestions()
+    {
+        $questions = [];
+        foreach ($this->rules as $rule) {
+            $questions[$rule['label']] = 'pending'; //not answered
+        }
+
+        return $questions;
+    }
+
+    public function getActiveQuestions($questions='')
+    {
+        $questions = $questions ?: $_SESSION['questions'];
+
+        foreach ($questions as $question => $status) {
+            if ($status == 'pending') {
+                return $question;
+            }
+        }
+    }
+
+    public function getExpectedAnswers($activeQuestion='')
+    {
+        $activeQuestion = $activeQuestion ?: $_SESSION['activeQuestion'];
+
+        $rules = ArrayHelper::map($this->rules, 'label', 'sub');
+
+        $answers = $rules[$activeQuestion] ?? [];
+
+        if ($answers) {
+            $answers = array_keys(ArrayHelper::index($answers, 'label'));
+        }
+
+        return $answers;
+    }
 }

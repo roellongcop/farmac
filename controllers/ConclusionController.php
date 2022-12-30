@@ -14,7 +14,7 @@ class ConclusionController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Conclusion::findByKeywords($keywords, ['conclusion'])
+            Conclusion::findByKeywords($keywords, ['id'])
         );
     }
 

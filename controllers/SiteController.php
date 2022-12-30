@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\App;
+use app\helpers\ArrayHelper;
 use app\helpers\Html;
 use app\models\Chat;
 use app\models\Concern;
@@ -398,15 +399,23 @@ class SiteController extends Controller
     public function actionSendNewMessage()
     {
         if (($post = App::post()) != null) {
+
+
             if (str_contains($post['hiddenMessage'], '/concern-')) {
                 $explode = explode('/concern-', $post['hiddenMessage']);
 
                 $concern = Concern::findOne($explode[1] ?? 0);
 
                 if ($concern) {
-                    return $this->asJson($concern);
+                    $_SESSION['concern'] = $concern;
+                    $_SESSION['questions'] = $concern->questions;
+                    $_SESSION['activeQuestion'] = $concern->activeQuestions;
+                    $_SESSION['expectedAnswer'] = $concern->expectedAnswers;
                 }
             }
+
+            return $this->asJson($_SESSION);
+            
 
 
             $chat = new Chat([
@@ -417,10 +426,17 @@ class SiteController extends Controller
             ]);
 
             if ($chat->save()) {
+                // $response = new Chat([
+                //     'type' => Chat::TYPE_CHATBOT,
+                //     'message' => $_SESSION['activeQuestion'],
+                //     'status' => Chat::ANSWERED
+                // ]);
+                // $response->save();
+
                 
                 return $this->asJson([
                     'status' => 'success',
-                    'training' => $chat,
+                    'chat' => $chat,
                 ]);
             }
             return $this->asJson([
