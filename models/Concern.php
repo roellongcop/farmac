@@ -158,4 +158,30 @@ class Concern extends ActiveRecord
 
         return $behaviors;
     }
+
+    public function getConclusions()
+    {
+        return $this->hasMany(Conclusion::class, ['concern_id' => 'id']);
+    }
+
+    public function getDecisionTree()
+    {
+        $data = [];
+
+        if (($conclusions = $this->conclusions) != null) {
+            foreach ($conclusions as $key => $conclusion) {
+                foreach ($this->rules as $rule) {
+                    $data[$key][$rule['label']] = $conclusion->conditions[$rule['label']] ?? '';
+                }
+
+                $data[$key]['conclusion'] = $conclusion->conclusion;
+            }
+        }
+        
+
+        return [
+            'keys' => $data ? array_keys($data[0]): [],
+            'data' => $data
+        ];
+    }
 }
