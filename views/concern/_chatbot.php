@@ -20,7 +20,7 @@ CSS);
 
 ?>
 
-<div id="chatbot">
+<div id="chatbot" v-cloak>
     
     <div id="chat-circle" class="btn btn-raised" :style="{background: chatbot.theme_color}">
         <div id="chat-overlay"></div>
@@ -31,7 +31,6 @@ CSS);
         <div class="chat-box-header" :style="{background: chatbot.theme_color}">
             <img :src="chatbotPhotoUrl" class="img-fluid chatbot-photo">
             {{chatbot.name}}
-            <span class="chat-box-toggle"><i class="far fa-window-close"></i></span>
         </div>
         <div class="chat-box-body">
             <div class="chat-box-overlay">   
