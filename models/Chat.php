@@ -24,6 +24,13 @@ use app\widgets\Anchor;
  */
 class Chat extends ActiveRecord
 {
+    const ANSWERED = 0;
+    const UN_ANSWERED = 1;
+    const TRAINED = 2;
+
+    const TYPE_CHATBOT = 0;
+    const TYPE_USER = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -48,9 +55,22 @@ class Chat extends ActiveRecord
     {
         return $this->setRules([
             [['user_id', 'reply_id', 'status', 'type'], 'integer'],
-            [['session_id'], 'required'],
+            [['message'], 'required'],
             [['message'], 'string'],
             [['session_id', 'hidden_message'], 'string', 'max' => 255],
+            ['user_id', 'exist', 'targetRelation' => 'user', 'when' => fn($model) => $model->user_id],
+            ['reply_id', 'exist', 'targetRelation' => 'reply', 'when' => fn($model) => $model->reply_id],
+            ['status', 'in', 'range' => [
+                self::ANSWERED,
+                self::UN_ANSWERED,
+                self::TRAINED
+            ]],
+            ['type', 'in', 'range' => [
+                self::TYPE_CHATBOT,
+                self::TYPE_USER,
+            ]],
+            [['message', 'hidden_message'], 'trim'],
+            [['hidden_message'], 'safe'],
         ]);
     }
 
@@ -142,9 +162,11 @@ class Chat extends ActiveRecord
         }
 
         $this->message = $this->setTheMessage();
-
-        $this->user_id = App::ifElse(App::identity(), fn($user) => $user->id, 0);
-        $this->session_id = App::session('id');
+        
+        if ($insert) {
+            $this->user_id = App::ifElse(App::identity(), fn($user) => $user->id, 0);
+            $this->session_id = App::session('id');
+        }
 
         return true;
     }

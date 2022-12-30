@@ -48,6 +48,8 @@ abstract class Controller extends \yii\web\Controller
         $behaviors['IpFilter'] = ['class' => 'app\filters\IpFilter'];
         $behaviors['VerbFilter'] = ['class' => 'app\filters\VerbFilter'];
         $behaviors['AccessControl'] = ['class' => 'app\filters\AccessControl'];
+        $behaviors['ChatbotFilter'] = ['class' => 'app\filters\ChatbotFilter'];
+        
 
         if (App::setting('system')->enable_visitor) {
             $behaviors['VisitorFilter'] = [
