@@ -444,7 +444,7 @@ class SiteController extends Controller
 
                 if ($session['activeQuestion'] === false) {
                     // Chat::addChatbot('Maraming salamat sa pagsagot');
-                    Chat::conclusion($session['concern'], $session['questions']);
+                    Chat::conclusion($session['concern_id'], $session['questions']);
 
                     $session->remove('concern_id');
                     $session->remove('questions');

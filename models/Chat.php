@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\helpers\App;
+use app\helpers\ArrayHelper;
 use app\helpers\Html;
 use app\widgets\Anchor;
 use app\widgets\Label;
@@ -411,40 +412,44 @@ class Chat extends ActiveRecord
         }
     }
 
-    public static function conclusion($concern, $questions)
+    public static function conclusion($concern_id, $questions)
     {
 
-        if ($concern && $questions) {
+        if ($concern_id && $questions) {
+            $concern = Concern::findOne($concern_id);
 
-            $decisionTree = $concern->decisionTree['data'];
-            $conclusions = [];
-                    self::addChatbot(json_encode($questions));
-                    self::addChatbot(json_encode($decisionTree));
+            if ($concern) {
 
-            foreach($questions as $question) {
+                $decisionTree = $concern->decisionTree['data'];
+
+                $conclusions = [];
+
 
                 foreach ($decisionTree as $dt) {
                     $counter = 0;
-                    foreach ($dt as $label => $d) {
-                        if ($question['label'] == $label && strtolower($d) == strtolower($question['answer'])) {
-                            $counter++;
+                    foreach ($questions as $question) {
+                        if (isset($dt[$question['label']])) {
+                            if ($dt[$question['label']] == $question['answer']) {
+                                $counter++;
+                            }
                         }
                     }
-
                     if ($counter == $concern->totalRules) {
                         $conclusions[] = $dt['conclusion'];
+                        $counter = 0;
                     }
-                    self::addChatbot($counter);
                 }
-            }
 
-            if ($conclusions) {
-                foreach ($conclusions as $conclusion) {
-                    self::addChatbot($conclusion);
+             
+
+                if ($conclusions) {
+                    foreach ($conclusions as $conclusion) {
+                        self::addChatbot($conclusion);
+                    }
                 }
-            }
-            else {
-                self::addChatbot($concern->fallback_message);
+                else {
+                    self::addChatbot($concern->fallback_message);
+                }
             }
         }
     }
