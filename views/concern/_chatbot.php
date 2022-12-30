@@ -11,13 +11,15 @@ $this->registerCss(<<< CSS
     .chat-logs::-webkit-scrollbar-thumb {
         background-color: {$themeColor};
     }
+    .scroller-thumb::-webkit-scrollbar-thumb {
+        background-color: {$themeColor};
+    }
     .btn-scroller:hover {
         background: {$themeColor};
         border-color: {$themeColor};
         color: #fff;
     }
 CSS);
-
 ?>
 
 <div id="chatbot">
@@ -61,15 +63,13 @@ CSS);
             </div>
         </div>
         <div class="chat-input">      
-            <form @submit.prevent="sendNewMessage('')">
-                <div class="input-group">
-                    <input class="form-control" autocomplete="off" maxlength="225" type="text" id="chat-input" v-model="messageModel" placeholder="Send a message..."/>
-                    
-                    <div class="input-group-append submit-btn-container">
-                        <button type="submit" class="chat-submit btn" id="chat-submit"><i class="fab fa-telegram-plane" :style="{color: chatbot.theme_color}"></i></button>
-                    </div>
+            <div class="input-group">
+                <input class="form-control" autocomplete="off" type="text" id="chat-input" v-model="messageModel" placeholder="Send a message..." @keydown.enter.exact.prevent="sendNewMessage()"/>
+                
+                <div class="input-group-append submit-btn-container">
+                    <button @click="sendNewMessage()" type="submit" class="chat-submit btn" id="chat-submit"><i class="fab fa-telegram-plane" :style="{color: chatbot.theme_color}"></i></button>
                 </div>
-            </form>      
+            </div>
         </div>
     </div>
 </div>

@@ -12,11 +12,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Concerns', 'url' => $model->indexU
 $this->params['breadcrumbs'][] = $model->mainAttribute;
 $this->params['searchModel'] = new ConcernSearch();
 $this->params['showCreateButton'] = true; 
+$this->params['wrapCard'] = false; 
 ?>
 <div class="concern-view-page">
-    <?= Anchors::widget([
-    	'names' => ['update', 'duplicate', 'delete', 'log'], 
-    	'model' => $model
-    ]) ?> 
-    <?= Detail::widget(['model' => $model]) ?>
+    <?php $this->beginContent('@app/views/layouts/_card_wrapper.php') ?>
+        <?= Anchors::widget([
+        	'names' => ['update', 'duplicate', 'delete', 'log'], 
+        	'model' => $model
+        ]) ?> 
+        <?= Detail::widget(['model' => $model]) ?>
+    <?php $this->endContent() ?>
+
+    <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+        'title' => 'Decision Table'
+    ]) ?>
+    <?php $this->endContent() ?>
 </div>

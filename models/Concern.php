@@ -38,6 +38,15 @@ class Concern extends ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        $fields['totalRules'] = fn ($model) => $model->rules ? number_format(count($model->rules)): 0;
+
+        return $fields;
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -73,6 +73,9 @@
     padding-top:17px;
   }
   .chat-box-body {
+        background-image: url(/default/chat-bg.png);
+    background-size: contain;
+/*        background: #f3f6f9;*/
     position: relative;  
     height:370px;  
     height:auto;
@@ -92,7 +95,7 @@
     z-index: -1;   
   }
   #chat-input {
-    background: #f4f7f9;
+    background: #fff;
 /*    width:100%; */
 /*    position:relative;*/
     height:47px;  
@@ -114,7 +117,7 @@
 
   }
   .submit-btn-container {
-    background: #f4f7f9;
+    background: #fff;
     border: 1px solid #ccc;
     border-left: hidden;
     border-top: hidden;
@@ -166,7 +169,7 @@
 
   .chat-logs::-webkit-scrollbar-thumb
   {
-    background-color: #5A5EB9;
+    background-color: #ccc;
   }
   [v-cloak] {
     display: none;
@@ -308,5 +311,9 @@ div.scrollToBottomContainer span:nth-of-type(2) {
 }
 
 .scroller-thumb::-webkit-scrollbar-thumb {
-    background-color: #a3a4a5;
+    background-color: #ccc;
+}
+.concern-body {
+  max-height: 54vh;
+  overflow: auto;
 }

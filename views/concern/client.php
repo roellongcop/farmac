@@ -17,10 +17,10 @@ $this->params['wrapCard'] = false;
 <div class="concern-index-page" id="help-desk" v-cloak>
     <div class="row">
         <div class="col-md-4">
-            <div class="card card-custom card-stretch gutter-b">
+            <div class="card card-custom card-stretch">
                 <div class="card-header p-5">
                     <div class="input-group input-group-lg input-group-solid">
-                        <input type="text" class="form-control pl-4 search-input" placeholder="Search...">
+                        <input type="text" class="form-control pl-4 search-input" placeholder="Search Concern" v-model="concernModel">
                         <div class="input-group-append">
                             <span class="input-group-text pr-3">
                                 <span class="svg-icon svg-icon-lg">
@@ -36,70 +36,19 @@ $this->params['wrapCard'] = false;
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-5">
+                <div class="card-body p-5 scroller-thumb concern-body">
                     <div class="navi navi-hover navi-active navi-link-rounded navi-bold navi-icon-center navi-light-icon overflow-auto space-list">
-                        <div>
-                            <div>
-                                <div class="navi-item my-2">
-                                    <a href="#" class="navi-link space-item active">
-                                        <span class="navi-icon mr-4">
-                                            <div class="symbol symbol-35 symbol-circle symbol-light-primary mr-3">
-                                                <span class="symbol-label">t</span>
-                                            </div>
-                                        </span>
-                                        <span class="navi-text">test public <div class="text-muted">Public <small class="text-danger font-weight-bold">&nbsp; (Blocked) </small>
-                                            </div>
-                                        </span>
-                                        <!---->
-                                    </a>
-                                </div>
-                                <div class="navi-item my-2">
-                                    <a href="#" class="navi-link space-item">
-                                        <span class="navi-icon mr-4">
-                                            <div class="symbol symbol-35 symbol-circle symbol-light-primary mr-3">
-                                                <span class="symbol-label">o</span>
-                                            </div>
-                                        </span>
-                                        <span class="navi-text">ok <div class="text-muted">Private <small class="text-danger font-weight-bold">&nbsp; (Blocked) </small>
-                                            </div>
-                                        </span>
-                                        <!---->
-                                    </a>
-                                </div>
-                                <div class="navi-item my-2">
-                                    <a href="#" class="navi-link space-item">
-                                        <span class="navi-icon mr-4">
-                                            <div class="symbol symbol-35 symbol-circle symbol-light-primary mr-3">
-                                                <span class="symbol-label">
-                                                    <img src="/assets/images/1d/1d8686_default-image_200.png" class="img-fluid img-circle">
-                                                </span>
-                                            </div>
-                                        </span>
-                                        <span class="navi-text">developer <div class="text-muted">Personal
-                                                <!---->
-                                            </div>
-                                        </span>
-                                        <!---->
-                                    </a>
-                                </div>
-                                <div class="navi-item my-2">
-                                    <a href="#" class="navi-link space-item">
-                                        <span class="navi-icon mr-4">
-                                            <div class="symbol symbol-35 symbol-circle symbol-light-primary mr-3">
-                                                <span class="symbol-label">
-                                                    <img src="/assets/images/9a/9a781a_Farma-C3.png-JAK23Bp7x7-1672208477-zc-dqLRtJS-1672229809.png" class="img-fluid img-circle">
-                                                </span>
-                                            </div>
-                                        </span>
-                                        <span class="navi-text">General Group <div class="text-muted">Public
-                                                <!---->
-                                            </div>
-                                        </span>
-                                        <!---->
-                                    </a>
-                                </div>
-                            </div>
+                        <div class="navi-item my-2" v-for="(concern, index) in filteredConcerns" :key="concern.id" @click="selectConcern(concern)">
+                            <a href="#" class="navi-link space-item">
+                                <span class="navi-text">
+                                    {{index+1}}) {{concern.name}}
+                                    <div class="text-muted">
+                                        Estimated: <span class="font-weight-bold" v-html="concern.totalRules"></span> Questions
+                                    </div>
+                                </span>
+                            </a>
                         </div>
+
                     </div>
                 </div>
             </div>

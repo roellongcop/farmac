@@ -33,6 +33,7 @@ const chat = createApp({
 				dataType: 'json',
 				success: (response) => {
 					messages.value = response.messages || [];
+					concerns.value = response.concerns || [];
 					totalMessages.value = response.totalMessages;
 					minimumMessageId.value = response.minimumMessageId || 1;
 
@@ -267,6 +268,39 @@ const chat = createApp({
 			return true;
 		}
 
+		const selectConcern = (concern) => {
+			messageModel.value = concern.name;
+
+			sendNewMessage('/concern-' + concern.id);
+	    	// block('.concern-body', 'Loading Concern...');
+			// $.ajax({
+			// 	url: app.baseUrl + 'site/select-concern',
+			// 	data: {conern},
+			// 	method 'post',
+			// 	dataType: 'json',
+			// 	success: (s) => {
+			// 		if (s.status == 'success') {
+
+			// 		}
+			// 		else {
+			// 			Swal.fire('Error', s.errorSummary, 'error');
+			// 		}
+			// 		unblock('.concern-body');
+			// 	},
+			// 	error: (e) => {
+			// 		Swal.fire('Error', e.responseText, 'error');
+			// 		unblock('.concern-body');
+			// 	}
+			// })
+		}
+
+		const concernModel = ref('');
+		const filteredConcerns = computed(() => {
+			return concerns.value.filter(concern => {
+		        return concern.name.toLowerCase().includes(concernModel.value.toLowerCase())
+		    })
+		});
+
 		return {
 			messages,
 			chatbot,
@@ -282,7 +316,9 @@ const chat = createApp({
 			scrollToBottom,
 			showTimesent,
 			messageStyleClass,
-			concerns
+			filteredConcerns,
+			selectConcern,
+			concernModel
 		}
 	}
 });

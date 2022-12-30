@@ -394,4 +394,44 @@ class SiteController extends Controller
             'errorSummary' => 'No post data'
         ]);
     }
+
+    public function actionSendNewMessage()
+    {
+        if (($post = App::post()) != null) {
+            if (str_contains($post['hiddenMessage'], '/concern-')) {
+                $explode = explode('/concern-', $post['hiddenMessage']);
+
+                $concern = Concern::findOne($explode[1] ?? 0);
+
+                if ($concern) {
+                    return $this->asJson($concern);
+                }
+            }
+
+
+            $chat = new Chat([
+                'type' => Chat::TYPE_USER,
+                'message' => $post['message'],
+                'hidden_message' => $post['hiddenMessage'],
+                'status' => Chat::ANSWERED
+            ]);
+
+            if ($chat->save()) {
+                
+                return $this->asJson([
+                    'status' => 'success',
+                    'training' => $chat,
+                ]);
+            }
+            return $this->asJson([
+                'status' => 'failed',
+                'errorSummary' => $chat->errorSummary
+            ]);
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'No post data'
+        ]);
+    }
 }
