@@ -131,6 +131,11 @@ class Concern extends ActiveRecord
         return $arr;
     }
 
+    public function getTotalRules()
+    {
+        return App::ifElse($this->rules, fn ($rules) => count($rules), 0);
+    }
+
     public function detailColumns()
     {
         return [

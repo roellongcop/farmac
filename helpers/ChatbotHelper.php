@@ -33,7 +33,8 @@ class ChatbotHelper
             $questions[] = [
                 'label' => $rule['label'],
                 'expected_answers' => array_keys(ArrayHelper::index($rule['sub'], 'label')),
-                'status' => 'pending'
+                'status' => 'pending',
+                'answer' => ''
             ]; 
         }
 
@@ -54,7 +55,7 @@ class ChatbotHelper
     }
 
 
-    public static function updateQuestions($questions=[], $activeQuestion=[])
+    public static function updateQuestions($message='', $questions=[], $activeQuestion=[])
     {
         $questions = $questions ?: $_SESSION['questions'];
         $activeQuestion = $activeQuestion ?: $_SESSION['activeQuestion'];
@@ -62,6 +63,7 @@ class ChatbotHelper
         foreach ($questions as &$question) {
             if ($question['label'] == $activeQuestion['label']) {
                 $question['status'] = 'completed';
+                $question['answer'] = $message;
             }
         }
 

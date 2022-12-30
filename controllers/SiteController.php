@@ -400,30 +400,38 @@ class SiteController extends Controller
     public function actionSendNewMessage()
     {
         if (($post = App::post()) != null) {
+            $session = \Yii::$app->session;
+            $session->open();
             
             if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
+                $session->remove('concern');
+                $session->remove('questions');
+                $session->remove('activeQuestion');
+
                 $concern = ChatbotHelper::getConcern($post['hiddenMessage']);
 
                 if ($concern) {
-                    $_SESSION['concern'] = $concern;
-                    $_SESSION['questions'] = ChatbotHelper::getQuestions();
-                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+                    $session['concern'] = $concern;
+                    $session['questions'] = ChatbotHelper::getQuestions();
+                    $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
                 }
 
                 Chat::addUser($post['message'], $post['hiddenMessage']);
-                Chat::response($_SESSION['activeQuestion']);
+                Chat::response($session['activeQuestion']);
 
-                return $this->asJson(['status' => 'success']);
+                $session->close();
+                return $this->asJson(['status' => 'success', $session]);
             }
 
 
-            if (($activeQuestion = $_SESSION['activeQuestion'] ?? null) != null) {
-                if (!in_array(strtoupper($post['message']), array_map('strtoupper', $activeQuestion['expected_answers']))) {
+            if (($activeQuestion = $session['activeQuestion'] ?? null) != null) {
+                if (!in_array(strtolower($post['message']), array_map('strtolower', $activeQuestion['expected_answers']))) {
 
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
                     Chat::response($activeQuestion);
 
+                    $session->close();
                     return $this->asJson([
                         'status' => 'failed',
                         'errorSummary' => 'Answer not expected'
@@ -433,44 +441,44 @@ class SiteController extends Controller
 
                 Chat::addUser($post['message'], $post['hiddenMessage']);
 
-                $_SESSION['questions'] = ChatbotHelper::updateQuestions();
-                $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+                $session['questions'] = ChatbotHelper::updateQuestions($post['message']);
+                $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
 
-                if ($_SESSION['activeQuestion'] === false) {
-                    Chat::addChatbot('Completed');
-
+                if ($session['activeQuestion'] === false) {
+                    // Chat::addChatbot('Maraming salamat sa pagsagot');
+                    Chat::conclusion($session['concern'], $session['questions']);
 
                     unset(
-                        $_SESSION['concern'],
-                        $_SESSION['questions'],
-                        $_SESSION['activeQuestion'],
+                        $session['concern'],
+                        $session['questions'],
+                        $session['activeQuestion'],
                     );
                 }
                 else {
-                    Chat::addChatbot($_SESSION['activeQuestion']['label']);
-                    Chat::expectedAnswers($_SESSION['activeQuestion']);
+                    Chat::addChatbot($session['activeQuestion']['label']);
+                    Chat::expectedAnswers($session['activeQuestion']);
                 }
 
-
-                return $this->asJson(['status' => 'success']);
+                $session->close();
+                return $this->asJson(['status' => 'success', $session]);
             }
             else {
 
                 if (($concern = Concern::findOne(['name' => $post['message']])) != null) {
-                    $_SESSION['concern'] = $concern;
-                    $_SESSION['questions'] = ChatbotHelper::getQuestions();
-                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+                    $session['concern'] = $concern;
+                    $session['questions'] = ChatbotHelper::getQuestions();
+                    $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
 
                     Chat::addUser($post['message'], $post['hiddenMessage']);
-                    Chat::response($_SESSION['activeQuestion']);
+                    Chat::response($session['activeQuestion']);
                 }
                 else {
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     Chat::addChatbot(App::setting('chatbot')->default_message);
                 }
 
-
-                return $this->asJson(['status' => 'success']);
+                $session->close();
+                return $this->asJson(['status' => 'success', $session]);
             }
             
         }

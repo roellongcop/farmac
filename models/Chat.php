@@ -410,4 +410,39 @@ class Chat extends ActiveRecord
             );
         }
     }
+
+    public static function conclusion($concern, $questions)
+    {
+
+        if ($concern && $questions) {
+
+            $decisionTree = $concern->decisionTree['data'];
+            $conclusions = [];
+
+            foreach($questions as $question) {
+
+                foreach ($decisionTree as $dt) {
+                    $counter = 0;
+                    foreach ($dt as $label => $d) {
+                        if ($question['label'] == $label && strtolower($d) == strtolower($question['answer']) && $label != 'conclusion') {
+                            $counter++;
+                        }
+                    }
+
+                    if ($counter == $concern->totalRules) {
+                        $conclusions[] = $dt['conclusion'];
+                    }
+                }
+            }
+
+            if ($conclusions) {
+                foreach ($conclusions as $conclusion) {
+                    self::addChatbot($conclusion);
+                }
+            }
+            else {
+                self::addChatbot($concern->fallback_message);
+            }
+        }
+    }
 }
