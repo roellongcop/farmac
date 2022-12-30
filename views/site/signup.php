@@ -12,7 +12,7 @@ use app\widgets\Dropzone;
 
 $this->title = 'Create an Account';
 
-$this->addJsFile('js/frontend/signup');
+$this->addJsFile('js/signup');
 ?>
 
 <div class="d-flex justify-content-between">

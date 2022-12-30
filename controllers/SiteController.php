@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\App;
 use app\helpers\Html;
+use app\models\Chat;
 use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\ForgotPasswordForm;
@@ -277,6 +278,83 @@ class SiteController extends Controller
 
         return $this->render('forgot-password', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionInitChatbotData($user_id='')
+    {
+        // $session_id = $session_id ?: App::session('id');
+        $user_id = $user_id ?: App::identity('id');
+
+        $messages = Chat::find()
+            ->where(['user_id' => $user_id])
+            ->limit(20)
+            ->orderBy(['id' => SORT_DESC])
+            ->all();
+
+        $totalMessages = Chat::find()
+            ->where(['user_id' => $user_id])
+            ->count();
+
+        $minimumMessageId = Chat::find()
+            ->where(['user_id' => $user_id])
+            ->min('id');
+
+        return $this->asJson([
+            'status' => 'success',
+            'messages' => array_reverse($messages),
+            'totalMessages' => $totalMessages,
+            'minimumMessageId' => $minimumMessageId,
+        ]);
+    }
+
+    public function actionChatPoll($user_id='')
+    {
+        session_write_close();
+        ignore_user_abort(false);
+        set_time_limit(0);
+
+        // $session_id = $session_id ?: App::session('id');
+        $user_id = $user_id ?: App::identity('id');
+
+        $counter = rand(2, 5);
+        $maxMessageId_post = (int) (App::post('maxMessageId') ?: 0);
+        $minMessageId_post = (int) (App::post('minMessageId') ?: 0);
+        $totalMessages_post = (int) (App::post('totalMessages') ?: 0);
+
+        for ($i=0; $i < $counter; $i++) { 
+            $response = [];
+
+            $totalMessages = Chat::find()
+                ->where(['user_id' => $user_id])
+                ->count();
+
+            if ($totalMessages > 0 && ($totalMessages != $totalMessages_post)) {
+                $response['totalMessages'] = $totalMessages;
+            }
+
+            $messages = Chat::find()
+                ->where(['user_id' => $user_id])
+                ->andWhere(['>', 'id', $maxMessageId_post])
+                ->orderBy(['id' => SORT_DESC])
+                ->limit(20)
+                ->all();
+
+            if ($messages) {
+                $response['messages'] = array_reverse($messages);
+            }
+
+            if ($response) {
+                $response['status'] = 'success';
+                return $this->asJson($response);
+            }
+            
+            sleep(1);
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'no changes'
         ]);
     }
 }

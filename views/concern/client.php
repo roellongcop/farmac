@@ -12,6 +12,7 @@ use app\models\search\DashboardSearch;
 $this->title = 'Concerns';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = new DashboardSearch(); 
+$this->params['wrapCard'] = false;
 ?>
 <div class="concern-index-page">
     <div class="row">
@@ -53,7 +54,7 @@ $this->params['searchModel'] = new DashboardSearch();
         </div>
 
         <div class="col-md-8">
-            
+            <?= $this->render('_chatbot') ?>
         </div>
     </div>
 </div>

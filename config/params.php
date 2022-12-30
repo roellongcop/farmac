@@ -3,6 +3,15 @@
 return [
     'user.passwordResetTokenExpire' => 3600,
     'pagination' => [10 => 10, 25 => 25, 50 => 50, 75 => 75, 100 => 100],
+    'chat_status' => [
+        0 => [ 'id' => 0, 'label' => 'Answered', 'class' => 'success'],
+        1 => [ 'id' => 1, 'label' => 'Un-Answered', 'class' => 'danger'],
+        2 => [ 'id' => 2, 'label' => 'Trained', 'class' => 'primary'],
+    ],
+    'chat_type' => [
+        0 => [ 'id' => 0, 'label' => 'BOT', 'class' => 'success'],
+        1 => [ 'id' => 1, 'label' => 'User', 'class' => 'primary'],
+    ],
     'record_status' => [
         0 => ['id' => 0, 'label' => 'In-active', 'class' => 'danger'],
         1 => ['id' => 1, 'label' => 'Active', 'class' => 'success'],
