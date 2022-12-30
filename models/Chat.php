@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\helpers\App;
+use app\helpers\Html;
 use app\widgets\Anchor;
 use app\widgets\Label;
 
@@ -308,8 +309,8 @@ class Chat extends ActiveRecord
         return $this->hasMany(Chat::class, ['reply_id' => 'id']);
     }
 
-    public static function response($training, $chat)
-    {
+    // public static function response($training, $chat)
+    // {
         // if ($training->suggestion == 'ai') {
         //     $faker = \Faker\Factory::create();
         //     $response = $faker->randomElement($training->response);
@@ -334,7 +335,7 @@ class Chat extends ActiveRecord
         //         $model->save();
         //     }
         // }
-    }
+    // }
 
     public static function dummy()
     {
@@ -364,5 +365,49 @@ class Chat extends ActiveRecord
     public function getDisplayMessage()
     {
         return nl2br($this->message);
+    }
+
+    public static function addUser($message='', $hiddenMessage='')
+    {
+        $chat = new self([
+            'type' => self::TYPE_USER,
+            'message' => $message,
+            'hidden_message' => $hiddenMessage,
+            'status' => self::ANSWERED
+        ]);
+        return $chat->save();
+    }
+
+    public static function addChatbot($message='', $hiddenMessage='')
+    {
+        $chat = new self([
+            'type' => self::TYPE_CHATBOT,
+            'message' => $message,
+            'hidden_message' => $hiddenMessage,
+            'status' => self::ANSWERED
+        ]);
+        $chat->save();
+    }
+
+    public static function response($activeQuestion=[])
+    {
+        if ($activeQuestion) {
+            self::addChatbot($activeQuestion['label']);
+            self::expectedAnswers($activeQuestion);
+        }
+    }
+
+    public static function expectedAnswers($activeQuestion=[])
+    {
+        if ($activeQuestion) {
+            self::addChatbot(
+                App::foreach($activeQuestion['expected_answers'], fn ($ans) => Html::tag('a', $ans, [
+                        'href' => '#',
+                        'data-message' => $ans,
+                        'data-hidden_message' => $ans,
+                        'class' => 'btn btn-outline-success btn-pill mb-1 btn-hidden-message',
+                ]))
+            );
+        }
     }
 }

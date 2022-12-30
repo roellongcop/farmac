@@ -409,30 +409,20 @@ class SiteController extends Controller
                     $_SESSION['questions'] = ChatbotHelper::getQuestions();
                     $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
                 }
-                
-                $chat = new Chat([
-                    'type' => Chat::TYPE_USER,
-                    'message' => $post['message'],
-                    'hidden_message' => $post['hiddenMessage'],
-                    'status' => Chat::ANSWERED
-                ]);
-                $chat->save();
 
-                return $this->asJson([
-                    'status' => 'success',
-                    'chat' => $chat,
-                ]);
+                Chat::addUser($post['message'], $post['hiddenMessage']);
+                Chat::response($_SESSION['activeQuestion']);
+
+                return $this->asJson(['status' => 'success']);
             }
 
 
             if (($activeQuestion = $_SESSION['activeQuestion'] ?? null) != null) {
-                if (!in_array($post['message'], $activeQuestion['expected_answers'])) {
-                    $response = new Chat([
-                        'type' => Chat::TYPE_CHATBOT,
-                        'message' => 'Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng ' . implode(', ', $activeQuestion['expected_answers']),
-                        'status' => Chat::ANSWERED
-                    ]);
-                    $response->save();
+                if (!in_array(strtoupper($post['message']), array_map('strtoupper', $activeQuestion['expected_answers']))) {
+
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
+                    Chat::response($activeQuestion);
 
                     return $this->asJson([
                         'status' => 'failed',
@@ -441,52 +431,46 @@ class SiteController extends Controller
                 }
 
 
-                $chat = new Chat([
-                    'type' => Chat::TYPE_USER,
-                    'message' => $post['message'],
-                    'hidden_message' => $post['hiddenMessage'],
-                    'status' => Chat::ANSWERED
-                ]);
-                $chat->save();
+                Chat::addUser($post['message'], $post['hiddenMessage']);
 
                 $_SESSION['questions'] = ChatbotHelper::updateQuestions();
                 $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
 
                 if ($_SESSION['activeQuestion'] === false) {
-                    $response = new Chat([
-                        'type' => Chat::TYPE_CHATBOT,
-                        'message' => 'completed',
-                        'status' => Chat::ANSWERED
-                    ]);
-                    $response->save();
+                    Chat::addChatbot('Completed');
+
+
+                    unset(
+                        $_SESSION['concern'],
+                        $_SESSION['questions'],
+                        $_SESSION['activeQuestion'],
+                    );
                 }
                 else {
-                    $response = new Chat([
-                        'type' => Chat::TYPE_CHATBOT,
-                        'message' => $_SESSION['activeQuestion'],
-                        'status' => Chat::ANSWERED
-                    ]);
-                    $response->save();
+                    Chat::addChatbot($_SESSION['activeQuestion']['label']);
+                    Chat::expectedAnswers($_SESSION['activeQuestion']);
                 }
 
 
-                return $this->asJson([
-                    'status' => 'success',
-                    'chat' => $chat,
-                ]);
+                return $this->asJson(['status' => 'success']);
             }
             else {
-                $response = new Chat([
-                    'type' => Chat::TYPE_CHATBOT,
-                    'message' => App::setting('chatbot')->default_message,
-                    'status' => Chat::ANSWERED
-                ]);
-                $response->save();
 
-                return $this->asJson([
-                    'status' => 'success',
-                    'chat' => $chat,
-                ]);
+                if (($concern = Concern::findOne(['name' => $post['message']])) != null) {
+                    $_SESSION['concern'] = $concern;
+                    $_SESSION['questions'] = ChatbotHelper::getQuestions();
+                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    Chat::response($_SESSION['activeQuestion']);
+                }
+                else {
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    Chat::addChatbot(App::setting('chatbot')->default_message);
+                }
+
+
+                return $this->asJson(['status' => 'success']);
             }
             
         }
