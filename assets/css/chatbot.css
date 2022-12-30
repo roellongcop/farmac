@@ -106,9 +106,19 @@
     border:1px solid #ccc;
     color:#888;
     border-top:none;
-    border-bottom-right-radius:5px;
+    border-top-left-radius:0;
+    border-bottom-right-radius:0;
     border-bottom-left-radius:5px;
     overflow:hidden;  
+    border-right: hidden;
+
+  }
+  .submit-btn-container {
+    background: #f4f7f9;
+    border: 1px solid #ccc;
+    border-left: hidden;
+    border-top: hidden;
+    border-bottom-right-radius: 5px;
   }
   .chat-input > form {
       margin-bottom: 0;

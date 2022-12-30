@@ -65,7 +65,7 @@ CSS);
                 <div class="input-group">
                     <input class="form-control" autocomplete="off" maxlength="225" type="text" id="chat-input" v-model="messageModel" placeholder="Send a message..."/>
                     
-                    <div class="input-group-append">
+                    <div class="input-group-append submit-btn-container">
                         <button type="submit" class="chat-submit btn" id="chat-submit"><i class="fab fa-telegram-plane" :style="{color: chatbot.theme_color}"></i></button>
                     </div>
                 </div>
