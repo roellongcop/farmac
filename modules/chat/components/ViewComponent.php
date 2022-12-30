@@ -16,7 +16,7 @@ class ViewComponent extends \app\components\ViewComponent
         $this->registerJsVar('chatModule', [
             'myRequestUrl' => Url::toRoute(['/request/my-request']),
             'appUrl' => Url::base() . '/',
-            'baseUrl' => Url::base() . '/chat/',
+            'baseUrl' => Url::base() . '/community-board/',
             'csrfToken' => App::request('csrfToken'),
             'csrfParam' => App::request('csrfParam'),
             'fileUploadUrl' => Url::toRoute(['/file/upload']),

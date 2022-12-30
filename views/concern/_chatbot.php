@@ -20,7 +20,7 @@ CSS);
 
 ?>
 
-<div id="chatbot" v-cloak>
+<div id="chatbot">
     
     <div id="chat-circle" class="btn btn-raised" :style="{background: chatbot.theme_color}">
         <div id="chat-overlay"></div>
@@ -62,8 +62,13 @@ CSS);
         </div>
         <div class="chat-input">      
             <form @submit.prevent="sendNewMessage('')">
-                <input autocomplete="off" maxlength="225" type="text" id="chat-input" v-model="messageModel" placeholder="Send a message..."/>
-                <button type="submit" class="chat-submit" id="chat-submit"><i class="fab fa-telegram-plane" :style="{color: chatbot.theme_color}"></i></button>
+                <div class="input-group">
+                    <input class="form-control" autocomplete="off" maxlength="225" type="text" id="chat-input" v-model="messageModel" placeholder="Send a message..."/>
+                    
+                    <div class="input-group-append">
+                        <button type="submit" class="chat-submit btn" id="chat-submit"><i class="fab fa-telegram-plane" :style="{color: chatbot.theme_color}"></i></button>
+                    </div>
+                </div>
             </form>      
         </div>
     </div>

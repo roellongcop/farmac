@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\helpers\App;
 use app\helpers\Html;
 use app\models\Chat;
+use app\models\Concern;
 use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\ForgotPasswordForm;
@@ -300,11 +301,14 @@ class SiteController extends Controller
             ->where(['user_id' => $user_id])
             ->min('id');
 
+        $concerns = Concern::all();
+
         return $this->asJson([
             'status' => 'success',
             'messages' => array_reverse($messages),
             'totalMessages' => $totalMessages,
             'minimumMessageId' => $minimumMessageId,
+            'concerns' => $concerns,
         ]);
     }
 

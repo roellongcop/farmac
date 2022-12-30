@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\helpers\App;
 use app\widgets\Anchor;
+use app\widgets\Label;
 
 /**
  * This is the model class for table "{{%chats}}".

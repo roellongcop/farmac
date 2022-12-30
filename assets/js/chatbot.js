@@ -5,6 +5,7 @@ const { reactive, ref, createApp, onMounted, nextTick, computed } = Vue;
 const chat = createApp({
 	setup() {
 		const messages = ref([]);
+		const concerns = ref([]);
 		const messageModel = ref('');
 		const chatbot = ref(app.chatbot);
 		const chatbotPhotoUrl = ref(app.chatbotPhotoUrl);
@@ -280,10 +281,11 @@ const chat = createApp({
 			showScrollable,
 			scrollToBottom,
 			showTimesent,
-			messageStyleClass
+			messageStyleClass,
+			concerns
 		}
 	}
 });
-chat.mount('#chatbot');
+chat.mount('#help-desk');
 
 

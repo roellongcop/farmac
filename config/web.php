@@ -13,7 +13,7 @@ $config = [
     ],
     'modules' => [
         'api' => ['class' => 'app\modules\api\ApiModule'],
-        'chat' => ['class' => 'app\modules\chat\Module'],
+        'community-board' => ['class' => 'app\modules\chat\Module'],
     ],
     'components' => [
         'imageResize' => ['class' => 'app\components\ImageResizeComponent'],

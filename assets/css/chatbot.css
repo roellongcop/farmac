@@ -45,7 +45,7 @@
 
 
   .chat-box {
-    position: absolute;
+/*    position: absolute;*/
 /*    position: relative;*/
     display:block;
     background: #efefef;
@@ -93,8 +93,8 @@
   }
   #chat-input {
     background: #f4f7f9;
-    width:100%; 
-    position:relative;
+/*    width:100%; */
+/*    position:relative;*/
     height:47px;  
     padding-top:10px;
     padding-right:50px;
@@ -126,16 +126,14 @@
     color: #ccc;
   }
   .chat-submit {  
-    position:absolute;
+    /*position:absolute;
     bottom:3px;
     right:10px;
-    background: transparent;
+    background: #fff;
     box-shadow:none;
     border:none;
     border-radius:50%;
-    color:#5A5EB9;
-    width:35px;
-    height:35px;  
+    color:#5A5EB9;*/
   }
   .chat-logs {
     padding:15px; 
