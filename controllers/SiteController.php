@@ -404,17 +404,15 @@ class SiteController extends Controller
             $session->open();
             
             if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
-                $session->remove('concern');
+                $session->remove('concern_id');
                 $session->remove('questions');
                 $session->remove('activeQuestion');
 
-                $concern = ChatbotHelper::getConcern($post['hiddenMessage']);
+                $concernId = ChatbotHelper::getConcernId($post['hiddenMessage']);
 
-                if ($concern) {
-                    $session['concern'] = $concern;
-                    $session['questions'] = ChatbotHelper::getQuestions();
-                    $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
-                }
+                $session['concern_id'] = $concernId;
+                $session['questions'] = ChatbotHelper::getQuestions();
+                $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
 
                 Chat::addUser($post['message'], $post['hiddenMessage']);
                 Chat::response($session['activeQuestion']);
@@ -448,11 +446,9 @@ class SiteController extends Controller
                     // Chat::addChatbot('Maraming salamat sa pagsagot');
                     Chat::conclusion($session['concern'], $session['questions']);
 
-                    unset(
-                        $session['concern'],
-                        $session['questions'],
-                        $session['activeQuestion'],
-                    );
+                    $session->remove('concern_id');
+                    $session->remove('questions');
+                    $session->remove('activeQuestion');
                 }
                 else {
                     Chat::addChatbot($session['activeQuestion']['label']);
@@ -465,7 +461,7 @@ class SiteController extends Controller
             else {
 
                 if (($concern = Concern::findOne(['name' => $post['message']])) != null) {
-                    $session['concern'] = $concern;
+                    $session['concern_id'] = $concern->id;
                     $session['questions'] = ChatbotHelper::getQuestions();
                     $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
 

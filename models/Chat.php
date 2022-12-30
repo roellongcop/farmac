@@ -418,13 +418,15 @@ class Chat extends ActiveRecord
 
             $decisionTree = $concern->decisionTree['data'];
             $conclusions = [];
+                    self::addChatbot(json_encode($questions));
+                    self::addChatbot(json_encode($decisionTree));
 
             foreach($questions as $question) {
 
                 foreach ($decisionTree as $dt) {
                     $counter = 0;
                     foreach ($dt as $label => $d) {
-                        if ($question['label'] == $label && strtolower($d) == strtolower($question['answer']) && $label != 'conclusion') {
+                        if ($question['label'] == $label && strtolower($d) == strtolower($question['answer'])) {
                             $counter++;
                         }
                     }
@@ -432,6 +434,7 @@ class Chat extends ActiveRecord
                     if ($counter == $concern->totalRules) {
                         $conclusions[] = $dt['conclusion'];
                     }
+                    self::addChatbot($counter);
                 }
             }
 

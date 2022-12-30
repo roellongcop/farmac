@@ -14,28 +14,30 @@ class ChatbotHelper
         return str_contains($message, self::CONCERN_PATTERN);
     }
 
-    public static function getConcern($message)
+    public static function getConcernId($message)
     {
         $explode = explode(self::CONCERN_PATTERN, $message);
 
-        $concern = Concern::findOne($explode[1] ?? 0);
-
-        return $concern;
+        return $explode[1] ?? 0;
     }
 
-    public static function getQuestions($concern=[])
+    public static function getQuestions($concern_id=[])
     {
-        $concern = $concern ?: $_SESSION['concern'];
+        $concern_id = $concern_id ?: $_SESSION['concern_id'];
+
+        $concern = Concern::findOne($concern_id);
 
         $questions = [];
 
-        foreach ($concern->rules as $rule) {
-            $questions[] = [
-                'label' => $rule['label'],
-                'expected_answers' => array_keys(ArrayHelper::index($rule['sub'], 'label')),
-                'status' => 'pending',
-                'answer' => ''
-            ]; 
+        if ($concern) {
+            foreach ($concern->rules as $rule) {
+                $questions[] = [
+                    'label' => $rule['label'],
+                    'expected_answers' => array_keys(ArrayHelper::index($rule['sub'], 'label')),
+                    'status' => 'pending',
+                    'answer' => ''
+                ]; 
+            }
         }
 
         return $questions;
