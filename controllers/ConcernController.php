@@ -196,6 +196,12 @@ class ConcernController extends Controller
 
     public function actionClient()
     {
+        unset(
+                $_SESSION['concern'],
+                $_SESSION['questions'],
+                $_SESSION['activeQuestion'],
+            );
+        
         return $this->render('client');
     }
 }

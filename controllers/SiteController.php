@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\helpers\App;
 use app\helpers\ArrayHelper;
+use app\helpers\ChatbotHelper;
 use app\helpers\Html;
 use app\models\Chat;
 use app\models\Concern;
@@ -399,7 +400,7 @@ class SiteController extends Controller
     public function actionSendNewMessage()
     {
         if (($post = App::post()) != null) {
-
+            
             if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
                 $concern = ChatbotHelper::getConcern($post['hiddenMessage']);
 
@@ -408,73 +409,86 @@ class SiteController extends Controller
                     $_SESSION['questions'] = ChatbotHelper::getQuestions();
                     $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
                 }
-            }
-
-
-            $chat = new Chat([
-                'type' => Chat::TYPE_USER,
-                'message' => $post['message'],
-                'hidden_message' => $post['hiddenMessage'],
-                'status' => Chat::ANSWERED
-            ]);
-            if ($chat->save()) {
-
-                if (($activeQuestion = $_SESSION['activeQuestion'] ?? null) != null) {
-                    if (!in_array($chat->message, $activeQuestion['expected_answers'])) {
-                        $response = new Chat([
-                            'type' => Chat::TYPE_CHATBOT,
-                            'message' => 'Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng ' . implode(', ', $activeQuestion['expected_answers']),
-                            'status' => Chat::ANSWERED
-                        ]);
-                        $response->save();
-
-                        return $this->asJson([
-                            'status' => 'failed',
-                            'errorSummary' => 'Answer not expected'
-                        ]);
-                    }
-
-
-                    $_SESSION['questions'] = ChatbotHelper::updateQuestions();
-                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
-
-                    if ($_SESSION['activeQuestion'] === false) {
-                        $response = new Chat([
-                            'type' => Chat::TYPE_CHATBOT,
-                            'message' => 'completed',
-                            'status' => Chat::ANSWERED
-                        ]);
-                        $response->save();
-                    }
-                    else {
-                        $response = new Chat([
-                            'type' => Chat::TYPE_CHATBOT,
-                            'message' => $_SESSION['activeQuestion'],
-                            'status' => Chat::ANSWERED
-                        ]);
-                        $response->save();
-                    }
-
-                }
-                else {
-                    $response = new Chat([
-                        'type' => Chat::TYPE_CHATBOT,
-                        'message' => 'Maari lamang pong i click ang inyong concern na makikita po sa bandang kanan',
-                        'status' => Chat::ANSWERED
-                    ]);
-                    $response->save();
-                }
-
                 
+                $chat = new Chat([
+                    'type' => Chat::TYPE_USER,
+                    'message' => $post['message'],
+                    'hidden_message' => $post['hiddenMessage'],
+                    'status' => Chat::ANSWERED
+                ]);
+                $chat->save();
+
                 return $this->asJson([
                     'status' => 'success',
                     'chat' => $chat,
                 ]);
             }
-            return $this->asJson([
-                'status' => 'failed',
-                'errorSummary' => $chat->errorSummary
-            ]);
+
+
+            if (($activeQuestion = $_SESSION['activeQuestion'] ?? null) != null) {
+                if (!in_array($post['message'], $activeQuestion['expected_answers'])) {
+                    $response = new Chat([
+                        'type' => Chat::TYPE_CHATBOT,
+                        'message' => 'Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng ' . implode(', ', $activeQuestion['expected_answers']),
+                        'status' => Chat::ANSWERED
+                    ]);
+                    $response->save();
+
+                    return $this->asJson([
+                        'status' => 'failed',
+                        'errorSummary' => 'Answer not expected'
+                    ]);
+                }
+
+
+                $chat = new Chat([
+                    'type' => Chat::TYPE_USER,
+                    'message' => $post['message'],
+                    'hidden_message' => $post['hiddenMessage'],
+                    'status' => Chat::ANSWERED
+                ]);
+                $chat->save();
+
+                $_SESSION['questions'] = ChatbotHelper::updateQuestions();
+                $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+
+                if ($_SESSION['activeQuestion'] === false) {
+                    $response = new Chat([
+                        'type' => Chat::TYPE_CHATBOT,
+                        'message' => 'completed',
+                        'status' => Chat::ANSWERED
+                    ]);
+                    $response->save();
+                }
+                else {
+                    $response = new Chat([
+                        'type' => Chat::TYPE_CHATBOT,
+                        'message' => $_SESSION['activeQuestion'],
+                        'status' => Chat::ANSWERED
+                    ]);
+                    $response->save();
+                }
+
+
+                return $this->asJson([
+                    'status' => 'success',
+                    'chat' => $chat,
+                ]);
+            }
+            else {
+                $response = new Chat([
+                    'type' => Chat::TYPE_CHATBOT,
+                    'message' => App::setting('chatbot')->default_message,
+                    'status' => Chat::ANSWERED
+                ]);
+                $response->save();
+
+                return $this->asJson([
+                    'status' => 'success',
+                    'chat' => $chat,
+                ]);
+            }
+            
         }
 
         return $this->asJson([
