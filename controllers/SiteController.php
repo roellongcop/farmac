@@ -400,22 +400,15 @@ class SiteController extends Controller
     {
         if (($post = App::post()) != null) {
 
-
-            if (str_contains($post['hiddenMessage'], '/concern-')) {
-                $explode = explode('/concern-', $post['hiddenMessage']);
-
-                $concern = Concern::findOne($explode[1] ?? 0);
+            if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
+                $concern = ChatbotHelper::getConcern($post['hiddenMessage']);
 
                 if ($concern) {
                     $_SESSION['concern'] = $concern;
-                    $_SESSION['questions'] = $concern->questions;
-                    $_SESSION['activeQuestion'] = $concern->activeQuestions;
-                    $_SESSION['expectedAnswer'] = $concern->expectedAnswers;
+                    $_SESSION['questions'] = ChatbotHelper::getQuestions();
+                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
                 }
             }
-
-            return $this->asJson($_SESSION);
-            
 
 
             $chat = new Chat([
@@ -424,14 +417,53 @@ class SiteController extends Controller
                 'hidden_message' => $post['hiddenMessage'],
                 'status' => Chat::ANSWERED
             ]);
-
             if ($chat->save()) {
-                // $response = new Chat([
-                //     'type' => Chat::TYPE_CHATBOT,
-                //     'message' => $_SESSION['activeQuestion'],
-                //     'status' => Chat::ANSWERED
-                // ]);
-                // $response->save();
+
+                if (($activeQuestion = $_SESSION['activeQuestion'] ?? null) != null) {
+                    if (!in_array($chat->message, $activeQuestion['expected_answers'])) {
+                        $response = new Chat([
+                            'type' => Chat::TYPE_CHATBOT,
+                            'message' => 'Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng ' . implode(', ', $activeQuestion['expected_answers']),
+                            'status' => Chat::ANSWERED
+                        ]);
+                        $response->save();
+
+                        return $this->asJson([
+                            'status' => 'failed',
+                            'errorSummary' => 'Answer not expected'
+                        ]);
+                    }
+
+
+                    $_SESSION['questions'] = ChatbotHelper::updateQuestions();
+                    $_SESSION['activeQuestion'] = ChatbotHelper::getActiveQuestion();
+
+                    if ($_SESSION['activeQuestion'] === false) {
+                        $response = new Chat([
+                            'type' => Chat::TYPE_CHATBOT,
+                            'message' => 'completed',
+                            'status' => Chat::ANSWERED
+                        ]);
+                        $response->save();
+                    }
+                    else {
+                        $response = new Chat([
+                            'type' => Chat::TYPE_CHATBOT,
+                            'message' => $_SESSION['activeQuestion'],
+                            'status' => Chat::ANSWERED
+                        ]);
+                        $response->save();
+                    }
+
+                }
+                else {
+                    $response = new Chat([
+                        'type' => Chat::TYPE_CHATBOT,
+                        'message' => 'Maari lamang pong i click ang inyong concern na makikita po sa bandang kanan',
+                        'status' => Chat::ANSWERED
+                    ]);
+                    $response->save();
+                }
 
                 
                 return $this->asJson([
