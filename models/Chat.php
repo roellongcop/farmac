@@ -404,8 +404,8 @@ class Chat extends ActiveRecord
             self::addChatbot(
                 App::foreach($activeQuestion['expected_answers'], fn ($ans) => Html::tag('a', $ans, [
                         'href' => '#',
-                        'data-message' => $ans,
-                        'data-hidden_message' => $ans,
+                        'data-message' => trim($ans),
+                        'data-hidden_message' => trim($ans),
                         'class' => 'btn btn-outline-success btn-pill mb-1 btn-hidden-message',
                 ]))
             );
