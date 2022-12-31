@@ -412,6 +412,8 @@ class Chat extends ActiveRecord
         }
     }
 
+    // tree decision making algo
+
     public static function conclusion($concern_id, $questions)
     {
 
