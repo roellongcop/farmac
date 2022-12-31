@@ -466,7 +466,13 @@ class SiteController extends Controller
                 }
                 else {
                     Chat::addUser($post['message'], $post['hiddenMessage']);
-                    Chat::addChatbot(App::setting('chatbot')->default_message);
+                    if (($predict = ChatbotHelper::predict($post['message'])) != null) {
+                        Chat::addChatbot('Maaaring pumili lamang ng "concern" sa mga sumusunod:');
+                        Chat::addChatbot($predict);
+                    }
+                    else {
+                        Chat::addChatbot(App::setting('chatbot')->default_message);
+                    }
                 }
 
                 return $this->asJson(['status' => 'success', $session]);

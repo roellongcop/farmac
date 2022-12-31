@@ -4,6 +4,7 @@ namespace app\helpers;
 
 use app\helpers\ArrayHelper;
 use app\models\Concern;
+use yii\db\Query;
 
 class ChatbotHelper
 {
@@ -70,5 +71,61 @@ class ChatbotHelper
         }
 
         return $questions;
+    }
+
+    public static function predict($query='')
+    {
+        $keywords = explode(' ', trim($query));
+        $condition = [];
+        $orderBy = [];
+
+        if (count($keywords) == 1) {
+            $condition = ['LIKE', 'name', trim($query)];
+            $rawQuery = (new Query())
+                ->select(['COUNT("*")'])
+                ->where(['LIKE', 'name', trim($query)])
+                ->createCommand()
+                ->rawSql;
+
+            $orderBy = ["({$rawQuery})" => SORT_DESC];
+        }
+        else {
+            $condition = ['or'];
+            $orders = [];
+            foreach ($keywords as $keyword) {
+                $condition[] = ['LIKE', 'name', trim($keyword)];
+
+                $rawQuery = (new Query())
+                    ->select(['COUNT("*")'])
+                    ->where(['LIKE', 'name', trim($keyword)])
+                    ->createCommand()
+                    ->rawSql;
+
+                $orders[] = "({$rawQuery})";
+            }
+
+            $orderByQuery = implode(' + ', $orders);
+
+            $orderBy = ["({$orderByQuery})" => SORT_DESC];
+        }
+
+        $orderBy['LENGTH(name)'] = SORT_ASC;
+
+        $training = Concern::find()
+            ->where($condition)
+            ->orderBy($orderBy)
+            ->limit(3)
+            ->all();
+
+
+        if ($training) {
+            $predict = App::foreach($training, fn ($t) => Html::tag('a', $t->name, [
+                'href' => '#',
+                'data-message' => $t->name,
+                'data-hidden_message' => self::CONCERN_PATTERN . $t->id,
+                'class' => 'btn btn-outline-success btn-pill mb-1 btn-hidden-message',
+            ]));
+            return $predict;
+        }
     }
 }
