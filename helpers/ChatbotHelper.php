@@ -34,7 +34,7 @@ class ChatbotHelper
             foreach ($concern->rules as $rule) {
                 $questions[] = [
                     'label' => $rule['label'],
-                    'expected_answers' => array_keys(ArrayHelper::index($rule['sub'], 'label')),
+                    'expected_answers' => array_keys(ArrayHelper::index($rule['sub'] ?? [], 'label')),
                     'status' => 'pending',
                     'answer' => ''
                 ]; 
