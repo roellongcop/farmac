@@ -4,11 +4,35 @@ use app\helpers\Html;
 
 $this->title = 'About';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['wrapCard'] = false;
+$this->params['activeMenuLink'] = '/about';
 ?>
 <div class="site-about">
-    <h1><?= Html::encode($this->title) ?></h1>
-    <p>
-        This is the About page. You may modify the following file to customize its content:
-    </p>
-    <code><?= __FILE__ ?></code>
+    <div class="row">
+        <div class="col-md-6">
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Welcome'
+            ]) ?>
+                <?= $aboutUs->description ?>
+            <?php $this->endContent() ?>
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Mission'
+            ]) ?>
+                <?= $aboutUs->mission ?>
+            <?php $this->endContent() ?>
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Vision'
+            ]) ?>
+                <?= $aboutUs->vision ?>
+            <?php $this->endContent() ?>
+        </div>
+        <div class="col-md-6">
+            <?php $this->beginContent('@app/views/layouts/_card_wrapper.php', [
+                'title' => 'Map',
+                'stretch' => true
+            ]) ?>
+                <?= $aboutUs->map ?>
+            <?php $this->endContent() ?>
+        </div>
+    </div>
 </div>

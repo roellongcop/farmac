@@ -13,6 +13,7 @@ $this->title = 'Concerns';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = new DashboardSearch(); 
 $this->params['wrapCard'] = false;
+$this->params['page'] = 'help-desk';
 ?>
 <div class="concern-index-page" id="help-desk" v-cloak>
     <div class="row">

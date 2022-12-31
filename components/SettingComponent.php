@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\models\Theme;
+use app\models\form\setting\AboutUsSettingForm;
 use app\models\form\setting\ChatbotForm;
 use app\models\form\setting\EmailSettingForm;
 use app\models\form\setting\ImageSettingForm;
@@ -16,9 +17,10 @@ class SettingComponent extends \yii\base\Component
     public $image;
     public $notification;
     public $chatbot;
-
+    public $aboutUs;
 
     public $theme;
+
 
 	public function init()
     {
@@ -29,6 +31,7 @@ class SettingComponent extends \yii\base\Component
         $this->image = new ImageSettingForm();
         $this->notification = new NotificationSettingForm();
         $this->chatbot = new ChatbotForm();
+        $this->aboutUs = new AboutUsSettingForm();
         
 
         $this->theme = Theme::findOne($this->system->theme);
