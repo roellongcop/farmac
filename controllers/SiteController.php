@@ -421,7 +421,7 @@ class SiteController extends Controller
 
 
             if (($activeQuestion = $session['activeQuestion'] ?? null) != null) {
-                if (!in_array(strtolower($post['message']), array_map('strtolower', $activeQuestion['expected_answers']))) {
+                if (!in_array(trim(strtolower($post['message'])), array_map('strtolower', $activeQuestion['expected_answers']))) {
 
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');

@@ -429,7 +429,7 @@ class Chat extends ActiveRecord
                     $counter = 0;
                     foreach ($questions as $question) {
                         if (isset($dt[$question['label']])) {
-                            if ($dt[$question['label']] == $question['answer']) {
+                            if (trim(strtolower($dt[$question['label']])) == trim(strtolower($question['answer']))) {
                                 $counter++;
                             }
                         }
