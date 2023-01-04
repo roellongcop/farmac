@@ -15,6 +15,7 @@ use app\widgets\ImageGallery;
             ]) ?>
             <div class="my-2"></div>
             <?= ImageGallery::widget([
+                'fixedSize' => false,
                 'tag' => 'Setting',
                 'model' => $model,
                 'attribute' => 'primary_logo',
@@ -33,6 +34,7 @@ use app\widgets\ImageGallery;
             ]) ?>
             <div class="my-2"></div>
             <?= ImageGallery::widget([
+                'fixedSize' => false,
                 'tag' => 'Setting',
                 'model' => $model,
                 'attribute' => 'secondary_logo',
