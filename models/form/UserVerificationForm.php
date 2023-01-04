@@ -50,7 +50,7 @@ class UserVerificationForm extends \yii\base\Model
 
         $user = $this->getUser();
         $user->is_blocked = User::UNBLOCKED;
-        $user->generateEmailVerificationToken();
+        // $user->generateEmailVerificationToken();
 
         if ($user->save()) {
             return $user;
