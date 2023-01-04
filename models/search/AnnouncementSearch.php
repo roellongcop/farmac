@@ -26,7 +26,7 @@ class AnnouncementSearch extends Announcement
     {
         return [
             [['id', 'created_by', 'updated_by'], 'integer'],
-            [['title', 'content', 'photos', 'created_at', 'updated_at'], 'safe'],
+            [['title', 'content', 'photos', 'created_at', 'updated_at', 'slug'], 'safe'],
             [['keywords', 'pagination', 'date_range', 'record_status'], 'safe'],
             [['keywords'], 'trim'],
         ];
@@ -82,6 +82,7 @@ class AnnouncementSearch extends Announcement
             'updated_by' => $this->updated_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'slug' => $this->slug,
         ]);
         
         $query->andFilterWhere(['like', 'title', $this->title])

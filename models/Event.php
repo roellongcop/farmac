@@ -2,10 +2,12 @@
 
 namespace app\models;
 
+use app\helpers\App;
 use app\helpers\Html;
 use app\helpers\StringHelper;
 use app\helpers\Url;
 use app\widgets\Anchor;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "{{%events}}".
@@ -176,5 +178,33 @@ class Event extends ActiveRecord
     public function getTruncatedContent($len=200)
     {
         return StringHelper::truncate(strip_tags($this->description), $len);
+    }
+
+    public function getClientUrlByTitle()
+    {
+        return Url::toRoute(['event/calendar-client']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        if ($insert) {
+            $data = App::foreach(User::findAll(['role_id' => Role::CLIENT]), fn ($user) => [
+                'status' => Notification::STATUS_UNREAD,
+                'user_id' => $user->id,
+                'type' => 'event',
+                'link' => $this->clientUrlByTitle,
+                'message' => "There is a new event *{$this->title}*",
+                'token' => time() . $user->id,
+                'record_status' => self::RECORD_ACTIVE,
+                'created_by' => App::identity('id'),
+                'updated_by' => App::identity('id'),
+                'created_at' => new Expression('UTC_TIMESTAMP'),
+                'updated_at' => new Expression('UTC_TIMESTAMP'),
+            ], false);
+
+            Notification::batchInsert($data);
+        }
     }
 }

@@ -26,7 +26,10 @@ return [
     ],
     'notification_types' => [
         0 => ['id' => 0, 'type' => 'notification_change_password', 'label' => 'Password Changed'],
-        1 => ['id' => 1, 'type' => 'signup', 'label' => 'Signup']
+        1 => ['id' => 1, 'type' => 'signup', 'label' => 'Signup'],
+        2 => ['id' => 2, 'type' => 'announcement', 'label' => 'Announcement'],
+        3 => ['id' => 3, 'type' => 'video', 'label' => 'Video'],
+        4 => ['id' => 4, 'type' => 'event', 'label' => 'Event'],
     ],
     'user_status' => [
         0 => ['id' => 0, 'label' => 'Archived', 'class' => 'danger'],

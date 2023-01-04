@@ -18,7 +18,7 @@ const pollNotification = (totalUnread) => {
 
             }
             else {
-                pollNotification(totalUnread);
+                pollNotification(0);
             }
         },
         error: function(e) {
