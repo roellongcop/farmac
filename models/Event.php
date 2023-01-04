@@ -132,7 +132,7 @@ class Event extends ActiveRecord
         return [
             'tablePhoto:raw',
             'title:raw',
-            'description:raw',
+            'description:ntext',
             'color:raw',
             'start:raw',
             'end:raw',

@@ -14,7 +14,7 @@ use app\widgets\Detail;
 			'model' => $model,
 			'attributes' => [
 				'title:raw',
-	            'description:raw',
+	            'description:ntext',
 	            'start:raw',
 	            'end:raw',
 				'created_at' => [
