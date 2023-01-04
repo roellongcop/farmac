@@ -14,7 +14,9 @@ use app\helpers\Url;
 <p>
 	<?= App::if($user->isBlocked, Html::tag('a', 'Verify Account', [
 		'href' => Url::toRoute(['site/verify', 'vt' => $user->verification_token], true)
-	]) . "&nbsp; OR &nbsp;") ?>
+	])) ?>
+
+	<?= App::if($user->isBlocked, "&nbsp; OR &nbsp;") ?>
 	
 	<?= Html::tag('a', 'Login Here', [
 		'href' => Url::toRoute(['site/login'], true)
