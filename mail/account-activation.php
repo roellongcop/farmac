@@ -9,7 +9,7 @@ use app\helpers\Url;
 	Your account was successfully activated by the admin.
 </h3>
 
-<?= App::if($user->isBlocked, Html::tag('p', 'Please click the verify link below if you not verifid your email yet.')) ?>
+<?= App::if($user->isBlocked, Html::tag('p', 'Please click the verify link below if you not verified your email yet.')) ?>
 
 <p>
 	<?= App::if($user->isBlocked, Html::tag('a', 'Verify Account', [
