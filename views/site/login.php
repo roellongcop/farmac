@@ -60,7 +60,7 @@ CSS)
                         <?= $form->field($model, 'username', [
                             'template' => '
                                 <label class="font-size-h6 font-weight-bolder text-dark">
-                                    Username
+                                    Username or Email
                                 </label>
                                 {input}{error}
                             '

@@ -21,7 +21,7 @@ export default {
             let previousMessage = spaceMessages.value[index - 1];
 
             if (previousMessage) {
-                if (currentMessage.isSender == previousMessage.isSender && currentMessage.timeSent == previousMessage.timeSent) {
+                if (currentMessage.created_by == previousMessage.created_by && currentMessage.isSender == previousMessage.isSender && currentMessage.timeSent == previousMessage.timeSent) {
                     return false;
                 }
             }
@@ -38,7 +38,7 @@ export default {
             let nextMessage = spaceMessages.value[index + 1];
 
             if (nextMessage) {
-                if (currentMessage.isSender == nextMessage.isSender && currentMessage.timeSent == nextMessage.timeSent) {
+                if (currentMessage.created_by == nextMessage.created_by && currentMessage.isSender == nextMessage.isSender && currentMessage.timeSent == nextMessage.timeSent) {
                     return '';
                 }
             }
