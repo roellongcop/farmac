@@ -30,8 +30,7 @@ CSS)
                 <!-- <a href="#" class="text-center mb-15">
                     <img src="<?php # $publishedUrl . '/media/logos/logo-5.svg' ?>" alt="logo" class="h-70px" />
                 </a> -->
-                <h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg text-white">Discover Amazing
-                <br />Features &amp; Possibilites</h3>
+                <!-- <h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg text-white">Discover Amazing <br />Features &amp; Possibilites</h3> -->
             </div>
             <div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center"></div>
         </div>
