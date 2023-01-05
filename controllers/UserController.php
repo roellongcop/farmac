@@ -270,7 +270,7 @@ class UserController extends Controller
             App::danger($model->errors);
         }
 
-        return $this->redirect(App::referrer());
+        return $this->redirect($user->viewUrl);
     }
 
     public function actionAddDocument()

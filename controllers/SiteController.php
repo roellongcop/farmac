@@ -33,11 +33,25 @@ class SiteController extends Controller
 
     public function actionTestEmail()
     {
+        // $user = \app\models\User::findOne(['role_id' => 1]);
+
+        // $model = new \app\models\form\CustomEmailForm([
+        //     'to' => 'preizouxabreida-1522@yopmail.com',
+        //     'subject' => 'Account Activation',
+        //     'template' => 'signup',
+        //     'parameters' => [
+        //         'user' => $user,
+        //     ],
+        // ]);
+        // $sent = $model->send();
+
+        // var_dump('sent', $sent);
+
         $messages = App::foreach(\app\models\User::findAll(['role_id' => 1]), function($user) {
             $model = new \app\models\form\CustomEmailForm([
-                'to' => 'abelgernale17@gmail.com',
+                'to' => 'preizouxabreida-1522@yopmail.com',
                 'subject' => 'Approved Ambulance Request',
-                'template' => 'signup',
+                'template' => 'account-activation',
                 'parameters' => [
                     'user' => $user,
                 ],
