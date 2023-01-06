@@ -54,10 +54,14 @@ $this->registerJsFile(
                                         <space-message-list :current-user="currentUser" :space-messages="spaceMessages" :message-form-state="messageFormState"></space-message-list>
                                     </div>
                                     <div class="card-footer align-items-center">
-                                        <div class="text-center" v-if="showScrollable">
-                                            <button @click="scrollToBottom" class="btn btn-outline-primary font-weight-bold btn-sm btn-pill btn-scroller">
-                                                Scroll to Bottom
-                                            </button>
+                                        <div class="scrollToBottomContainer" v-if="showScrollable">
+                                            <span></span>
+                                            <span>
+                                                <button @click="scrollToBottom" class="btn btn-outline-primary font-weight-bold btn-sm btn-pill btn-scroller">
+                                                    Scroll to Bottom
+                                                </button>
+                                            </span>
+                                            <span></span>
                                         </div>
                                         <div v-if="activeSpace.is_block" class="text-center">
                                             <p class="lead font-weight-bold text-danger">

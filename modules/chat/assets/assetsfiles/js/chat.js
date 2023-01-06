@@ -208,7 +208,7 @@ const chat = createApp({
 	  				});
 	  			}
 	  			else {
-	  				if(conversationsContainer.value.scrollHeight - conversationsContainer.value.scrollTop <= 1000) {
+	  				if(conversationsContainer.value.scrollHeight - conversationsContainer.value.scrollTop <= 700) {
 
 	  					imageLoadedCallback(() => {
 			  				conversationsContainer.value.scrollTop = conversationsContainer.value.scrollHeight;
@@ -280,7 +280,7 @@ const chat = createApp({
 		    	}
 		    }
 
-		    if(conversationsContainer.value.scrollHeight - conversationsContainer.value.scrollTop > 1000) {
+		    if(conversationsContainer.value.scrollHeight - conversationsContainer.value.scrollTop > 700) {
 		    	showScrollable.value = true;
 		    }
 		    else {

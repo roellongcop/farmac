@@ -230,3 +230,17 @@ position: relative; top: -1em;
 }
 
 
+div.scrollToBottomContainer {
+    width: 100%;
+    display: table;
+    position: absolute;
+    bottom: 7em;
+}
+div.scrollToBottomContainer span {
+    display: table-cell;
+    width: 1%;
+}
+div.scrollToBottomContainer span:nth-of-type(2) {
+    width: 99%;
+    text-align: center;
+}
