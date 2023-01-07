@@ -525,7 +525,7 @@ class SiteController extends Controller
 
             if (($helpdesk = Helpdesk::activeHelpdesk() ?? null) != null) {
                 $postMessage = trim(strtolower($post['message']));
-                $expectedAnswers = array_map('strtolower', array_map('trim', $helpdesk->expectedAnswers));
+                $expectedAnswers = array_map(fn ($value) => trim(strtolower($value)), $helpdesk->expectedAnswers);
 
                 if (!in_array($postMessage, $expectedAnswers)) {
 
