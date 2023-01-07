@@ -96,14 +96,19 @@ const chat = createApp({
 				method: 'post',
 				success: (response) => {
 					if (response.status == 'success') {
+						let scroll = false;
 			       		if ("totalMessages" in response) {
 							totalMessages.value = response.totalMessages || 0;
-							scrollToBottom(false);
+							scroll = true;
 						}
 
 						if ("messages" in response) {
 							let sm = messages.value.concat(response.messages);
 							messages.value = sm;
+							scroll = true;
+						}
+
+						if (scroll) {
 							scrollToBottom(false);
 						}
 			       	}
