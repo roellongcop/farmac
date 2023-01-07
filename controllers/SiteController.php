@@ -508,6 +508,12 @@ class SiteController extends Controller
         if (($post = App::post()) != null) {
             $session = \Yii::$app->session;
             
+            if (Helpdesk::cancelConcern($post['hiddenMessage'])) {
+                Chat::addUser($post['message'], $post['hiddenMessage']);
+                Chat::addChatbot('Ang iyong "concern" ay kanselado. Pumili muli upang magpatuloy');
+                return $this->asJson(['status' => 'success', 'cancelConcern']);
+            }
+
             if (Helpdesk::changingConcern($post['hiddenMessage'])) {
              
                 Chat::addUser($post['message'], $post['hiddenMessage']);

@@ -27,6 +27,7 @@ use yii\db\Query;
 class Helpdesk extends ActiveRecord
 {
     const CONCERN_PATTERN = '/concern-';
+    const CANCEL_PATTERN = '/kanselahin';
 
     const PENDING = 0;
     const COMPLETED = 1;
@@ -141,6 +142,15 @@ class Helpdesk extends ActiveRecord
         $explode = explode(self::CONCERN_PATTERN, $message);
 
         return $explode[1] ?? 0;
+    }
+
+
+    public static function cancelConcern($message)
+    {
+        if ($message == self::CANCEL_PATTERN) {
+            self::updateAll(['status' => self::ABANDONED], ['user_id' => App::identity('id')]);
+            return true;
+        }
     }
 
     public static function changingConcern($message)

@@ -413,12 +413,20 @@ class Chat extends ActiveRecord
     {
         if ($expectedAnswers) {
             // self::addChatbot(
-                return App::foreach($expectedAnswers, fn ($ans) => Html::tag('a', $ans, [
+                return implode(' ', [
+                    App::foreach($expectedAnswers, fn ($ans) => Html::tag('a', $ans, [
                         'href' => '#',
                         'data-message' => trim($ans),
                         'data-hidden_message' => trim($ans),
                         'class' => 'btn btn-outline-success btn-pill mb-1 btn-hidden-message',
-                ]));
+                    ])),
+                    Html::tag('a', 'Kanselahin', [
+                        'href' => '#',
+                        'data-message' => 'Kanselahin',
+                        'data-hidden_message' => Helpdesk::CANCEL_PATTERN,
+                        'class' => 'btn btn-outline-danger btn-pill mb-1 btn-hidden-message',
+                    ])
+                ]);
             // );
         }
     }
