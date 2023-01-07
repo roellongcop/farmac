@@ -533,7 +533,7 @@ class SiteController extends Controller
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
                     Chat::response($helpdesk);
 
-                    return $this->asJson(['status' => 'failed', 'Answer not expected', 'message' => trim(strtolower($post['message'])), 'expected' => array_map('strtolower', $helpdesk->expectedAnswers)]);
+                    return $this->asJson(['status' => 'failed', 'Answer not expected']);
                 }
 
 
