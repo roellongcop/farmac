@@ -21,6 +21,7 @@ use app\widgets\Anchor;
  */
 class Concern extends ActiveRecord
 {
+
     /**
      * {@inheritdoc}
      */
@@ -115,7 +116,7 @@ class Concern extends ActiveRecord
         ];
     }
 
-    public function getFormattedRules()
+    /*public function getFormattedRules()
     {
         $arr = [];
 
@@ -129,6 +130,11 @@ class Concern extends ActiveRecord
         }
 
         return $arr;
+    }*/
+
+    public function getFormattedRules()
+    {
+        return App::formatter()->asFormattedRules($this->rules);
     }
 
     public function getTotalRules()
@@ -144,7 +150,7 @@ class Concern extends ActiveRecord
             [
                 'label' => 'Rules',
                 'format' => 'jsonEditor',
-                'value' => fn ($model) => $model->formattedRules
+                'attribute' => 'formattedRules'
             ]
         ];
     }

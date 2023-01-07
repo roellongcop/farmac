@@ -166,4 +166,21 @@ class FormatterComponent extends \yii\i18n\Formatter
         return Html::ul($list);
     }
 
+
+    public function asFormattedRules($rules=[])
+    {
+        $arr = [];
+
+        foreach ($rules as $rule) {
+            if (isset($rule['sub'])) {
+                $arr[$rule['label']] = $this->asFormattedRules($rule['sub']);
+            }
+            else {
+                $arr[] = $rule['label'];
+            }
+           
+        }
+
+        return $arr;
+    }
 }

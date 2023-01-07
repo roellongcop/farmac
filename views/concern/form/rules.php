@@ -9,7 +9,7 @@ $this->registerJs(<<< JS
     new NestableWidget({
         widgetId: 'concern-rule',
         defaultName: 'Concern[rules]',
-        maxDepth: 2,
+        maxDepth: 3,
         type: 'concern-rule'
     }).init();
 JS);

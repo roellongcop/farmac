@@ -379,6 +379,13 @@ class Chat extends ActiveRecord
         return $chat->save();
     }
 
+    public static function addMultipleChatbot($messages=[], $hiddenMessages=[])
+    {
+        foreach ($messages as $key => $message) {
+            self::addChatbot($message, $hiddenMessage[$key] ?? '');
+        }
+    }
+
     public static function addChatbot($message='', $hiddenMessage='')
     {
         $chat = new self([
@@ -390,31 +397,32 @@ class Chat extends ActiveRecord
         $chat->save();
     }
 
-    public static function response($activeQuestion=[])
+    public static function response($helpdesk=[])
     {
-        if ($activeQuestion) {
-            self::addChatbot($activeQuestion['label']);
-            self::expectedAnswers($activeQuestion);
+        if ($helpdesk) {
+            self::addChatbot(implode(' ', [
+                $helpdesk->question,
+                self::expectedAnswers($helpdesk->expectedAnswers)
+            ]));
         }
     }
 
-    public static function expectedAnswers($activeQuestion=[])
+    public static function expectedAnswers($expectedAnswers=[])
     {
-        if ($activeQuestion) {
-            self::addChatbot(
-                App::foreach($activeQuestion['expected_answers'], fn ($ans) => Html::tag('a', $ans, [
+        if ($expectedAnswers) {
+            // self::addChatbot(
+                return App::foreach($expectedAnswers, fn ($ans) => Html::tag('a', $ans, [
                         'href' => '#',
                         'data-message' => trim($ans),
                         'data-hidden_message' => trim($ans),
                         'class' => 'btn btn-outline-success btn-pill mb-1 btn-hidden-message',
-                ]))
-            );
+                ]));
+            // );
         }
     }
 
     // tree decision making algo
-
-    public static function conclusion($concern_id, $questions)
+    public static function oldConclusion($concern_id, $questions)
     {
 
         if ($concern_id && $questions) {
@@ -453,6 +461,59 @@ class Chat extends ActiveRecord
                     self::addChatbot($concern->fallback_message);
                 }
             }
+        }
+    }
+
+    public static function filterConclusion($question, $answer, $decisionTree)
+    {
+        $data = [];
+
+        foreach ($decisionTree as $index => $dt) {
+
+            if (isset($dt[$question])) {
+                if ($dt[$question] == $answer) {
+                    
+                    $data[] = $dt;
+                    break;
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public static function conclusion($concern_id)
+    {
+
+        if (($concern = Concern::findOne($concern_id)) != null) {
+
+            $decisionTree = $concern->decisionTree['data'];
+
+            $helpdesks = Helpdesk::dropdown('question', 'answer', [
+                'status' => Helpdesk::COMPLETED,
+                'user_id' => App::identity('id'),
+                'concern_id' => $concern->id
+            ]);
+
+            foreach ($helpdesks as $question => $answer) {
+                $decisionTree = self::filterConclusion($question, $answer, $decisionTree);
+            }
+
+            $conclusion = App::if($decisionTree[0] ?? [], fn ($d) => $d['conclusion']);
+         
+
+            if ($conclusion) {
+                self::addChatbot($conclusion);
+            }
+            else {
+                self::addChatbot($concern->fallback_message);
+            }
+
+            Helpdesk::updateAll(['status' => Helpdesk::FINISHED], [
+                'status' => Helpdesk::COMPLETED,
+                'user_id' => App::identity('id'),
+                'concern_id' => $concern->id
+            ]);
         }
     }
 }

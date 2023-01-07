@@ -8,6 +8,7 @@ use app\helpers\ChatbotHelper;
 use app\helpers\Html;
 use app\models\Chat;
 use app\models\Concern;
+use app\models\Helpdesk;
 use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\ForgotPasswordForm;
@@ -413,7 +414,7 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionSendNewMessage()
+    /*public function actionSendNewMessage()
     {
         if (($post = App::post()) != null) {
             $session = \Yii::$app->session;
@@ -483,6 +484,82 @@ class SiteController extends Controller
                 else {
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     if (($predict = ChatbotHelper::predict($post['message'])) != null) {
+                        Chat::addChatbot('Ang ibig mo bang sabihin ay:');
+                        Chat::addChatbot($predict);
+                    }
+                    else {
+                        Chat::addChatbot(App::setting('chatbot')->default_message);
+                    }
+                }
+
+                return $this->asJson(['status' => 'success', $session]);
+            }
+            
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'No post data'
+        ]);
+    }*/
+
+    public function actionSendNewMessage()
+    {
+        if (($post = App::post()) != null) {
+            $session = \Yii::$app->session;
+            
+            if (Helpdesk::changingConcern($post['hiddenMessage'])) {
+             
+                Chat::addUser($post['message'], $post['hiddenMessage']);
+                Chat::response(Helpdesk::activeHelpdesk());
+
+                return $this->asJson(['status' => 'success']);
+            }
+
+
+            if (($helpdesk = Helpdesk::activeHelpdesk() ?? null) != null) {
+
+                if (!in_array(trim(strtolower($post['message'])), array_map('strtolower', $helpdesk->expectedAnswers))) {
+
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
+                    Chat::response($helpdesk);
+
+                    return $this->asJson([
+                        'status' => 'failed',
+                        'errorSummary' => 'Answer not expected'
+                    ]);
+                }
+
+
+                Chat::addUser($post['message'], $post['hiddenMessage']);
+                $helpdesk->completed($post['message']);
+                Chat::addMultipleChatbot($helpdesk->subconclusions);
+
+                $activeHelpdesk = Helpdesk::activeHelpdesk();
+
+                if ($activeHelpdesk === null) {
+                    // Chat::addChatbot('Maraming salamat sa pagsagot');
+                    Chat::conclusion($helpdesk->concern_id);
+                }
+                else {
+                    
+                    Chat::response($activeHelpdesk);
+                }
+
+                return $this->asJson(['status' => 'success', $session]);
+            }
+            else {
+
+                if (($concern = Concern::findOne(['name' => $post['message']])) != null) {
+                    Helpdesk::addConcern($concern);
+                   
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    Chat::response(Helpdesk::activeHelpdesk());
+                }
+                else {
+                    Chat::addUser($post['message'], $post['hiddenMessage']);
+                    if (($predict = Helpdesk::predict($post['message'])) != null) {
                         Chat::addChatbot('Ang ibig mo bang sabihin ay:');
                         Chat::addChatbot($predict);
                     }

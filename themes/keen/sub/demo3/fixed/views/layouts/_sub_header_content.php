@@ -51,7 +51,7 @@ $page = $this->params['page'] ?? '';
 	<a href="<?= Url::toRoute(['/community-board']) ?>" class="nav-item <?= $page == 'community-board'? 'active': '' ?>">
 		<span class="nav-label px-10">
 			<span class="nav-title text-dark-75 font-weight-bold font-size-h6">Community Board</span>
-			<span class="nav-desc text-muted">Group Chats & Inquiries</span>
+			<span class="nav-desc text-muted">Chats & Inquiries</span>
 		</span>
 	</a>
 	<!--end::Item-->
