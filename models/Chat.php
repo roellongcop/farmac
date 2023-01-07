@@ -381,8 +381,10 @@ class Chat extends ActiveRecord
 
     public static function addMultipleChatbot($messages=[], $hiddenMessages=[])
     {
-        foreach ($messages as $key => $message) {
-            self::addChatbot($message, $hiddenMessage[$key] ?? '');
+        if ($messages) {
+            foreach ($messages as $key => $message) {
+                self::addChatbot($message, $hiddenMessage[$key] ?? '');
+            }
         }
     }
 
@@ -400,7 +402,7 @@ class Chat extends ActiveRecord
     public static function response($helpdesk=[])
     {
         if ($helpdesk) {
-            self::addChatbot(implode(' ', [
+            self::addChatbot(implode("\n", [
                 $helpdesk->question,
                 self::expectedAnswers($helpdesk->expectedAnswers)
             ]));

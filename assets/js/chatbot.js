@@ -98,15 +98,16 @@ const chat = createApp({
 					if (response.status == 'success') {
 			       		if ("totalMessages" in response) {
 							totalMessages.value = response.totalMessages || 0;
+							scrollToBottom(false);
 						}
 
 						if ("messages" in response) {
 							let sm = messages.value.concat(response.messages);
 							messages.value = sm;
+							scrollToBottom(false);
 						}
 			       	}
 
-			  		scrollToBottom(false);
 
 					messageFormState.isSending = false;
 					messageFormState.content = [];

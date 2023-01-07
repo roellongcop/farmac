@@ -5,6 +5,7 @@ namespace app\models;
 use app\helpers\App;
 use app\helpers\ArrayHelper;
 use app\widgets\Anchor;
+use yii\helpers\StringHelper;
 
 /**
  * This is the model class for table "{{%concerns}}".
@@ -194,5 +195,24 @@ class Concern extends ActiveRecord
             'keys' => $data ? array_keys($data[0]): [],
             'data' => $data
         ];
+    }
+
+    public function getTruncatedName()
+    {
+        return StringHelper::truncate($this->name, 75);
+    }
+
+
+    public static function dropdown($key='id', $value='name', $condition=[], $map=true, $limit=false)
+    {
+        $models = self::find()
+            ->andFilterWhere($condition)
+            ->orderBy([$value => SORT_ASC])
+            ->limit($limit)
+            ->all();
+
+        $models = ($map)? ArrayHelper::map($models, $key, 'truncatedName'): $models;
+
+        return $models;
     }
 }

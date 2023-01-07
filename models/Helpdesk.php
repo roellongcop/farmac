@@ -222,6 +222,12 @@ class Helpdesk extends ActiveRecord
         $this->answer = $answer;
         $this->status = self::COMPLETED;
         $this->save();
+        if ($this->save()) {
+                    
+        }
+        else {
+            dd($this->errors);
+        }
 
         $this->refresh();
     }

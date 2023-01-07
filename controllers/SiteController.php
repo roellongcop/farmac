@@ -513,7 +513,7 @@ class SiteController extends Controller
                 Chat::addUser($post['message'], $post['hiddenMessage']);
                 Chat::response(Helpdesk::activeHelpdesk());
 
-                return $this->asJson(['status' => 'success']);
+                return $this->asJson(['status' => 'success', 'changingConcern']);
             }
 
 
@@ -525,10 +525,7 @@ class SiteController extends Controller
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
                     Chat::response($helpdesk);
 
-                    return $this->asJson([
-                        'status' => 'failed',
-                        'errorSummary' => 'Answer not expected'
-                    ]);
+                    return $this->asJson(['status' => 'failed', 'Answer not expected']);
                 }
 
 
@@ -547,7 +544,7 @@ class SiteController extends Controller
                     Chat::response($activeHelpdesk);
                 }
 
-                return $this->asJson(['status' => 'success', $session]);
+                return $this->asJson(['status' => 'success', 'Answer expected']);
             }
             else {
 
@@ -568,7 +565,7 @@ class SiteController extends Controller
                     }
                 }
 
-                return $this->asJson(['status' => 'success', $session]);
+                return $this->asJson(['status' => 'success', 'no active helpdesk']);
             }
             
         }
