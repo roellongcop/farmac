@@ -46,7 +46,7 @@ CSS);
 
                 <div v-if="messageFormState.content.length">
                     <div v-for="(content, index) in messageFormState.content" :key="index" class="chat-msg self">
-                        <div class="timeSent">Just now</div>
+                        <div class="timeSent">Sending...</div>
                         <div class="cm-msg-text-placeholder" v-html="content"></div>
                     </div>
                 </div>
