@@ -44,7 +44,7 @@ $this->params['page'] = 'help-desk';
                                 <span class="navi-text">
                                     {{index+1}}) {{concern.name}}
                                     <div class="text-muted">
-                                        Max: <span class="font-weight-bold" v-html="concern.totalRules"></span> Questions
+                                        <span v-if="concern.category"> {{concern.category}} | </span> <span class="font-weight-bold" v-html="concern.totalRules"></span> Questions 
                                     </div>
                                 </span>
                             </a>

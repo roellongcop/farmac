@@ -59,7 +59,7 @@ class Concern extends ActiveRecord
             [['description'], 'string'],
             [['name'], 'string', 'max' => 255],
             [['name'], 'unique'],
-            [['rules', 'fallback_message'], 'safe']
+            [['rules', 'fallback_message', 'category'], 'safe']
         ]);
     }
 
@@ -112,6 +112,7 @@ class Concern extends ActiveRecord
                     ]);
                 }
             ],
+            'category' => ['attribute' => 'category', 'format' => 'raw'],
             'description' => ['attribute' => 'description', 'format' => 'raw'],
             'rules' => ['attribute' => 'rules', 'format' => 'encode'],
         ];
@@ -147,6 +148,7 @@ class Concern extends ActiveRecord
     {
         return [
             'name:raw',
+            'category:raw',
             'description:raw',
             [
                 'label' => 'Rules',

@@ -2,6 +2,8 @@
 
 use app\helpers\App;
 use app\widgets\ActiveForm;
+use app\widgets\DataList;
+use app\models\Concern;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Concern */
@@ -14,6 +16,12 @@ use app\widgets\ActiveForm;
                 'title' => 'Concern Details',
                 'stretch' => true
             ]) ?>
+                <?= DataList::widget([
+                    'form' => $form,
+                    'model' => $model,
+                    'attribute' => 'category',
+                    'data' => Concern::filter('category')
+                ]) ?>
     			<?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
     			<?= $form->field($model, 'fallback_message')->textarea(['rows' => 5]) ?>

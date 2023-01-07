@@ -16,6 +16,7 @@ class m221229_071903_create_concerns_table extends \app\migrations\Migration
     public function safeUp()
     {
         $this->createTable($this->tableName(), $this->attributes([
+            'category' => $this->string(),
             'name' => $this->string()->notNull()->unique(),
             'description' => $this->text(),
             'rules' => $this->text(),
