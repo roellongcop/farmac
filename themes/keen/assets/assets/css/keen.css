@@ -51,3 +51,9 @@ select.kt-selectpicker.is-valid + button.dropdown-toggle {
 .header-menu .menu-nav > .menu-item .menu-submenu .menu-submenu {
     margin-left: 21rem;
 }
+
+@media only screen and (max-width: 991px) {
+    .header-menu .menu-nav > .menu-item .menu-submenu .menu-submenu {
+        margin-left: 0;
+    }
+}

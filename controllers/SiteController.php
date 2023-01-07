@@ -524,14 +524,16 @@ class SiteController extends Controller
 
 
             if (($helpdesk = Helpdesk::activeHelpdesk() ?? null) != null) {
+                $postMessage = trim(strtolower($post['message']));
+                $expectedAnswers = array_map('strtolower', array_map('trim', $helpdesk->expectedAnswers));
 
-                if (!in_array(trim(strtolower($post['message'])), array_map('strtolower', $helpdesk->expectedAnswers))) {
+                if (!in_array($postMessage, $expectedAnswers)) {
 
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
                     Chat::response($helpdesk);
 
-                    return $this->asJson(['status' => 'failed', 'Answer not expected']);
+                    return $this->asJson(['status' => 'failed', 'Answer not expected', 'message' => trim(strtolower($post['message'])), 'expected' => array_map('strtolower', $helpdesk->expectedAnswers)]);
                 }
 
 

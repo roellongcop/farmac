@@ -399,7 +399,7 @@ class Chat extends ActiveRecord
         $chat->save();
     }
 
-    public static function response($helpdesk=[])
+    public static function response($helpdesk='')
     {
         if ($helpdesk) {
             self::addChatbot(implode("\n", [
@@ -516,7 +516,12 @@ class Chat extends ActiveRecord
                 self::addChatbot($conclusion);
             }
             else {
-                self::addChatbot($concern->fallback_message);
+                if ($concern->fallback_message) {
+                    self::addChatbot($concern->fallback_message);
+                }
+                else {
+                    self::addChatbot(App::setting('chatbot')->default_message);
+                }
             }
 
             Helpdesk::updateAll(['status' => Helpdesk::FINISHED], [
