@@ -9,7 +9,7 @@ use app\models\search\DashboardSearch;
 /* @var $searchModel app\models\search\ConcernSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Concerns';
+$this->title = 'Help Desk';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['searchModel'] = new DashboardSearch(); 
 $this->params['wrapCard'] = false;
