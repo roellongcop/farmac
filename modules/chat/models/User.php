@@ -14,6 +14,7 @@ class User extends \app\models\User
 
 		$fields['fullname'] = 'fullname';
       	$fields['photoLink'] = 'photoLink';
+      	$fields['timestamp'] = 'timestamp';
 
 		return $fields;
 	}

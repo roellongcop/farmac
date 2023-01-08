@@ -1050,4 +1050,9 @@ abstract class ActiveRecord extends \yii\db\ActiveRecord
 
         return $this->createdAt;
     }
+
+    public function getTimestamp()
+    {
+        return strtotime($this->updated_at);
+    }
 }

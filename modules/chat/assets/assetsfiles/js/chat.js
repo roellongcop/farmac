@@ -119,38 +119,49 @@ const chat = createApp({
 		}
 
 		const refreshData = (response) => {
+			let scroll = false;
 			if ("activeSpace" in response) {
 				activeSpace.value = response.activeSpace || {};
+				scroll = true;
 			}
 
 			if ("availableUsers" in response) {
 				availableUsers.value = response.availableUsers || [];
+				scroll = true;
 			}
 
 			if ("spaceGroups" in response) {
 				spaceGroups.value = response.spaceGroups || [];
+				scroll = true;
 			}
 
 			if ("spaceMessages" in response) {
 				let sm = spaceMessages.value.concat(response.spaceMessages);
 				spaceMessages.value = sm;
+				scroll = true;
 			}
 
 			if ("users" in response) {
 				users.value = response.users || [];
+				scroll = true;
 			}
 
 			if ("spaces" in response) {
 				spaces.value = response.spaces || [];
+				scroll = true;
 			}
 			if ("currentUser" in response) {
 				currentUser.value = response.currentUser || {};
+				scroll = true;
 			}
 			if ("spaceMessagesTotal" in response) {
 				spaceMessagesTotal.value = response.spaceMessagesTotal || 0;
+				scroll = true;
 			}
 
-	  		scrollToBottom(false);
+			if (scroll) {
+	  			scrollToBottom(false);
+			}
 		}
 		const initData = () => {
 			showAppLoading('#chat-module', 'Initializing Data...');
