@@ -15,7 +15,6 @@ $this->addJsFile('js/conclusion');
     <div class="row">
         <div class="col-md-6">
             <?= BootstrapSelect::widget([
-                'multiple' => true,
                 'form' => $form,
                 'model' => $model,
                 'attribute' => 'concern_id',
