@@ -5,7 +5,7 @@ use app\widgets\ImageGallery;
 use app\helpers\Html;
 ?>
 <?php $form = ActiveForm::begin(['id' => 'setting-shipping-form']); ?>
-    <h4 class="mb-10 font-weight-bold text-dark">Chatbot
+    <h4 class="mb-10 font-weight-bold text-dark">Chatbot</h4>
     	
 	<div class="row">
 		<div class="col-md-8">
