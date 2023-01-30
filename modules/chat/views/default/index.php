@@ -51,7 +51,7 @@ $this->registerJsFile(
                                             ></message-container-header>
                                     </div>
                                     <div class="card-body messages-body overflow-auto" ref="conversationsContainer" @scroll="messageScroll">
-                                        <space-message-list :current-user="currentUser" :space-messages="spaceMessages" :message-form-state="messageFormState"></space-message-list>
+                                        <space-message-list @remove-message="removeMessage" :current-user="currentUser" :space-messages="spaceMessages" :message-form-state="messageFormState"></space-message-list>
                                     </div>
                                     <div class="card-footer align-items-center">
                                         <div class="scrollToBottomContainer" v-if="showScrollable">

@@ -359,6 +359,15 @@ const chat = createApp({
 		  	initData();
 		});
 
+		const removeMessage = (spaceMessage) => {
+			console.log('spaceMessage', spaceMessage)
+
+			const indexOf = spaceMessages.value.indexOf(spaceMessage);
+
+			spaceMessages.value.splice(indexOf, 1);
+
+		}
+
 		return {
 			saveActiveSpace,
 			availableUsers,
@@ -386,7 +395,8 @@ const chat = createApp({
 			showScrollable,
 			scrollToBottom,
 			chatModule,
-			ambulanceRequestContainer
+			ambulanceRequestContainer,
+			removeMessage
 		}
 	}
 });

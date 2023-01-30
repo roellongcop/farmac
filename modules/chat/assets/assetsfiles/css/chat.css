@@ -244,3 +244,10 @@ div.scrollToBottomContainer span:nth-of-type(2) {
     width: 99%;
     text-align: center;
 }
+.space-message-item-container {
+  cursor: pointer;
+}
+
+.space-message-item-container .btn-trash {
+  display: none;
+}

@@ -97,7 +97,7 @@ export default {
 		            this.on('success', success);
 		            this.on('resetFiles', function() {
 				        if(this.files.length != 0){
-				            for(i=0; i<this.files.length; i++){
+				            for(let i=0; i<this.files.length; i++){
 				                this.files[i].previewElement.remove();
 				            }
 				            this.files.length = 0;

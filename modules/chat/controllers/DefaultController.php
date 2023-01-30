@@ -172,6 +172,67 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionRemoveSpace()
+    {
+        if (($post = App::post()) != null) {
+            if (($space = Space::findOne($post['space_id'])) != null) {
+                
+                if ($space->delete()) {
+
+                    return $this->asJson([
+                        'status' => 'success',
+                    ]);
+                }
+
+                return $this->asJson([
+                    'status' => 'failed',
+                    'errorSummary' => $space->errorSummary
+                ]);
+
+            }
+
+            return $this->asJson([
+                'status' => 'failed',
+                'errorSummary' => 'no space found'
+            ]);
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'no post data found'
+        ]);
+    }
+
+    public function actionRemoveMessage()
+    {
+        if (($post = App::post()) != null) {
+            if (($spaceMessage = SpaceMessage::findOne($post['id'])) != null) {
+                
+                if ($spaceMessage->delete()) {
+
+                    return $this->asJson([
+                        'status' => 'success',
+                    ]);
+                }
+
+                return $this->asJson([
+                    'status' => 'failed',
+                    'errorSummary' => $spaceMessage->errorSummary
+                ]);
+            }
+
+            return $this->asJson([
+                'status' => 'failed',
+                'errorSummary' => 'no message found'
+            ]);
+        }
+
+        return $this->asJson([
+            'status' => 'failed',
+            'errorSummary' => 'no post data found'
+        ]);
+    }
+
     public function actionAddMemberSpace()
     {
         $userId = App::post('userId');

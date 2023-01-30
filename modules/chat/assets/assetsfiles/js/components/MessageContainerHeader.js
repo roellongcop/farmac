@@ -6,6 +6,7 @@ import EditSpaceButton from './EditSpaceButton.js';
 import SpaceInfoButton from './SpaceInfoButton.js';
 import ViewFilesButton from './ViewFilesButton.js';
 import ChangePhotoButton from './ChangePhotoButton.js';
+import RemoveSpaceButton from './RemoveSpaceButton.js';
 
 const { toRefs, ref } = Vue;
 
@@ -18,7 +19,8 @@ export default {
 		EditSpaceButton,
 		SpaceInfoButton,
 		ViewFilesButton,
-		ChangePhotoButton
+		ChangePhotoButton,
+		RemoveSpaceButton
 	},
 	setup(props, { emit }) {
 		const { activeSpace, spaceGroups, availableUsers, currentUser } = toRefs(props);
@@ -182,9 +184,11 @@ export default {
 							<li class="navi-item" v-if="activeSpace.canAddPrivateMember">
 								<add-private-member-button :current-user="currentUser" :form-visibility="formVisibility" :active-space="activeSpace" :available-users="availableUsers" @show-add-member-form="showAddMemberForm" @hide-add-member-form="hideAddMemberForm" @save-new-space="saveNewSpace" @save-member="saveMember" @show-private-members="showPrivateMembers"></add-private-member-button>
 							</li>
-							<li class="navi-item" v-if="activeSpace.userIsCreator" >
+							<li class="navi-item" v-if="activeSpace.userIsCreator">
 								<edit-space-button :active-space="activeSpace" @save-active-space="saveActiveSpace"></edit-space-button>
 							</li>
+
+							
 
 							<li class="navi-item" v-if="activeSpace.photoChangable">
 								<change-photo-button :active-space="activeSpace"></change-photo-button>
@@ -195,6 +199,7 @@ export default {
 							</li>
 							<li class="navi-separator my-3"></li>
 							
+
 							<li class="navi-item" v-if="activeSpace.blockableConversation">
 								<a href="#" class="navi-link" @click.prevent="blockConversation">
 									<span class="navi-icon">
@@ -250,6 +255,10 @@ export default {
 										Leave
 									</span>
 								</a>
+							</li>
+
+							<li class="navi-item" v-if="activeSpace.userIsCreator">
+								<remove-space-button :active-space="activeSpace"></remove-space-button>
 							</li>
 						</ul>
 					</div>

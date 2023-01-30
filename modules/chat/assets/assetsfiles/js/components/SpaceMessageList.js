@@ -1,9 +1,10 @@
-import { appState } from '../library.js';
+import { appState, get, post, showAppLoading, hideAppLoading } from '../library.js';
 import MessageAttachments from './MessageAttachments.js';
 
-const { toRefs } = Vue;
+const { toRefs, onMounted } = Vue;
 
 export default {
+    emits: ['remove-message'],
 	props: ['spaceMessages', 'messageFormState', 'currentUser'],
     components: {
         MessageAttachments
@@ -46,13 +47,53 @@ export default {
             return 'mb-5';
         }
 
+        onMounted(() => {
+            $(document).on('mouseover', '.space-message-item-container', function() {
+                $(this).find('.btn-trash').show();
+
+            }).on('mouseleave', '.space-message-item-container', function() {
+                $(this).find('.btn-trash').hide();
+
+            })
+        })
+
+        const removeMessage = (spaceMessage) => {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won\"t be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Confirm",
+                cancelButtonText: "No, cancel!",
+                reverseButtons: true
+            }).then(function(result) {
+                if (result.value) {
+                    showAppLoading('#chat-module', 'Removing Message...');
+                    post('default/remove-message', {id: spaceMessage.id})
+                    .then(response => {
+                        if (response.status == 'success') {
+                            emit('remove-message', spaceMessage);
+                        }
+                        hideAppLoading('#chat-module');
+                    })
+                    .catch(e => {
+                        hideAppLoading('#chat-module');
+
+                        console.log(e);
+                    });
+                } 
+            });
+        }
+
+
 		return {
             spaceMessages,
 			appState,
             messageFormState,
             currentUser,
             showTimesent,
-            messageClass
+            messageClass,
+            removeMessage
 		}
 	},
   	template: `
@@ -69,7 +110,7 @@ export default {
                             </div>
                         </div>
 
-                        <div v-else-if="spaceMessage.isSender" class="d-flex flex-column align-items-end" :class="messageClass(index)">
+                        <div v-else-if="spaceMessage.isSender" class="space-message-item-container d-flex flex-column align-items-end" :class="messageClass(index)">
                             <div v-if="showTimesent(index)" class="d-flex align-items-center">
                                 <div>
                                     <span class="text-muted font-size-sm ago text-uppercase" v-text="spaceMessage.timeSent"></span>
@@ -81,10 +122,15 @@ export default {
                                 </div>
                             </div>
                             
-                            <message-attachments class="mr-12" :space-message="spaceMessage" add-class="message-is-sender"></message-attachments>
-                            <div v-if="spaceMessage.formattedContent" class="mr-12 mb-1 rounded p-3 bg-primary text-white font-weight-bold font-size-sm text-right max-w-400px message-is-sender">
-                                <span v-html="spaceMessage.formattedContent"></span>
+
+                            <div class="d-flex align-items-center">
+                                <a title="Remove" href="#" @click="removeMessage(spaceMessage)" class="mr-5 btn-trash"><i class="fa fa-trash text-danger"></i></a>
+                                <message-attachments class="mr-12" :space-message="spaceMessage" add-class="message-is-sender"></message-attachments>
+                                <div v-if="spaceMessage.formattedContent" class="mr-12 mb-1 rounded p-3 bg-primary text-white font-weight-bold font-size-sm text-right max-w-400px message-is-sender">
+                                    <span v-html="spaceMessage.formattedContent"></span>
+                                </div>
                             </div>
+                                
                         </div>
 
                         <div v-else class="d-flex flex-column align-items-start" :class="messageClass(index)">
