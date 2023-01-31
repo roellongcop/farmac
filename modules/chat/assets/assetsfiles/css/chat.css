@@ -251,3 +251,7 @@ div.scrollToBottomContainer span:nth-of-type(2) {
 .space-message-item-container .btn-trash {
   display: none;
 }
+
+.space-message-item-container:hover .btn-trash {
+  display: block;
+}

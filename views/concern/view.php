@@ -24,6 +24,9 @@ $decisionTree = $model->decisionTree;
         	'names' => ['update', 'duplicate', 'delete', 'log'], 
         	'model' => $model
         ]) ?> 
+        <?= Html::a('Add Conclusion', ['conclusion/create', 'concern_id' => $model->id], [
+            'class' => 'btn btn-primary font-weight-bold'
+        ]) ?>
         <?= Detail::widget(['model' => $model]) ?>
     <?php $this->endContent() ?>
 

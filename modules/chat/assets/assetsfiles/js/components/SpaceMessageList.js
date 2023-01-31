@@ -1,7 +1,7 @@
 import { appState, get, post, showAppLoading, hideAppLoading } from '../library.js';
 import MessageAttachments from './MessageAttachments.js';
 
-const { toRefs, onMounted } = Vue;
+const { toRefs } = Vue;
 
 export default {
     emits: ['remove-message'],
@@ -46,16 +46,6 @@ export default {
 
             return 'mb-5';
         }
-
-        onMounted(() => {
-            $(document).on('mouseover', '.space-message-item-container', function() {
-                $(this).find('.btn-trash').show();
-
-            }).on('mouseleave', '.space-message-item-container', function() {
-                $(this).find('.btn-trash').hide();
-
-            })
-        })
 
         const removeMessage = (spaceMessage) => {
             Swal.fire({

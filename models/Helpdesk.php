@@ -174,13 +174,14 @@ class Helpdesk extends ActiveRecord
             if ($concern) {
                 self::updateAll(['status' => self::ABANDONED], ['user_id' => $identity->id]);
 
-                $data = App::foreach($concern->rules, function($rule) use($concern, $identity) {
+                $data = App::foreach($concern->rules, function($rule, $index, $counter) use($concern, $identity) {
                     return [
                         'user_id' => $identity->id,
                         'concern_id' => $concern->id,
                         'question' => $rule['label'],
                         'expectation' => json_encode($rule['sub'] ?? []),
                         'status' => Helpdesk::PENDING,
+                        'counter' => $counter,
                         'record_status' => Helpdesk::RECORD_ACTIVE,
                         'created_by' => $identity->id,
                         'updated_by' => $identity->id,
@@ -308,5 +309,33 @@ class Helpdesk extends ActiveRecord
         if ($data) {
             return array_values(ArrayHelper::map($data, 'label', 'label'));
         }
+    }
+
+    public function getFilteredQuestion()
+    {
+        $question = $this->question;
+        preg_match_all('~\(([^()]*)\)~', $question, $matches);
+
+        if (isset($matches[1]) && $matches[1]) {
+            foreach ($matches[1] as $match) {
+                $explodeMatch = explode('_', $match);
+                $counter = $explodeMatch[1] ?? '';
+
+                $helpdesk = self::find()
+                    ->where([
+                        'concern_id' => $this->concern_id,
+                        'status' => self::COMPLETED,
+                        'counter' => $counter
+                    ])
+                    ->orderBy(['id' => SORT_DESC])
+                    ->one();
+
+                if ($helpdesk) {
+                    $question = str_replace("(ANSWER_{$counter})", $helpdesk->answer, $question);
+                }
+            }
+        }
+
+        return $question;
     }
 }

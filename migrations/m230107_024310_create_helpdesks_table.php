@@ -22,6 +22,7 @@ class m230107_024310_create_helpdesks_table extends \app\migrations\Migration
             'answer' => $this->string(),
             'expectation' => $this->text(),
             'status' => $this->tinyInteger(2)->notNull()->defaultValue(0),
+            'counter' => $this->integer()->notNull()->defaultValue(0),
         ]));
 
         $this->createIndexes($this->tableName(), [

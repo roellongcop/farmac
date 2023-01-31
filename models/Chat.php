@@ -370,13 +370,15 @@ class Chat extends ActiveRecord
 
     public static function addUser($message='', $hiddenMessage='')
     {
-        $chat = new self([
-            'type' => self::TYPE_USER,
-            'message' => $message,
-            'hidden_message' => $hiddenMessage,
-            'status' => self::ANSWERED
-        ]);
-        return $chat->save();
+        if ($message) {
+            $chat = new self([
+                'type' => self::TYPE_USER,
+                'message' => $message,
+                'hidden_message' => $hiddenMessage,
+                'status' => self::ANSWERED
+            ]);
+            return $chat->save();
+        }
     }
 
     public static function addMultipleChatbot($messages=[], $hiddenMessages=[])
@@ -390,18 +392,20 @@ class Chat extends ActiveRecord
 
     public static function addChatbot($message='', $hiddenMessage='')
     {
-        $chat = new self([
-            'type' => self::TYPE_CHATBOT,
-            'message' => $message,
-            'hidden_message' => $hiddenMessage,
-            'status' => self::ANSWERED
-        ]);
-        $chat->save();
+        if ($message) {
+            $chat = new self([
+                'type' => self::TYPE_CHATBOT,
+                'message' => $message,
+                'hidden_message' => $hiddenMessage,
+                'status' => self::ANSWERED
+            ]);
+            $chat->save();
+        }
     }
 
     public static function concernSuggestions($predict='')
     {
-        self::addChatbot("Ang ibig mo bang sabihin ay:\n" . $predict);
+        self::addChatbot("Ang ibig mo bang sabihin ay:\n\n" . $predict);
     }
 
     public static function notExpectedAnswer($helpdesk='')
@@ -409,20 +413,24 @@ class Chat extends ActiveRecord
         if ($helpdesk) {
             self::addChatbot(implode("\n", [
                 "Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian.\n",
-                $helpdesk->question . "\n",
+                $helpdesk->filteredQuestion . "\n",
                 self::expectedAnswers($helpdesk->expectedAnswers)
             ]));
         }
     }
 
-    public static function response($helpdesk='')
+    public static function response($activeHelpdesk='', $helpdesk='')
     {
-        if ($helpdesk) {
-            self::addChatbot(implode("\n\n", [
-                $helpdesk->question,
-                self::expectedAnswers($helpdesk->expectedAnswers)
-            ]));
+        $content = $helpdesk ? App::foreach($helpdesk->subconclusions, fn ($c) => $c): '';
+
+        if ($activeHelpdesk) {
+            $content .= "\n\n" . implode("\n\n", [
+                $activeHelpdesk->filteredQuestion,
+                self::expectedAnswers($activeHelpdesk->expectedAnswers)
+            ]);
         }
+
+        self::addChatbot($content);
     }
 
     public static function expectedAnswers($expectedAnswers=[])
@@ -495,10 +503,8 @@ class Chat extends ActiveRecord
         $data = [];
 
         foreach ($decisionTree as $index => $dt) {
-
-            if (isset($dt[$question])) {
-                if ($dt[$question] == $answer) {
-                    
+            foreach ($dt as $q => $a) {
+                if ($question == $q && $answer == $a) {
                     $data[] = $dt;
                     break;
                 }
@@ -508,10 +514,9 @@ class Chat extends ActiveRecord
         return $data;
     }
 
-    public static function conclusion($concern_id)
+    public static function conclusion($helpdesk)
     {
-
-        if (($concern = Concern::findOne($concern_id)) != null) {
+        if (($concern = Concern::findOne($helpdesk->concern_id)) != null) {
 
             $decisionTree = $concern->decisionTree['data'];
 
@@ -525,18 +530,25 @@ class Chat extends ActiveRecord
                 $decisionTree = self::filterConclusion($question, $answer, $decisionTree);
             }
 
-            $conclusion = App::if($decisionTree[0] ?? [], fn ($d) => $d['conclusion']);
-         
 
+            $conclusion = App::if($decisionTree[0] ?? [], fn ($d) => $d['conclusion']);
+            $subconclusions = App::foreach($helpdesk->subconclusions, fn ($message) => $message);
+         
             if ($conclusion) {
-                self::addChatbot($conclusion);
+                $content = $subconclusions ? ($subconclusions . "\n" . $conclusion): $conclusion;
+
+                self::addChatbot($content);
             }
             else {
-                if ($concern->fallback_message) {
-                    self::addChatbot($concern->fallback_message);
+                if (($fallback_message = $concern->fallback_message) != null) {
+                    $content = $subconclusions ? ($subconclusions . "\n" . $fallback_message): $fallback_message;
+                    self::addChatbot($content);
                 }
                 else {
-                    self::addChatbot(App::setting('chatbot')->default_message);
+                    $default_message = App::setting('chatbot')->default_message;
+
+                    $content = $subconclusions ? ($subconclusions . "\n" . $default_message): $default_message;
+                    self::addChatbot($content);
                 }
             }
 

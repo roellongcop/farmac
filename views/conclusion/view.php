@@ -1,8 +1,9 @@
 <?php
 
+use app\helpers\Html;
+use app\models\search\ConclusionSearch;
 use app\widgets\Anchors;
 use app\widgets\Detail;
-use app\models\search\ConclusionSearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Conclusion */
@@ -18,5 +19,8 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model
     ]) ?> 
+    <?= Html::a('View Concern', $model->concern->viewUrl, [
+        'class' => 'btn btn-primary font-weight-bold'
+    ]) ?>
     <?= Detail::widget(['model' => $model]) ?>
 </div>

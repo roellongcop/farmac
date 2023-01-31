@@ -8,69 +8,10 @@ $this->addJsFile('js/chatbot', [], ['type' => 'module']);
 
 $themeColor = App::setting('chatbot')->theme_color;
 $this->registerCss(<<< CSS
-    .chat-logs::-webkit-scrollbar-thumb {
-        background-color: {$themeColor};
-    }
-    .scroller-thumb::-webkit-scrollbar-thumb {
-        background-color: {$themeColor};
-    }
-    .btn-scroller:hover {
-        background: {$themeColor};
-        border-color: {$themeColor};
-        color: #fff;
-    }
-
-    p.msg {
-        /*layout*/
-        position: relative;
-        max-width: 75%;
-        color: #666;
-        width: fit-content;
-        /*padding: 10px 15px !important;*/
-        
-        /*looks*/
-        background-color: #fff;
-        padding: 1.125em 1.5em;
-        border-radius: 1rem;
-    }
-    .self p.msg {
-        float: right;
-        color: #fff;
-    }
-
-    .user p.msg::before {
-        /*layout*/
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        bottom: 100%;
-        left: 1.5em; /*offset should move with padding of parent*/
-        border: .75rem solid transparent;
-        border-top: none;
-
-        /*looks*/
-        border-bottom-color: #fff;
-        filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
-    }
-
-    .self p.msg::before {
-        /*layout*/
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        bottom: -9px;
-        right: 1.5em;
-        border: 0.75rem solid transparent;
-        border-top: none;
-
-        /*looks*/
-        border-bottom-color: {$themeColor};
-        filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
-        transform: rotate(180deg);
-    }
-
+    .chat-logs::-webkit-scrollbar-thumb {background-color: {$themeColor};}
+    .scroller-thumb::-webkit-scrollbar-thumb {background-color: {$themeColor};}
+    .btn-scroller:hover {background: {$themeColor}; border-color: {$themeColor};}
+    .self p.msg::before {border-bottom-color: {$themeColor};}
 CSS);
 ?>
 

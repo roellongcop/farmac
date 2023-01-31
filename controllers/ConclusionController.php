@@ -51,9 +51,9 @@ class ConclusionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($concern_id='')
     {
-        $model = new Conclusion();
+        $model = new Conclusion(['concern_id' => $concern_id]);
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');

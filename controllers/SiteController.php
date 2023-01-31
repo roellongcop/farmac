@@ -538,17 +538,15 @@ class SiteController extends Controller
 
                 Chat::addUser($post['message'], $post['hiddenMessage']);
                 $helpdesk->completed($post['message']);
-                Chat::addMultipleChatbot($helpdesk->subconclusions);
 
                 $activeHelpdesk = Helpdesk::activeHelpdesk();
 
                 if ($activeHelpdesk === null) {
                     // Chat::addChatbot('Maraming salamat sa pagsagot');
-                    Chat::conclusion($helpdesk->concern_id);
+                    Chat::conclusion($helpdesk);
                 }
                 else {
-                    
-                    Chat::response($activeHelpdesk);
+                    Chat::response($activeHelpdesk, $helpdesk);
                 }
 
                 return $this->asJson(['status' => 'success', 'Answer expected']);
