@@ -399,10 +399,26 @@ class Chat extends ActiveRecord
         $chat->save();
     }
 
-    public static function response($helpdesk='')
+    public static function concernSuggestions($predict='')
+    {
+        self::addChatbot("Ang ibig mo bang sabihin ay:\n" . $predict);
+    }
+
+    public static function notExpectedAnswer($helpdesk='')
     {
         if ($helpdesk) {
             self::addChatbot(implode("\n", [
+                "Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian.\n",
+                $helpdesk->question . "\n",
+                self::expectedAnswers($helpdesk->expectedAnswers)
+            ]));
+        }
+    }
+
+    public static function response($helpdesk='')
+    {
+        if ($helpdesk) {
+            self::addChatbot(implode("\n\n", [
                 $helpdesk->question,
                 self::expectedAnswers($helpdesk->expectedAnswers)
             ]));

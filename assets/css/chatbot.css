@@ -258,6 +258,7 @@
   font-size: smaller;
   text-align: left;
   margin-left: 15px;
+  margin-bottom: 6px;
 }
 
 .btn-scroller {
@@ -316,4 +317,10 @@ div.scrollToBottomContainer span:nth-of-type(2) {
 .concern-body {
   max-height: 54vh;
   overflow: auto;
+}
+.btrr0 {
+  border-top-right-radius: 0px;
+}
+.bbrr0 {
+  border-bottom-right-radius: 0px;
 }

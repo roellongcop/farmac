@@ -530,8 +530,7 @@ class SiteController extends Controller
                 if (!in_array($postMessage, $expectedAnswers)) {
 
                     Chat::addUser($post['message'], $post['hiddenMessage']);
-                    Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
-                    Chat::response($helpdesk);
+                    Chat::notExpectedAnswer($helpdesk);
 
                     return $this->asJson(['status' => 'failed', 'Answer not expected']);
                 }
@@ -565,8 +564,7 @@ class SiteController extends Controller
                 else {
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     if (($predict = Helpdesk::predict($post['message'])) != null) {
-                        Chat::addChatbot('Ang ibig mo bang sabihin ay:');
-                        Chat::addChatbot($predict);
+                        Chat::concernSuggestions($predict);
                     }
                     else {
                         Chat::addChatbot(App::setting('chatbot')->default_message);
