@@ -9,11 +9,17 @@ $this->params['wrapCard'] = false;
 ?>
 <div class="dashboard-page">
 
-	<!-- <div class="row">
-		<div class="col-md-12">
-			<?php # $this->render('_user-registration') ?>
+	<div class="row">
+		<div class="col-md-4">
+			<?= $this->render('_top-inquiries') ?>
 		</div>
-	</div> -->
+		<div class="col-md-4">
+			<?= $this->render('_top-unsolved-inquiries') ?>
+		</div>
+		<div class="col-md-4">
+			<?= $this->render('_top-solved-inquiries') ?>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-md-4">
 			<?= $this->render('_announcement') ?>

@@ -538,17 +538,20 @@ class Chat extends ActiveRecord
                 $content = $subconclusions ? ($subconclusions . "\n" . $conclusion): $conclusion;
 
                 self::addChatbot($content);
+                Inquiry::addSolved($concern->name);
             }
             else {
                 if (($fallback_message = $concern->fallback_message) != null) {
                     $content = $subconclusions ? ($subconclusions . "\n" . $fallback_message): $fallback_message;
                     self::addChatbot($content);
+                    Inquiry::addSolved($concern->name);
                 }
                 else {
                     $default_message = App::setting('chatbot')->default_message;
 
                     $content = $subconclusions ? ($subconclusions . "\n" . $default_message): $default_message;
                     self::addChatbot($content);
+                    Inquiry::addUnsolved($concern->name);
                 }
             }
 

@@ -9,6 +9,7 @@ use app\helpers\Html;
 use app\models\Chat;
 use app\models\Concern;
 use app\models\Helpdesk;
+use app\models\Inquiry;
 use app\models\User;
 use app\models\form\ContactForm;
 use app\models\form\ForgotPasswordForm;
@@ -414,94 +415,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /*public function actionSendNewMessage()
-    {
-        if (($post = App::post()) != null) {
-            $session = \Yii::$app->session;
-            
-            if (ChatbotHelper::changingConcern($post['hiddenMessage'])) {
-                $session->remove('concern_id');
-                $session->remove('questions');
-                $session->remove('activeQuestion');
-
-                $concernId = ChatbotHelper::getConcernId($post['hiddenMessage']);
-
-                $session['concern_id'] = $concernId;
-                $session['questions'] = ChatbotHelper::getQuestions();
-                $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
-
-                Chat::addUser($post['message'], $post['hiddenMessage']);
-                Chat::response($session['activeQuestion']);
-
-                return $this->asJson(['status' => 'success', $session]);
-            }
-
-
-            if (($activeQuestion = $session['activeQuestion'] ?? null) != null) {
-                if (!in_array(trim(strtolower($post['message'])), array_map('strtolower', $activeQuestion['expected_answers']))) {
-
-                    Chat::addUser($post['message'], $post['hiddenMessage']);
-                    Chat::addChatbot('Ang sagot ay wala sa pagpipilian maaring sumagot lamang ng nasa pagpipilian');
-                    Chat::response($activeQuestion);
-
-                    return $this->asJson([
-                        'status' => 'failed',
-                        'errorSummary' => 'Answer not expected'
-                    ]);
-                }
-
-
-                Chat::addUser($post['message'], $post['hiddenMessage']);
-
-                $session['questions'] = ChatbotHelper::updateQuestions($post['message']);
-                $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
-
-                if ($session['activeQuestion'] === false) {
-                    // Chat::addChatbot('Maraming salamat sa pagsagot');
-                    Chat::conclusion($session['concern_id'], $session['questions']);
-
-                    $session->remove('concern_id');
-                    $session->remove('questions');
-                    $session->remove('activeQuestion');
-                }
-                else {
-                    Chat::addChatbot($session['activeQuestion']['label']);
-                    Chat::expectedAnswers($session['activeQuestion']);
-                }
-
-                return $this->asJson(['status' => 'success', $session]);
-            }
-            else {
-
-                if (($concern = Concern::findOne(['name' => $post['message']])) != null) {
-                    $session['concern_id'] = $concern->id;
-                    $session['questions'] = ChatbotHelper::getQuestions();
-                    $session['activeQuestion'] = ChatbotHelper::getActiveQuestion();
-
-                    Chat::addUser($post['message'], $post['hiddenMessage']);
-                    Chat::response($session['activeQuestion']);
-                }
-                else {
-                    Chat::addUser($post['message'], $post['hiddenMessage']);
-                    if (($predict = ChatbotHelper::predict($post['message'])) != null) {
-                        Chat::addChatbot('Ang ibig mo bang sabihin ay:');
-                        Chat::addChatbot($predict);
-                    }
-                    else {
-                        Chat::addChatbot(App::setting('chatbot')->default_message);
-                    }
-                }
-
-                return $this->asJson(['status' => 'success', $session]);
-            }
-            
-        }
-
-        return $this->asJson([
-            'status' => 'failed',
-            'errorSummary' => 'No post data'
-        ]);
-    }*/
 
     public function actionSendNewMessage()
     {
@@ -515,7 +428,7 @@ class SiteController extends Controller
             }
 
             if (Helpdesk::changingConcern($post['hiddenMessage'])) {
-             
+                
                 Chat::addUser($post['message'], $post['hiddenMessage']);
                 Chat::response(Helpdesk::activeHelpdesk());
 
@@ -542,7 +455,6 @@ class SiteController extends Controller
                 $activeHelpdesk = Helpdesk::activeHelpdesk();
 
                 if ($activeHelpdesk === null) {
-                    // Chat::addChatbot('Maraming salamat sa pagsagot');
                     Chat::conclusion($helpdesk);
                 }
                 else {
@@ -566,6 +478,8 @@ class SiteController extends Controller
                     }
                     else {
                         Chat::addChatbot(App::setting('chatbot')->default_message);
+                        Inquiry::addUnsolved($post['message']);
+
                     }
                 }
 

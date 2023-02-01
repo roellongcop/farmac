@@ -484,13 +484,12 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                     return Html::image($model->photo, 
                         [
                             'w' => 50,
-                            'h' => 50,
                             'quality' => 90,
                             'ratio' => 'false',
                         ], 
                         [
                             'loading' => 'lazy',
-                            'style' => 'border-radius: 50%;max-width:40px'
+                            'style' => 'border-radius: 50%;max-height:40px'
                         ]
                     );
                 }
@@ -532,7 +531,50 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface
                     return $model->blockedStatusHtml;
                 }
             ],
+            'badge' => [
+                'label' => 'Badge',
+                'attribute' => 'id', 
+                'value' => 'badge', 
+                'format' => 'raw'
+            ],
         ];
+    }
+
+    public function getBadge()
+    {
+        $system = App::setting('system');
+        
+        $total = Log::find()
+            ->where([
+                'user_id' => $this->id,
+            ])
+            ->andWhere('created_at >= DATE_ADD(CURDATE(), INTERVAL -'.$system->compensation_badge_days_threshold.' DAY)')
+            ->count();
+
+        $title = number_format($total) . ' Logs recorded in ' . number_format($system->compensation_badge_days_threshold ) . ' day(s)';
+
+
+        if ($total >= $system->compensation_badge_threshold) {
+            return Html::tag('label', 'Active', [
+                'class' => 'badge badge-success',
+                'title' => $title,
+                'data-toggle' => 'tooltip'
+            ]);
+        }
+
+        if ($total) {
+            return Html::tag('label', 'Partial', [
+                'class' => 'badge badge-info',
+                'title' => $title,
+                'data-toggle' => 'tooltip'
+            ]);
+        }
+
+        return Html::tag('label', 'In-Active', [
+            'class' => 'badge badge-secondary',
+            'title' => $title,
+            'data-toggle' => 'tooltip'
+        ]);
     }
 
     public function detailColumns()

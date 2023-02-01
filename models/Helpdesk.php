@@ -159,8 +159,7 @@ class Helpdesk extends ActiveRecord
             $changingConcern = str_contains($message, self::CONCERN_PATTERN);
 
             if ($changingConcern) {
-                self::addConcern(self::getConcernId($message));
-                return true;
+                return self::addConcern(self::getConcernId($message));
             }
         }
     }
@@ -192,7 +191,7 @@ class Helpdesk extends ActiveRecord
                 Helpdesk::batchInsert(array_values($data));
             }
 
-            return true;
+            return $concern;
         }
     }
 
@@ -232,8 +231,9 @@ class Helpdesk extends ActiveRecord
     {
         $this->answer = $answer;
         $this->status = self::COMPLETED;
-        $this->save();
+        
         if ($this->save()) {
+            
                     
         }
         else {

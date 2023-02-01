@@ -67,6 +67,16 @@ use app\widgets\ActiveForm;
 	        ]) ?>
 		</div>
 	</div>
+	<p class="lead font-weight-bold mt-10">COMPENSATION BADGE</p>
+	<div class="row">
+		<div class="col-md-4">
+			<?= $form->field($model, 'compensation_badge_days_threshold')->textInput() ?>
+		</div>
+		<div class="col-md-4">
+			<?= $form->field($model, 'compensation_badge_threshold')->textInput() ?>
+		</div>
+
+	</div>
 	<div class="form-group"> <br>
 		<?= ActiveForm::buttons() ?>
 	</div>

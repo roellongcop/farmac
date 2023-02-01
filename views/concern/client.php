@@ -2,6 +2,7 @@
 
 use app\helpers\App;
 use app\models\Concern;
+use app\models\Inquiry;
 use app\models\search\DashboardSearch;
 
 
@@ -17,7 +18,7 @@ $this->params['page'] = 'help-desk';
 ?>
 <div class="concern-index-page" id="help-desk" v-cloak>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card card-custom card-stretch">
                 <div class="card-header p-5">
                     <div class="input-group input-group-lg input-group-solid">
@@ -55,8 +56,38 @@ $this->params['page'] = 'help-desk';
             </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-md-6">
             <?= $this->render('_chatbot') ?>
+        </div>
+        <div class="col-md-3">
+            <div class="card card-custom">
+                <div class="card-header m-auto">
+                    <div class="card-title">
+                        <h3 class="card-label">Solved Concern</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <?= App::foreach(
+                        Inquiry::topSolved(), 
+                        fn ($inquiry) => $this->render('/dashboard/_inquiry', ['inquiry' => $inquiry])
+                    ) ?>
+                </div>
+            </div>
+            <div class="my-5"></div>
+
+            <div class="card card-custom">
+                <div class="card-header m-auto">
+                    <div class="card-title">
+                        <h3 class="card-label">Unsolved Concern</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <?= App::foreach(
+                        Inquiry::topUnsolved(), 
+                        fn ($inquiry) => $this->render('/dashboard/_inquiry', ['inquiry' => $inquiry])
+                    ) ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
