@@ -28,6 +28,7 @@ class Helpdesk extends ActiveRecord
 {
     const CONCERN_PATTERN = '/concern-';
     const CANCEL_PATTERN = '/kanselahin';
+    const UNSOLVED_PATTERN = '/unsolved-';
 
     const PENDING = 0;
     const COMPLETED = 1;
@@ -337,5 +338,16 @@ class Helpdesk extends ActiveRecord
         }
 
         return $question;
+    }
+
+    public static function unsolvedConcern($hiddenMessage)
+    {
+        $explode = explode(self::UNSOLVED_PATTERN, $hiddenMessage);
+
+        $message = $explode[1] ?? '';
+
+        if ($message) {
+            return Inquiry::addUnsolved($message);
+        }
     }
 }

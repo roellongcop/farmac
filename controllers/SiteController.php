@@ -420,6 +420,14 @@ class SiteController extends Controller
     {
         if (($post = App::post()) != null) {
             $session = \Yii::$app->session;
+
+
+            if (Helpdesk::unsolvedConcern($post['hiddenMessage'])) {
+                Chat::addUser($post['message']);
+                Chat::addChatbot('Walang impormasyong nakalap base sa iyong "concern".');
+                return $this->asJson(['status' => 'success', 'unsolvedConcern']);
+            }
+
             
             if (Helpdesk::cancelConcern($post['hiddenMessage'])) {
                 Chat::addUser($post['message'], $post['hiddenMessage']);
@@ -474,7 +482,7 @@ class SiteController extends Controller
                 else {
                     Chat::addUser($post['message'], $post['hiddenMessage']);
                     if (($predict = Helpdesk::predict($post['message'])) != null) {
-                        Chat::concernSuggestions($predict);
+                        Chat::concernSuggestions($predict, $post['message']);
                     }
                     else {
                         Chat::addChatbot(App::setting('chatbot')->default_message);

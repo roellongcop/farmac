@@ -66,11 +66,16 @@ $this->params['page'] = 'help-desk';
                         <h3 class="card-label">Solved Concern</h3>
                     </div>
                 </div>
-                <div class="card-body">
-                    <?= App::foreach(
-                        Inquiry::topSolved(), 
-                        fn ($inquiry) => $this->render('/dashboard/_inquiry', ['inquiry' => $inquiry])
-                    ) ?>
+                <div class="card-body p-2">
+                    <div class="navi navi-hover navi-active navi-link-rounded navi-bold navi-icon-center navi-light-icon overflow-auto">
+                        <?= App::foreach(
+                            Inquiry::topSolved(), 
+                            fn ($inquiry, $key, $counter) => $this->render('/concern/_inquiry', [
+                                'inquiry' => $inquiry,
+                                'counter' => $counter,
+                            ])
+                        ) ?>
+                    </div>
                 </div>
             </div>
             <div class="my-5"></div>
@@ -81,11 +86,16 @@ $this->params['page'] = 'help-desk';
                         <h3 class="card-label">Unsolved Concern</h3>
                     </div>
                 </div>
-                <div class="card-body">
-                    <?= App::foreach(
-                        Inquiry::topUnsolved(), 
-                        fn ($inquiry) => $this->render('/dashboard/_inquiry', ['inquiry' => $inquiry])
-                    ) ?>
+                <div class="card-body p-2">
+                    <div class="navi navi-hover navi-active navi-link-rounded navi-bold navi-icon-center navi-light-icon overflow-auto">
+                        <?= App::foreach(
+                            Inquiry::topUnsolved(), 
+                                fn ($inquiry, $key, $counter) => $this->render('/concern/_inquiry', [
+                                'inquiry' => $inquiry,
+                                'counter' => $counter,
+                            ])
+                        ) ?>
+                    </div>
                 </div>
             </div>
         </div>

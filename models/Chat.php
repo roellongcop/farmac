@@ -403,9 +403,14 @@ class Chat extends ActiveRecord
         }
     }
 
-    public static function concernSuggestions($predict='')
+    public static function concernSuggestions($predict='', $message='')
     {
-        self::addChatbot("Ang ibig mo bang sabihin ay:\n\n" . $predict);
+        self::addChatbot("Ang ibig mo bang sabihin ay:\n\n" . $predict . Html::tag('a', 'Wala sa pagpipilian', [
+            'href' => '#',
+            'data-message' => 'Wala sa pagpipilian',
+            'data-hidden_message' => '/unsolved-' . $message,
+            'class' => 'btn btn-outline-danger btn-pill mb-1 btn-hidden-message',
+        ]));
     }
 
     public static function notExpectedAnswer($helpdesk='')
@@ -538,20 +543,20 @@ class Chat extends ActiveRecord
                 $content = $subconclusions ? ($subconclusions . "\n" . $conclusion): $conclusion;
 
                 self::addChatbot($content);
-                Inquiry::addSolved($concern->name);
+                Inquiry::addSolved($concern->name, $concern);
             }
             else {
                 if (($fallback_message = $concern->fallback_message) != null) {
                     $content = $subconclusions ? ($subconclusions . "\n" . $fallback_message): $fallback_message;
                     self::addChatbot($content);
-                    Inquiry::addSolved($concern->name);
+                    // Inquiry::addSolved($concern->name);
                 }
                 else {
                     $default_message = App::setting('chatbot')->default_message;
 
                     $content = $subconclusions ? ($subconclusions . "\n" . $default_message): $default_message;
                     self::addChatbot($content);
-                    Inquiry::addUnsolved($concern->name);
+                    // Inquiry::addUnsolved($concern->name);
                 }
             }
 
