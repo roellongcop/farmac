@@ -39,7 +39,7 @@ class Inquiry extends ActiveRecord
     {
         return [
             'controllerID' => 'inquiry',
-            'mainAttribute' => 'id',
+            'mainAttribute' => 'inquiryId',
             'paramName' => 'id',
         ];
     }
@@ -70,7 +70,7 @@ class Inquiry extends ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'concern_id' => 'Concern ID',
-            'name' => 'Name',
+            'name' => 'Inquiry',
             'status' => 'Status',
         ]);
     }
@@ -98,22 +98,28 @@ class Inquiry extends ActiveRecord
     {
         return new \app\models\query\InquiryQuery(get_called_class());
     }
+
+    public function getInquiryId()
+    {
+        return strtotime($this->created_at) . $this->id;
+    }
      
     public function gridColumns()
     {
         return [
-            'user_id' => [
-                'attribute' => 'user_id', 
+            'id' => [
+                'attribute' => 'id', 
                 'format' => 'raw',
                 'value' => function($model) {
                     return Anchor::widget([
-                        'title' => $model->user_id,
+                        'title' => $model->inquiryId,
                         'link' => $model->viewUrl,
                         'text' => true
                     ]);
                 }
             ],
-            'concern_id' => ['attribute' => 'concern_id', 'format' => 'raw'],
+            'user' => ['attribute' => 'user_id', 'value' => 'userFullname', 'format' => 'raw', 'label' => 'User'],
+            // 'concern_id' => ['attribute' => 'concern_id', 'format' => 'raw'],
             'name' => ['attribute' => 'name', 'format' => 'raw'],
         ];
     }
@@ -121,8 +127,8 @@ class Inquiry extends ActiveRecord
     public function detailColumns()
     {
         return [
-            'user_id:raw',
-            'concern_id:raw',
+            'inquiryId:raw',
+            'userFullname:raw',
             'name:raw',
         ];
     }
@@ -189,5 +195,14 @@ class Inquiry extends ActiveRecord
     public static function topSolved()
     {
         return self::top(self::SOLVED);
+    }
+
+    public function getIsCreatableConcern()
+    {
+        if (($concern = Concern::findOne(['name' => $this->name])) == null) {
+            return true;
+        }
+
+        return false;
     }
 }

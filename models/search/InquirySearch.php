@@ -91,8 +91,6 @@ class InquirySearch extends Inquiry
         
                 
         $query->andFilterWhere(['or', 
-            ['like', 'user_id', $this->keywords],  
-            ['like', 'concern_id', $this->keywords],  
             ['like', 'name', $this->keywords],  
         ]);
 

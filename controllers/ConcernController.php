@@ -63,9 +63,9 @@ class ConcernController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($name='')
     {
-        $model = new Concern();
+        $model = new Concern(['name' => $name]);
 
         if ($model->load(App::post()) && $model->save()) {
             App::success('Successfully Created');

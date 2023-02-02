@@ -1,8 +1,10 @@
 <?php
 
+use app\helpers\App;
+use app\helpers\Html;
+use app\models\search\InquirySearch;
 use app\widgets\Anchors;
 use app\widgets\Detail;
-use app\models\search\InquirySearch;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Inquiry */
@@ -18,5 +20,8 @@ $this->params['showCreateButton'] = true;
     	'names' => ['update', 'duplicate', 'delete', 'log'], 
     	'model' => $model
     ]) ?> 
+    <?= App::if($model->isCreatableConcern, Html::a('Create Concern', ['concern/create', 'name' => $model->name], [
+        'class' => 'btn btn-success font-weight-bold'
+    ])) ?>
     <?= Detail::widget(['model' => $model]) ?>
 </div>

@@ -14,7 +14,7 @@ class InquiryController extends Controller
     public function actionFindByKeywords($keywords='')
     {
         return $this->asJson(
-            Inquiry::findByKeywords($keywords, ['id'])
+            Inquiry::findByKeywords($keywords, ['name'])
         );
     }
 
@@ -26,6 +26,7 @@ class InquiryController extends Controller
     {
         $searchModel = new InquirySearch();
         $dataProvider = $searchModel->search(['InquirySearch' => App::queryParams()]);
+        $dataProvider->query->andWhere(['status' => Inquiry::UNSOLVED]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
